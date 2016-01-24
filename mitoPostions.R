@@ -3,9 +3,11 @@
 #' @param bank Database to access accession number. Default is genbank. Options follow those of seqinr. 
 
 Mito.Locs<-function(accessions, bank="genbank"){
-  choosebank(bank)#choose bank so it could be genbank or EMBL
+  choosebank(bank)#choose bank so it could be genbank or EMBL or others supported?
+  Phe<-c(NULL,NULL)
   for(i in sequence(length(accessions))){
-    rec<-query(paste("AC=",accessions[i],sep=""))
+    new.access<-strsplit(accessions[i],"\\.",perl=TRUE)[[1]][1]#split and decimal spot in accession number. seqinr won't take them with it
+    rec<-query(paste("AC=",new.access,sep=""))
     current.annot<-getAnnot(rec$req[[1]],nbl=2000)
     kill.comp<-gsub("complement\\("," ",current.annot)
     new.annot<-gsub("\\)"," ",kill.comp)
@@ -54,7 +56,9 @@ Mito.Locs<-function(accessions, bank="genbank"){
     tRNA.Thr<-str_match_all(paste(new.annot, collapse=" "), paste("tRNA\\s+(\\d+)..(\\d+)\\s+/product=\\\"", "tRNA-Thr", "\\\"", sep=""))
     tRNA.Pro<-str_match_all(paste(new.annot, collapse=" "), paste("tRNA\\s+(\\d+)..(\\d+)\\s+/product=\\\"", "tRNA-Pro", "\\\"", sep=""))
     Dloop <- str_match(paste(new.annot, collapse=" "), paste("D-loop", "\\s+(\\d+)..(\\d+)", sep=""))
-    
   }
 }
 
+
+#Best way to capture output?
+#Make Class Mito.Locs for MitoBustR
