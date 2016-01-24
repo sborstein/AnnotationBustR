@@ -12,3 +12,6 @@ Find.Longest.Seq<-function(accessions){
         final.accession<-rbind(final.accession,longest.seq)#combine individual rows into a data frame
       }
     }
+
+test<-Find.Longest.Seq(ncbi.numbers)
+
