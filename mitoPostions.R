@@ -1,5 +1,5 @@
-#' Gets the location of individual genes in a Mitochondrial Genome Sequence
-#' @param accessions A vector of GenBank accession numbers. Must not contain RefSeq number prefix, (i.e. NC_)
+#' Gets the location of individual genes in a Mitochondrial Genome Sequence and produces an object of clas mito.locs
+#' @param accessions A vector of GenBank accession numbers for Mitochondrial Genomes. Must not contain RefSeq number prefix, (i.e. NC_)
 #' @param bank Database to access accession number. Default is genbank. Options follow those of seqinr. 
 
 Mito.Locs<-function(accessions, bank="genbank"){
