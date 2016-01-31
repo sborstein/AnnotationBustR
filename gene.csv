@@ -1,0 +1,21 @@
+gene,term1,term2,ID term
+tRNA-Phe,tRNA,product,tRNA-Phe
+tRNA-Phe,gene,gene,tRNA-Phe
+tRNA-Phe,gene,gene,trnF-gaa
+ND1,gene,gene,ND1
+ND1,gene,gene,nad1
+ND1,gene,gene,NADH1
+tRNA-Leu1,tRNA,product,tRNA-Leu1
+tRNA-Leu1,gene,gene,tRNA-Leu1
+tRNA-Leu1,gene,gene,trnL1
+tRNA-Leu1,gene,gene,trnL1-uaa
+tRNA-Leu2,tRNA,product,tRNA-Leu
+tRNA-Leu2,gene,gene,tRNA-Leu
+tRNA-Leu2,gene,gene,trnL
+tRNA-Leu2,gene,gene,trnL-uag
+tRNA-Ser1,tRNA,product,tRNA-Ser1
+tRNA-Ser1,tRNA,gene,trnS1
+tRNA-Ser1,tRNA,gene,trnS1-uga
+tRNA-Ser2,tRNA,product,tRNA-Ser
+tRNA-Ser2,tRNA,gene,trnS
+tRNA-Ser2,tRNA,gene,trnS-uga
