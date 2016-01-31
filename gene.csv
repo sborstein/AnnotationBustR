@@ -6,7 +6,7 @@ ND1,gene,gene,ND1
 ND1,gene,gene,nad1
 ND1,gene,gene,NADH1
 tRNA-Leu1,tRNA,product,tRNA-Leu1
-tRNA-Leu1,gene,gene,tRNA-Leu1
+tRNA-Leu1,gene,gene,tRNA-Leu1-uaa
 tRNA-Leu1,gene,gene,trnL1
 tRNA-Leu1,gene,gene,trnL1-uaa
 tRNA-Leu2,tRNA,product,tRNA-Leu

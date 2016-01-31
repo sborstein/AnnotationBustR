@@ -7,6 +7,7 @@ genes<-read.csv("gene.csv", header=TRUE)#test data
 #genes<-genes[-3,]#this was just to see if it input NA
 
 get.seq.pos<-function(accessions, genes, bank="genbank"){
+choosebank(bank)#choose bank so it could be genbank or EMBL or others supported?
 unique.gene.names <- unique(genes$gene)#unique gene names
 seq.col.id<-paste(rep(as.vector(unique.gene.names),1,each=2),c("start","stop"),sep = ".")#these will be the column names for gene id
 boundaries <- data.frame(matrix(nrow=length(accessions), ncol=2+2*length(unique.gene.names)))
@@ -18,7 +19,7 @@ for(i in sequence(length(accessions))){
   kill.comp<-gsub("complement\\("," ",current.annot)#kill complement()
   kill.comp<-gsub("\\)"," ",kill.comp)#kill trailing ) after complemet
   fix.Leu<-sub("tRNA-Leu|trnL","tRNA-Leu1",kill.comp, perl=TRUE)#rename leucine record.
-  new.annot<-sub("tRNA-Ser|trnS","tRNA-Ser1",fix.Leu)#rename serine
+  new.annot<-sub("tRNA-Ser|trnS","Ser1",fix.Leu)#rename serine
   spec.name<- subset(gsub("  ORGANISM  ", "",str_extract_all(new.annot, "  ORGANISM  \\D+")),!(gsub("  ORGANISM  ", "",str_extract_all(new.annot, "  ORGANISM  \\D+"))=="character(0)"))#get species name
   boundaries[i, 1] <- spec.name#add species name to final table
   boundaries[i, 2] <- accessions[i]#add accession number to the final table
