@@ -28,7 +28,7 @@ for(i in sequence(length(accessions))){
     found.result <- matrix(nrow=1, ncol=3)#make empty result so if nothing is found, it is NA
     #for each search term combo
     for (k in sequence(dim(genes.local)[1])) {
-      found.result.match <- str_match_all(paste(new.annot, collapse=" "), paste(genes.local[k,2],"\\s+(\\d+)..(\\d+)\\s+/",genes.local[k,3],"=\\\"", genes.local[k,4], "\\\"", sep=""))#Match all cases for genes with duplicates tRNA in this case
+      found.result.match <- str_match_all(paste(new.annot, collapse=" "), paste(genes.local[k,2],"\\s+(\\d+)..(\\d+)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"*", sep=""))#Match all cases for genes with duplicates tRNA in this case
       #if statement to break searching when a result is found
       if((dim(found.result.match[[1]])[1])>0) {
         found.result <- found.result.match[[1]][1,]#subset results
