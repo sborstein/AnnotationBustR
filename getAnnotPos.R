@@ -1,11 +1,8 @@
 library(stringr)
 library(seqinr)
 
-accessions<-c("KJ914664","KC633221")
-
-genes<-read.csv("gene.csv", header=TRUE)#test data
-#genes<-genes[-3,]#this was just to see if it input NA
-
+genes<-read.csv("MitoGenesList.csv", header=TRUE)#test data
+#The function to find seq positions
 get.seq.pos<-function(accessions, genes, bank="genbank"){
 choosebank(bank)#choose bank so it could be genbank or EMBL or others supported?
 unique.gene.names <- unique(genes$gene)#unique gene names
@@ -16,10 +13,12 @@ for(i in sequence(length(accessions))){
   new.access<-strsplit(accessions[i],"\\.",perl=TRUE)[[1]][1]#split and decimal spot in accession number. seqinr won't take them with it
   rec<-query(paste("AC=",new.access,sep=""))#get the genbank record. Getting error related to paste and it won't show accession, but it is working.
   current.annot<-getAnnot(rec$req[[1]],nbl=2000)#I think nbl is ok, but maybe we should up it to something ridiculous just to be safe
-  kill.comp<-gsub("complement\\("," ",current.annot)#kill complement()
-  kill.comp<-gsub("\\)"," ",kill.comp)#kill trailing ) after complemet
-  fix.Leu<-sub("tRNA-Leu|trnL","tRNA-Leu1",kill.comp, perl=TRUE)#rename leucine record.
-  new.annot<-sub("tRNA-Ser|trnS","Ser1",fix.Leu)#rename serine
+  new.annot<-gsub("complement\\(|\\(|<"," ",current.annot)#kill complement()
+  new.annot<-gsub("\\)|>","",new.annot)#kill trailing ) after complemet
+  matching.lines.Leu<-which(grepl("tRNA-Leu|trnL|trnL-uaa|trnL TAA",new.annot))#find Leucine lines
+  new.annot[matching.lines.Leu[1]]<-sub("tRNA-Leu|trnL|trnL-uaa|trnL TAA","tRNA-Leu1",new.annot[matching.lines.Leu[1]])#sub 1st leucine instance
+  matching.lines.Ser<-which(grepl("tRNA-Ser|trnS|trnS-uga|trnS TGA",new.annot))#find serine lines
+  new.annot[matching.lines.Ser[1]]<-sub("tRNA-Ser|trnS|trnS-uga|trnS TGA","tRNA-Ser1",new.annot[matching.lines.Ser[1]])#sub first instance of serine
   spec.name<- subset(gsub("  ORGANISM  ", "",str_extract_all(new.annot, "  ORGANISM  \\D+")),!(gsub("  ORGANISM  ", "",str_extract_all(new.annot, "  ORGANISM  \\D+"))=="character(0)"))#get species name
   boundaries[i, 1] <- spec.name#add species name to final table
   boundaries[i, 2] <- accessions[i]#add accession number to the final table
@@ -40,11 +39,6 @@ for(i in sequence(length(accessions))){
     }
   }
 }
-colnames(boundaries)<-c("species","Accession",seq.col.id)#Add column names made above. Include
+colnames(boundaries)<-c("Species","Accession",seq.col.id)#Add column names made above. Include
 boundaries
 }
-
-
-#test why it is not working
-test.string<-"Hello, I said Hello"
-sub.res<-sub("Hello","qqqqqqq",test.string)#sub works down here, so I don't know
