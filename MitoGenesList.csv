@@ -1,91 +1,82 @@
 gene,term1,term2,term3
-tRNA-Phe,tRNA,product,tRNA-Phe
-tRNA-Phe,gene,gene,tRNA-Phe
-tRNA-Phe,gene,gene,trnF-gaa
-tRNA-Phe,gene,gene,trnF GAA
-rRNA-12S,rRNA,product,12S ribosomal RNA
-rRNA-12S,rRNA,product,s-rRNA
-rRNA-12S,rRNA,product,small subunit ribosomal RNA
-rRNA-12S,rRNA,gene,12S
-tRNA-Val,tRNA,product,tRNA-Val
-tRNA-Val,gene,product,tRNA-Val
-tRNA-Val,gene,gene,tRNA-Val
-tRNA-Val,gene,gene,trnV
-tRNA-Val,gene,gene,trnV-uac
-tRNA-Val,gene,gene,trnV TAC
-rRNA-16S,rRNA,product,16S ribosomal RNA
-rRNA-16S,rRNA,product,l-rRNA
-rRNA-16S,rRNA,product,large subunit ribosomal RNA
-rRNA-16S,rRNA,gene,16S
-tRNA-Leu1,tRNA,product,tRNA-Leu1
-tRNA-Leu1,gene,gene,tRNA-Leu1
-tRNA-Leu1,tRNA,gene,tRNA-Leu1-uaa
-tRNA-Leu1,gene,gene,tRNA-Leu1-uaa
-tRNA-Leu1,gene,gene,trnL1
-tRNA-Leu1,gene,gene,trnL1 TAA
-tRNA-Leu1,gene,gene,trnL1-uaa
+tRNA_Phe,tRNA,product,tRNA-Phe
+tRNA_Phe,gene,gene,tRNA-Phe
+tRNA_Phe,gene,gene,trnF-gaa
+tRNA_Phe,gene,gene,trnF GAA
+rRNA_12S,rRNA,product,12S ribosomal RNA
+rRNA_12S,rRNA,product,s-rRNA
+rRNA_12S,rRNA,product,small subunit ribosomal RNA
+rRNA_12S,rRNA,gene,12S
+tRNA_Val,tRNA,product,tRNA-Val
+tRNA_Val,gene,product,tRNA-Val
+tRNA_Val,gene,gene,tRNA-Val
+tRNA_Val,gene,gene,trnV
+tRNA_Val,gene,gene,trnV-uac
+tRNA_Val,gene,gene,trnV TAC
+rRNA_16S,rRNA,product,16S ribosomal RNA
+rRNA_16S,rRNA,product,l-rRNA
+rRNA_16S,rRNA,product,large subunit ribosomal RNA
+rRNA_16S,rRNA,gene,16S
+tRNA_Leu1,tRNA,product,tRNA-Leu1
+tRNA_Leu1,gene,gene,tRNA-Leu1
 ND1,gene,gene,ND1
 ND1,gene,gene,nad1
 ND1,gene,gene,NADH1
-tRNA-Ile,tRNA,product,tRNA-Ile
-tRNA-Ile,tRNA,gene,trnI
-tRNA-Ile,tRNA,gene,trnI-gau
-tRNA-Ile,tRNA,gene,trnI GAT
-tRNA-Gln,tRNA,product,tRNA-Gln
-tRNA-Gln,tRNA,gene,trnQ
-tRNA-Gln,tRNA,gene,trnQ-uug
-tRNA-Gln,tRNA,gene,trnQ TTG
-tRNA-Met,tRNA,product,tRNA-Met
-tRNA-Met,tRNA,gene,trnM
-tRNA-Met,tRNA,gene,trnM-cau
-tRNA-Met,tRNA,gene,trnM CAT
+tRNA_Ile,tRNA,product,tRNA-Ile
+tRNA_Ile,tRNA,gene,trnI
+tRNA_Ile,tRNA,gene,trnI-gau
+tRNA_Ile,tRNA,gene,trnI GAT
+tRNA_Gln,tRNA,product,tRNA-Gln
+tRNA_Gln,tRNA,gene,trnQ
+tRNA_Gln,tRNA,gene,trnQ-uug
+tRNA_Gln,tRNA,gene,trnQ TTG
+tRNA_Met,tRNA,product,tRNA-Met
+tRNA_Met,tRNA,gene,trnM
+tRNA_Met,tRNA,gene,trnM-cau
+tRNA_Met,tRNA,gene,trnM CAT
 ND2,gene,gene,ND2
 ND2,gene,gene,nad2
-tRNA-Trp,tRNA,product,tRNA-Trp
-tRNA-Trp,tRNA,gene,trnW
-tRNA-Trp,tRNA,gene,trnW-uca
-tRNA-Trp,tRNA,gene,trnW TCA
-tRNA-Ala,tRNA,product,tRNA-Ala
-tRNA-Ala,tRNA,gene,trnA
-tRNA-Ala,tRNA,gene,trnA-ugc
-tRNA-Ala,tRNA,gene,trnA TGC
-tRNA-Asn,tRNA,product,tRNA-Asn
-tRNA-Asn,tRNA,gene,trnN
-tRNA-Asn,tRNA,gene,trnN-guu
-tRNA-Asn,tRNA,gene,trnN GTT
-tRNA-Cys,tRNA,product,tRNA-Cys
-tRNA-Cys,tRNA,gene,trnC
-tRNA-Cys,tRNA,gene,trnC-gca
-tRNA-Cys,tRNA,gene,trnC GCA
-tRNA-Tyr,tRNA,product,tRNA-Tyr
-tRNA-Tyr,tRNA,gene,trnY
-tRNA-Tyr,tRNA,gene,trnY-gua
-tRNA-Tyr,tRNA,gene,trnY GTA
+tRNA_Trp,tRNA,product,tRNA-Trp
+tRNA_Trp,tRNA,gene,trnW
+tRNA_Trp,tRNA,gene,trnW-uca
+tRNA_Trp,tRNA,gene,trnW TCA
+tRNA_Ala,tRNA,product,tRNA-Ala
+tRNA_Ala,tRNA,gene,trnA
+tRNA_Ala,tRNA,gene,trnA-ugc
+tRNA_Ala,tRNA,gene,trnA TGC
+tRNA_Asn,tRNA,product,tRNA-Asn
+tRNA_Asn,tRNA,gene,trnN
+tRNA_Asn,tRNA,gene,trnN-guu
+tRNA_Asn,tRNA,gene,trnN GTT
+tRNA_Cys,tRNA,product,tRNA-Cys
+tRNA_Cys,tRNA,gene,trnC
+tRNA_Cys,tRNA,gene,trnC-gca
+tRNA_Cys,tRNA,gene,trnC GCA
+tRNA_Tyr,tRNA,product,tRNA-Tyr
+tRNA_Tyr,tRNA,gene,trnY
+tRNA_Tyr,tRNA,gene,trnY-gua
+tRNA_Tyr,tRNA,gene,trnY GTA
 COI,gene,gene,COI
 COI,gene,gene,COX1
 COI,gene,gene,cox1
 COI,gene,gene,CO1
 COI,CDS,gene,COX1
 COI,gene,gene,COXI
-tRNA-Ser1,tRNA,product,tRNA-Ser1
-tRNA-Ser1,gene,gene,tRNA-Ser1
-tRNA-Ser1,tRNA,gene,tRNA-Ser1-uga
-tRNA-Ser1,tRNA,gene,trnS1
-tRNA-Ser1,tRNA,gene,trnS1-uga
-tRNA-Ser1,tRNA,gene,trnS1 TGA
-tRNA-Asp,tRNA,product,tRNA-Asp
-tRNA-Asp,tRNA,gene,trnD
-tRNA-Asp,tRNA,gene,trnD-guc
-tRNA-Asp,tRNA,gene,trnD GTC
+tRNA_Ser1,tRNA,product,tRNA-Ser1
+tRNA_Ser1,gene,gene,tRNA-Ser1
+tRNA_Asp,tRNA,product,tRNA-Asp
+tRNA_Asp,tRNA,gene,trnD
+tRNA_Asp,tRNA,gene,trnD-guc
+tRNA_Asp,tRNA,gene,trnD GTC
 COII,gene,gene,COII
 COII,gene,gene,COX2
 COII,gene,gene,cox2
 COII,gene,gene,COXII
 COII,gene,gene,CO2
-tRNA-Lys,tRNA,product,tRNA-Lys
-tRNA-Lys,tRNA,gene,trnK
-tRNA-Lys,tRNA,gene,trnK-uuu
-tRNA-Lys,tRNA,gene,trnK TTT
+tRNA_Lys,tRNA,product,tRNA-Lys
+tRNA_Lys,tRNA,gene,trnK
+tRNA_Lys,tRNA,gene,trnK-uuu
+tRNA_Lys,tRNA,gene,trnK TTT
 ATP8,gene,gene,ATP8
 ATP8,gene,gene,atp8
 ATP8,CDS,gene,ATP8
@@ -102,16 +93,16 @@ COIII,gene,gene,COX3
 COIII,gene,gene,cox3
 COIII,gene,gene,CO3
 COIII,gene,gene,COXIII
-tRNA-Gly,tRNA,product,tRNA-Gly
-tRNA-Gly,tRNA,gene,trnG
-tRNA-Gly,tRNA,gene,trnG-ucc
-tRNA-Gly,tRNA,gene,trnG TCC
+tRNA_Gly,tRNA,product,tRNA-Gly
+tRNA_Gly,tRNA,gene,trnG
+tRNA_Gly,tRNA,gene,trnG-ucc
+tRNA_Gly,tRNA,gene,trnG TCC
 ND3,gene,gene,ND3
 ND3,gene,gene,nad3
-tRNA-Arg,tRNA,product,tRNA-Arg
-tRNA-Arg,tRNA,gene,trnR
-tRNA-Arg,tRNA,gene,trnR-ucg
-tRNA-Arg,tRNA,gene,trnR TCG
+tRNA_Arg,tRNA,product,tRNA-Arg
+tRNA_Arg,tRNA,gene,trnR
+tRNA_Arg,tRNA,gene,trnR-ucg
+tRNA_Arg,tRNA,gene,trnR TCG
 ND4L,gene,gene,ND4L
 ND4L,gene,gene,nd4l
 ND4L,gene,gene,nad4l
@@ -119,19 +110,19 @@ ND4L,gene,gene,NADH dehydrogenase subunit 4L
 ND4,gene,gene,ND4
 ND4,gene,gene,nd4
 ND4,gene,gene,nad4
-tRNA-His,tRNA,product,tRNA-His
-tRNA-His,tRNA,gene,trnH
-tRNA-His,tRNA,gene,trnH-gug
-tRNA-His,tRNA,gene,trnH GTG
-tRNA-Ser2,tRNA,product,tRNA-Ser
-tRNA-Ser2,tRNA,gene,trnS
-tRNA-Ser2,tRNA,gene,trnS-uga
-tRNA-Ser2,gene,gene,trnS GCT
-tRNA-Leu2,tRNA,product,tRNA-Leu
-tRNA-Leu2,gene,gene,tRNA-Leu
-tRNA-Leu2,gene,gene,trnL
-tRNA-Leu2,gene,gene,trnL-uag
-tRNA-Leu2,gene,gene,trnL TAG
+tRNA_His,tRNA,product,tRNA-His
+tRNA_His,tRNA,gene,trnH
+tRNA_His,tRNA,gene,trnH-gug
+tRNA_His,tRNA,gene,trnH GTG
+tRNA_Ser2,tRNA,product,tRNA-Ser
+tRNA_Ser2,tRNA,gene,trnS
+tRNA_Ser2,tRNA,gene,trnS-uga
+tRNA_Ser2,gene,gene,trnS GCT
+tRNA_Leu2,tRNA,product,tRNA-Leu
+tRNA_Leu2,gene,gene,tRNA-Leu
+tRNA_Leu2,gene,gene,trnL
+tRNA_Leu2,gene,gene,trnL-uag
+tRNA_Leu2,gene,gene,trnL TAG
 ND5,gene,gene,ND5
 ND5,gene,gene,nd5
 ND5,gene,gene,nad5
@@ -140,12 +131,12 @@ ND6,gene,gene,ND6
 ND6,gene,gene,nd6
 ND6,gene,gene,nad6
 ND6,gene,gene,NADH dehydrogenase subunit 6
-tRNA-Glu,tRNA,product,tRNA-Glu
-tRNA-Glu,gene,gene,tRNA-Glu
-tRNA-Glu,tRNA,gene,tRNA-Glu
-tRNA-Glu,tRNA,gene,trnE
-tRNA-Glu,tRNA,gene,trnE-uuc
-tRNA-Glu,tRNA,gene,trnE TTC
+tRNA_Glu,tRNA,product,tRNA-Glu
+tRNA_Glu,gene,gene,tRNA-Glu
+tRNA_Glu,tRNA,gene,tRNA-Glu
+tRNA_Glu,tRNA,gene,trnE
+tRNA_Glu,tRNA,gene,trnE-uuc
+tRNA_Glu,tRNA,gene,trnE TTC
 CYTB,gene,gene,CYTB
 CYTB,gene,gene,cytb
 CYTB,gene,gene,cob
@@ -153,18 +144,18 @@ CYTB,gene,gene,Cyt B
 CYTB,gene,gene,Cyt b
 CYTB,gene,gene,Cytb
 CYTB,gene,gene,cyt b
-tRNA-Thr,tRNA,product,tRNA-Thr
-tRNA-Thr,gene,gene,tRNA-Thr
-tRNA-Thr,gene,gene,trnT-ugu
-tRNA-Thr,gene,gene,trnT TGT
-tRNA-Thr,gene,gene,threonine tRNA
-tRNA-Pro,tRNA,product,tRNA-Pro
-tRNA-Pro,gene,gene,tRNA-Pro
-tRNA-Pro,gene,gene,trnP-ugg
-tRNA-Pro,gene,gene,trnP TGG
-tRNA-Pro,gene,gene,proline tRNA
-D-loop,D-loop,note,control region
-D-loop,D-loop,note,mitochondrial control region
-D-loop,misc_feature ,note,control region
-D-loop,misc_feature ,note,"control region, D-loop"
-D-loop,D-loop,,
+tRNA_Thr,tRNA,product,tRNA-Thr
+tRNA_Thr,gene,gene,tRNA-Thr
+tRNA_Thr,gene,gene,trnT-ugu
+tRNA_Thr,gene,gene,trnT TGT
+tRNA_Thr,gene,gene,threonine tRNA
+tRNA_Pro,tRNA,product,tRNA-Pro
+tRNA_Pro,gene,gene,tRNA-Pro
+tRNA_Pro,gene,gene,trnP-ugg
+tRNA_Pro,gene,gene,trnP TGG
+tRNA_Pro,gene,gene,proline tRNA
+D_loop,D-loop,note,control region
+D_loop,D-loop,note,mitochondrial control region
+D_loop,misc_feature ,note,control region
+D_loop,misc_feature ,note,"control region, D-loop"
+D_loop,D-loop,,

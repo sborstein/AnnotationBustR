@@ -12,7 +12,7 @@ boundaries <- data.frame(matrix(nrow=length(accessions), ncol=2+2*length(unique.
 for(i in sequence(length(accessions))){
   new.access<-strsplit(accessions[i],"\\.",perl=TRUE)[[1]][1]#split and decimal spot in accession number. seqinr won't take them with it
   rec<-query(paste("AC=",new.access,sep=""))#get the genbank record. Getting error related to paste and it won't show accession, but it is working.
-  current.annot<-getAnnot(rec$req[[1]],nbl=2000)#I think nbl is ok, but maybe we should up it to something ridiculous just to be safe
+  current.annot<-getAnnot(rec$req[[1]],nbl=20000)#I think nbl is ok, but maybe we should up it to something ridiculous just to be safe
   new.annot<-gsub("complement\\(|\\(|<"," ",current.annot)#kill complement()
   new.annot<-gsub("\\)|>","",new.annot)#kill trailing ) after complemet
   matching.lines.Leu<-which(grepl("tRNA-Leu|trnL|trnL-uaa|trnL TAA",new.annot))#find Leucine lines
