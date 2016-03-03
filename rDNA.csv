@@ -1,0 +1,8 @@
+gene,term1,term2,term3
+18S,rRNA,product,18S ribosomal RNA
+ITS1,misc_RNA,product,internal transcribed spacer 1
+ITS1,misc_RNA,note,internal transcribed spacer ITS1
+"5,8S",rRNA,product,5.8S ribosomal RNA
+ITS2,misc_RNA,product,internal transcribed spacer 2
+ITS2,misc_RNA,note,internal transcribed spacer ITS2
+28S,rRNA,product,28S ribosomal RNA
