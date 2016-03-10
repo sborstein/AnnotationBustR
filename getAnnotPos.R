@@ -5,7 +5,7 @@ library(seqinr)
 #' @param accessions A vector of GenBank accession numbers.
 #' @param genes A data frame of search terms. Pre-compiled search term lists are available as data with this package for mitogenomes and rDNA.
 #' @param bank Name of bank, either genbank or embl. Default is genbank.
-#' @return A table of start and stop positions for all the genes specified for all accession numbers.
+#' @return A table of start and stop positions of class annotPos for all the genes specified for all accession numbers that can be used to bust sequences using AnnotationBustR.
 
 genes<-read.csv("MitoGenesList.csv", header=TRUE)#test data
 #The function to find seq positions
