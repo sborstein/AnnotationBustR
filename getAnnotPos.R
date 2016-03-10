@@ -1,6 +1,12 @@
 library(stringr)
 library(seqinr)
 
+#' Break up genbank sequences based on annotation search terms and return a list of positions
+#' @param accessions A vector of GenBank accession numbers.
+#' @param genes A data frame of search terms. Pre-compiled search term lists are available as data with this package for mitogenomes and rDNA.
+#' @param bank Name of bank, either genbank or embl. Default is genbank.
+#' @return A table of start and stop positions for all the genes specified for all accession numbers.
+
 genes<-read.csv("MitoGenesList.csv", header=TRUE)#test data
 #The function to find seq positions
 get.seq.pos<-function(accessions, genes, bank="genbank"){
