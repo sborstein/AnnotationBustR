@@ -8,12 +8,12 @@ list2<-read.csv("rDNA.csv")
 test.list<-list(list1,list2)
 
 MergeSearchTerms<-function(search.lists, sort.gene=FALSE){
-  new.list<-ldply(search.lists, data.frame)
+  new.list<-ldply(search.lists, data.frame)#merge components of list into a single data frame
   if(sort.gene==TRUE){
     new.list<-new.list[order(new.list$gene),]#not fully working, sorts, but the original data frames are still on top of each other.
-    new.list
+    new.list#return new list
   }
   else{
-    new.list
+    new.list#return new list
   }
 }
