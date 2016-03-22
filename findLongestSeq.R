@@ -4,7 +4,6 @@
 
 Find.Longest.Seq<-function(accessions){
       ncbi.hits<-ncbi_byid(accessions)[,c(1,3:5)]#use the ropensci traits package to read the accession numbers
-      get.names<-read.GenBank(accessions,species.name=TRUE)#use ape read genbank for getting around trinomial issue
       unique.taxa<-unique(ncbi.hits$taxon)#get the names of taxa to find the longest seq
       final.accession<-NULL#empty vector
       for(i in sequence(length(unique.taxa))){#for each taxa
