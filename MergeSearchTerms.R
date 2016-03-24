@@ -3,17 +3,27 @@
 #' @param sort.loci Should the final data frame be sorted by gene name? Default is FALSE.
 #' @return A new merged data frame with all the search terms combined from the lists supplied.
 
-list1<-read.csv("MitoGenesList.csv")
-list2<-read.csv("rDNA.csv")
-test.list<-list(list1,list2)
+terms1<-read.csv("MitoGenesList.csv", stringsAsFactors=FALSE)
+terms2<-read.csv("rDNA.csv", stringsAsFactors=FALSE)
 
-MergeSearchTerms<-function(search.lists, sort.gene=FALSE){
-  new.list<-ldply(search.lists, data.frame)#merge components of list into a single data frame
-  if(sort.gene==TRUE){
-    new.list<-new.list[order(new.list$gene),]#not fully working, sorts, but the original data frames are still on top of each other.
-    new.list#return new list
+MergeSearchTerms<-function(..., sort.gene=FALSE){
+  dots <- list(...)
+  for (i in sequence(length(dots))) {
+    working <- TRUE
+    if(dim(dots[[i]])[2]!=4) { 
+      working <- FALSE
+    }
+    if(class(dots[[i]])!="data.frame") {
+      working <- FALSE
+    }
+    if (!working) {
+      stop(paste("The ", i, "th input object is the wrong format", sep=""))
+    }
   }
-  else{
-    new.list#return new list
+  new.terms <- rbind(...)
+  if(sort.gene) {
+    new.terms <- new.terms[order(new.terms$gene),]
   }
+ 
+  return(new.terms)
 }
