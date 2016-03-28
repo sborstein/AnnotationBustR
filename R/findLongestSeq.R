@@ -1,6 +1,10 @@
 #' Find the longest sequence for each species from a list of GenBank accession numbers.
+#' 
 #' @param accessions A vector of GenBank accession numbers.
 #' @return A list of genbank accessions numbers for the longest sequence for each taxon in a list of accession numbers.
+#' @example 
+#' genbank.accessions<-c("KP978059.1","KP978060.1","JX516105.1","JX516111.1")#vector of 4 genbank accessions, two each for two species
+#' long.seq.result<-Find.Longest.Seq(genbank.accessions)#returns the longest sequence respectively for the two species.
 
 Find.Longest.Seq<-function(accessions){
   multi.ncbi.hits<-NULL#empty vector for merging records
