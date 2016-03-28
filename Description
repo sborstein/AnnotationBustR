@@ -8,3 +8,4 @@ Depends: stringr,seqinr,traits,ape
 Imports: stringr,seqinr,traits,ape
 Description: Breaks up genbank sequences based on annotations into their annotated components.
 License: GPL (>= 2)
+LazyData: true
