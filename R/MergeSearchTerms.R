@@ -3,9 +3,6 @@
 #' @param sort.loci Should the final data frame be sorted by gene name? Default is FALSE.
 #' @return A new merged data frame with all the search terms combined from the lists supplied.
 
-terms1<-read.csv("MitoGenesList.csv", stringsAsFactors=FALSE)
-terms2<-read.csv("rDNA.csv", stringsAsFactors=FALSE)
-
 MergeSearchTerms<-function(..., sort.gene=FALSE){
   dots <- list(...)
   for (i in sequence(length(dots))) {
