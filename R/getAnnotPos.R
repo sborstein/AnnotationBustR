@@ -1,7 +1,7 @@
 library(stringr)
 library(seqinr)
 
-#' Break up genbank sequences based on annotation search terms and return a list of positions
+#' Finds annotation positions based on search terms that can later be used to seperate sequences into their annotated components.
 #' @param accessions A vector of GenBank accession numbers.
 #' @param genes A data frame of search terms. Pre-compiled search term lists are available as data with this package for mitogenomes and rDNA.
 #' @param bank Name of bank, either genbank or embl. Default is genbank.
@@ -44,5 +44,6 @@ for(i in sequence(length(accessions))){
   }
 }
 colnames(boundaries)<-c("Species","Accession",seq.col.id)#Add column names made above. Include
+class(boundaries)<-append(class(boundaries),"Annot.Pos")#make object boundaries have class of Annot.Pos
 boundaries
 }
