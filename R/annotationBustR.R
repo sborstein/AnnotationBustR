@@ -1,4 +1,4 @@
-library(ape)
+ylibrary(ape)
 library(seqinr)
 
 #' Breaks up genbank sequences into their annotated components based on positions found using the get.seq.pos function.
