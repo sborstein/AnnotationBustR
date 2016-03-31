@@ -7,7 +7,7 @@ library(seqinr)
 #' @param bank Name of bank, either genbank or embl. Default is genbank.
 #' @return A table of start and stop positions of class annotPos for all the genes specified for all accession numbers that can be used to bust sequences using AnnotationBustR.
 
-get.seq.pos<-function(accessions, genes, bank="genbank"){
+getSeqPos<-function(accessions, genes, bank="genbank"){
 choosebank(bank)#choose bank so it could be genbank or EMBL or others supported?
 unique.gene.names <- unique(genes$gene)#unique gene names
 seq.col.id<-paste(rep(as.vector(unique.gene.names),1,each=2),c("start","stop"),sep = ".")#these will be the column names for gene id
