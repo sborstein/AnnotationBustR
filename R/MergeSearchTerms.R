@@ -1,7 +1,8 @@
 #' Allows for the merging of two tables containing search terms to expand search term database for getAnnotPos.
-#' @param search.lists A list containing the data frames of search terms you want to combine into a single list.
-#' @param sort.loci Should the final data frame be sorted by gene name? Default is FALSE.
-#' @return A new merged data frame with all the search terms combined from the lists supplied.
+#' @param ... the data frames of search terms you want to combine into a single list. The Data frames should have stringsAsFactors=FALSE if you want to sort them.
+#' @param sort.gene Should the final data frame be sorted by gene name? Default is FALSE.
+#' @return A new merged data frame with all the search terms combined from the lists supplied. If sort.gene=TRUE, genes will be sorted by name.
+#' @export
 
 MergeSearchTerms<-function(..., sort.gene=FALSE){
   dots <- list(...)
