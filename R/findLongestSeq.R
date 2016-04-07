@@ -5,12 +5,13 @@
 #' @example 
 #' genbank.accessions<-c("KP978059.1","KP978060.1","JX516105.1","JX516111.1")#vector of 4 genbank accessions, two each for two species
 #' long.seq.result<-Find.Longest.Seq(genbank.accessions)#returns the longest sequence respectively for the two species.
+#' @export
 
 FindLongestSeq<-function(accessions){
   multi.ncbi.hits<-NULL#empty vector for merging records
   final.accession<-NULL#empty vector
-  x<-seq_along(numbs)#seq along all to get number
-  split.access <- split(numbs, ceiling(x/600))#break them up into groups of 600
+  x<-seq_along(accessions)#seq along all to get number
+  split.access <- split(accessions, ceiling(x/600))#break them up into groups of 600
   for (i in 1:length(split.access)){
     ncbi.hits<-ncbi_byid(split.access[[i]])[,c(1,3:5)]#use the ropensci traits package to read the accession numbers
     multi.ncbi.hits<-rbind(multi.ncbi.hits,ncbi.hits)#merge together all search hits given by merging to the ith multiple of 600

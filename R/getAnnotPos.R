@@ -1,13 +1,11 @@
-library(stringr)
-library(seqinr)
-
 #' Finds annotation positions based on search terms that can later be used to seperate sequences into their annotated components.
 #' @param accessions A vector of GenBank accession numbers.
 #' @param genes A data frame of search terms. Pre-compiled search term lists are available as data with this package for mitogenomes and rDNA.
 #' @param bank Name of bank, either genbank or embl. Default is genbank.
 #' @return A table of start and stop positions of class annotPos for all the genes specified for all accession numbers that can be used to bust sequences using AnnotationBustR.
-
-getSeqPos<-function(accessions, genes, bank="genbank"){
+#' @export
+#' 
+getSeqPos<-function(accessions, genes, bank="genbank", duplicate.genes =c("tRNA_Ser2", "tRNA_Leu2")){
 choosebank(bank)#choose bank so it could be genbank or EMBL or others supported?
 unique.gene.names <- unique(genes$gene)#unique gene names
 seq.col.id<-paste(rep(as.vector(unique.gene.names),1,each=2),c("start","stop"),sep = ".")#these will be the column names for gene id
@@ -33,9 +31,16 @@ for(i in sequence(length(accessions))){
     #for each search term combo
     for (k in sequence(dim(genes.local)[1])) {
       found.result.match <- str_match_all(paste(new.annot, collapse=" "), paste(genes.local[k,2],"\\s+(\\d+)..(\\d+)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"*", sep=""))#Match all cases for genes with duplicates tRNA in this case
-      #if statement to break searching when a result is found
+      #found.result.match <- str_match_all(paste(new.annot, collapse=" "), paste(genes[i,2],"\\s+(\\d+)..(\\d+)\\s+/",genes[i,3],"=\\\"", genes[i,4], "\\\"", sep=""))#Match all cases for genes with duplicates tRNA in this case
+      #found.result.match <- str_match_all(paste(new.annot, collapse=" "), paste(genes[i,2],"\\s+(\\d+)..(\\d+)\\s+/",genes[i,3], genes[i,4], sep=""))#Match all cases for genes with duplicates tRNA in this case
+            #if statement to break searching when a result is found
       if((dim(found.result.match[[1]])[1])>0) {
-        found.result <- found.result.match[[1]][1,]#subset results
+        gene.copy=1
+        gene.name <- as.character(genes.local$gene[1])
+        if(gene.name %in% duplicate.genes) {
+          gene.copy <- as.numeric(substr(gene.name, nchar(gene.name), nchar(gene.name)))
+        }
+        found.result <- found.result.match[[1]][gene.copy,]#subset results
         boundaries[i, 1 + 2*j] <- found.result[2]#write the starting position
         boundaries[i, 2 + 2*j] <- found.result[3]#write stop position
         break
@@ -47,3 +52,12 @@ colnames(boundaries)<-c("Species","Accession",seq.col.id)#Add column names made 
 class(boundaries)<-append(class(boundaries),"Annot.Pos")#make object boundaries have class of Annot.Pos
 boundaries
 }
+
+#Testing
+numb<-"KT715810.1"
+numb<-"KT221042"
+
+test.dloop<-read.csv("testD.csv", header=TRUE)
+
+
+test<-getSeqPos(numb, mito, bank = "genbank")
