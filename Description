@@ -4,8 +4,12 @@ Date: 3/28/2016
 Title: Extraction of Genbank Sequence Components From Annotations
 Author: Samuel R. Borstein <sam@borstein.com>, Brian O'Meara <bomeara@utk.edu>
 Maintainer: Samuel R. Borstein <sam@borstein.com>
-Depends: stringr,seqinr,traits,ape
-Imports: stringr,seqinr,traits,ape
-Description: Breaks up genbank sequences based on annotations into their annotated components.
+Depends:
+    stringr,seqinr,traits,ape
+Imports:
+    stringr,seqinr,traits,ape
+Description: Breaks up genbank sequences based on annotations into their
+    annotated components.
 License: GPL (>= 2)
 LazyData: true
+RoxygenNote: 5.0.1

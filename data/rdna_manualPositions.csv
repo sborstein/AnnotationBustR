@@ -1,0 +1,3 @@
+,Species,Accession,rRNA_18s.start,rRNA_18s.stop,ITS1.start,ITS1.stop,rRNA_5_8S.start,rRNA_5_8S.stop,ITS2.start,ITS2.stop,rRNA_28S.start,rRNA_28S.stop
+1,Altolamprologus calvus,FJ706343,1,116,117,638,639,785,786,1254,1255,1294
+2,Neolamprologus brevis,FJ706292,1,116,117,638,639,785,786,1259,1260,1299

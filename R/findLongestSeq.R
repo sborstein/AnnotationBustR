@@ -1,5 +1,4 @@
 #' Find the longest sequence for each species from a list of GenBank accession numbers.
-#' 
 #' @param accessions A vector of GenBank accession numbers.
 #' @return A list of genbank accessions numbers for the longest sequence for each taxon in a list of accession numbers.
 #' @example 
@@ -13,7 +12,7 @@ FindLongestSeq<-function(accessions){
   x<-seq_along(accessions)#seq along all to get number
   split.access <- split(accessions, ceiling(x/600))#break them up into groups of 600
   for (i in 1:length(split.access)){
-    ncbi.hits<-ncbi_byid(split.access[[i]])[,c(1,3:5)]#use the ropensci traits package to read the accession numbers
+    ncbi.hits<-traits::ncbi_byid(split.access[[i]])[,c(1,3:5)]#use the ropensci traits package to read the accession numbers
     multi.ncbi.hits<-rbind(multi.ncbi.hits,ncbi.hits)#merge together all search hits given by merging to the ith multiple of 600
   }
   unique.taxa<-unique(multi.ncbi.hits$taxon)#get the names of taxa to find the longest seq
