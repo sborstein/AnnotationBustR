@@ -4,7 +4,7 @@
 \alias{GetSeqPos}
 \title{Finds annotation positions based on search terms that can later be used to seperate sequences into their annotated components.}
 \usage{
-GetSeqPos(accessions, genes, duplicate.genes = c("tRNA_Ser2", "tRNA_Leu2"))
+GetSeqPos(accessions, genes, duplicate.genes = c("tRNA_Ser", "tRNA_Leu"))
 }
 \arguments{
 \item{accessions}{A vector of GenBank accession numbers.}
@@ -14,7 +14,7 @@ GetSeqPos(accessions, genes, duplicate.genes = c("tRNA_Ser2", "tRNA_Leu2"))
 \item{duplicate.genes}{A character vector containing duplicate gene names found in the annotation. Ex. serine and leucine in mitogenomes.}
 }
 \value{
-A table of start and stop positions of class annotPos for all the genes specified for all accession numbers that can be used to bust sequences using AnnotationBustR.
+A table of start and stop positions of class annotPos for all the genes specified for all accession numbers that can be used to bust sequences using AnnotationBustR. Negative numbers indicate the sequence is a complement
 }
 \description{
 Finds annotation positions based on search terms that can later be used to seperate sequences into their annotated components.
