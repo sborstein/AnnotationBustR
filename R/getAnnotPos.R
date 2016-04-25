@@ -3,10 +3,10 @@
 #' @param genes A data frame of search terms. Pre-compiled search term lists are available as data with this package for mitogenomes and rDNA.
 #' @param duplicate.genes A character vector containing duplicate gene names found in the annotation. Ex. serine and leucine in mitogenomes.
 #' @return A table of start and stop positions of class annotPos for all the genes specified for all accession numbers that can be used to bust sequences using AnnotationBustR.
-#' @example 
+#' @examples 
 #' ncbi.accessions<-c("FJ706343","FJ706292")#vector of two NCBI accession numbers to get the annotation positions of.
 #' data(rDNA.Genes)#load rDNA search terms
-#' my.seq.pos<-GetSeqPos(ncbi.accessions, rDNA.Genes, duplicate.genes= NULL)#Get rDNA gene positions for each sequence. There are no gene duplicates. 
+#' my.seq.pos<-GetSeqPos(ncbi.accessions, rDNA.Genes, duplicate.genes= NULL)#Get rDNA gene positions for each sequence. There are no gene duplicates.
 #' @export
 
 GetSeqPos<-function(accessions, genes, duplicate.genes =c("tRNA_Ser2", "tRNA_Leu2")){
