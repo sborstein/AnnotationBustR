@@ -1,6 +1,3 @@
-library(ape)
-library(seqinr)
-
 #' Breaks up genbank sequences into their annotated components based on positions found using the get.seq.pos function.
 #' @param Seq.Positions Object of class Annot.Pos with the starting and stopping position for all genes.
 #' @return Returns a fasta file for each gene in the object of class Annot.Pos supplied into the function.

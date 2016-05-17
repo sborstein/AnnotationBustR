@@ -26,20 +26,20 @@ for(i in sequence(length(accessions))){
     matching.terms <- unique(genes[which(genes$gene %in% duplicate.genes[duplicate.gene.index]),]$term3)
     matching.lines <- c()
     matching.genes <- genes[which(genes$gene %in% duplicate.genes[duplicate.gene.index]),]
-    matching.genes$genes <- paste(matching.genes$genes, "1", sep="")
-    matching.genes$term3 <- matching.genes$genes
+    matching.genes$gene <- paste(matching.genes$gene, "1", sep="")
+    matching.genes$term3 <- matching.genes$gene
     matching.genes <- unique(matching.genes)
     genes.modified <- rbind(genes.modified, matching.genes)
     for (term.index in sequence(length(matching.terms))) {
-      matching.lines <- which(grepl(matching.terms[term.index], new.annot))
+      matching.lines <- which(grepl(matching.terms[term.index], current.annot))
       if(length(matching.lines)>0) {
-        new.annot[matching.lines[1]]<-sub(matching.terms[term.index],paste(duplicate.genes[duplicate.gene.index], "1", sep=""), new.annot[matching.lines[1]]) #sub 1st  instance
+        current.annot[matching.lines[1]]<-sub(matching.terms[term.index],paste(duplicate.genes[duplicate.gene.index], "1", sep=""), current.annot[matching.lines[1]]) #sub 1st  instance
         break()
       }
     }
   }
   genes <- genes.modified
-  spec.name<- subset(gsub("  ORGANISM  ", "",stringr::str_extract_all(new.annot, "  ORGANISM  \\D+")),!(gsub("  ORGANISM  ", "",stringr::str_extract_all(new.annot, "  ORGANISM  \\D+"))=="character(0)"))#get species name
+  spec.name<- subset(gsub("  ORGANISM  ", "",stringr::str_extract_all(current.annot, "  ORGANISM  \\D+")),!(gsub("  ORGANISM  ", "",stringr::str_extract_all(current.annot, "  ORGANISM  \\D+"))=="character(0)"))#get species name
   boundaries[i, 1] <- spec.name#add species name to final table
   boundaries[i, 2] <- accessions[i]#add accession number to the final table
   #for each gene
@@ -49,16 +49,21 @@ for(i in sequence(length(accessions))){
     #for each search term combo
     for (k in sequence(dim(genes.local)[1])) {
       complement=FALSE
-      found.result.match <- stringr::str_match_all(paste(new.annot, collapse=" "), paste(genes.local[k,2],"\\s+(\\d+)..(\\d+)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"*", sep=""))#Match all cases for genes with duplicates tRNA in this case
-      if(is.na(found.result.match)) { #let's try complement
-        found.result.match <- stringr::str_match_all(paste(new.annot, collapse=" "), paste(genes.local[k,2],"complement\\(\\s+(\\d+)..(\\d+)\\)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"*", sep=""))#Match all cases for genes with duplicates tRNA in this case
+      found.result.match <- stringr::str_match_all(paste(current.annot, collapse=" "), paste(genes.local[k,2],"\\s+(\\d+)..(\\d+)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"*\\\"", sep=""))#Match all cases for genes with duplicates tRNA in this case
+      if(is.na(found.result.match)) { #try complement
+        #found.result.match <- stringr::str_match_all(paste(current.annot, collapse=" "), paste(genes.local[k,2],"complement\\(\\s+(\\d+)..(\\d+)\\)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"*", sep=""))#Match all cases for genes with duplicates tRNA in this case
+        found.result.match <- stringr::str_match_all(paste(current.annot, collapse=" "), paste(genes.local[k,2],"\\s+complement\\((\\d+)..(\\d+)\\)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"*", sep=""))#Match all cases for genes with duplicates tRNA in this case
         if(!is.na(found.result.match)) {
           complement=TRUE
         }
+        if(is.na(found.result.match)){#try join
+          found.result.match <- stringr::str_match_all(paste(current.annot, collapse=" "), paste(genes.local[k,2],"\\s+complement\\((\\d+)..(\\d+)\\)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"*", sep=""))#Match all cases for genes with duplicates tRNA in this case
+          
+        }
       }
-      #found.result.match <- str_match_all(paste(new.annot, collapse=" "), paste(genes[i,2],"\\s+(\\d+)..(\\d+)\\s+/",genes[i,3],"=\\\"", genes[i,4], "\\\"", sep=""))#Match all cases for genes with duplicates tRNA in this case
-      #found.result.match <- str_match_all(paste(new.annot, collapse=" "), paste(genes[i,2],"\\s+(\\d+)..(\\d+)\\s+/",genes[i,3], genes[i,4], sep=""))#Match all cases for genes with duplicates tRNA in this case
-            #if statement to break searching when a result is found
+      
+      
+      #if statement to break searching when a result is found
       if((dim(found.result.match[[1]])[1])>0) {
         gene.copy=1
         gene.name <- as.character(genes.local$gene[1])
