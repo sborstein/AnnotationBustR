@@ -9,15 +9,27 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+# 1: Introduction
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+This is a tutorial for the use of the R package AnnotationBustR. AnnotationBustR reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files by searching through the annotations in the features table. In this tutorial we will cover the basics of how to use AnnotationBustR to extract sequences as well as to  
 
-## Vignette Info
+# 2: Installation
+##2.1: Installation from CRAN
+In order to install the stable CRAN version of the AnnotationBustR package:
+```
+install.packages("AnnotationBustR")
+```
+##2.2: Installation from GitHub
+While we recommend use of the stable CRAN version of this package, we rcommend using the package `devtools` to temporarily install the development version of the package from GitHub if for any reason you wish to use it :
+```
+#Install 'devtools' if you do not already have it installed:
+install.packages("devtools")
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+#Load the 'devtools' package and temporarily install the development version of AnnotationBustR from GitHub:
+
+```
+
+
 
 ## Styles
 
