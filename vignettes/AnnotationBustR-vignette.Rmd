@@ -11,25 +11,39 @@ vignette: >
 
 # 1: Introduction
 
-This is a tutorial for the use of the R package AnnotationBustR. AnnotationBustR reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files by searching through the annotations in the features table. In this tutorial we will cover the basics of how to use AnnotationBustR to extract sequences as well as to  
+This is a tutorial for the use of the R package AnnotationBustR. AnnotationBustR reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files by searching through the annotations in the features table. In this tutorial we will cover the basics of how to use AnnotationBustR to extract parts of a GenBank sequence. AnnotationBustR allows the user to extract parts of a sequence based on the features qucikly, which until this package mostly had to be done manually, which is time consuming. This proves useful, for example, if you need to extract a single gene from multiple accessions of mitogenomes or chloroplast genomes. 
 
 # 2: Installation
-##2.1: Installation from CRAN
+##2.1: Installation From CRAN
 In order to install the stable CRAN version of the AnnotationBustR package:
 ```
 install.packages("AnnotationBustR")
 ```
-##2.2: Installation from GitHub
+##2.2: Installation of Development Version From GitHub
 While we recommend use of the stable CRAN version of this package, we rcommend using the package `devtools` to temporarily install the development version of the package from GitHub if for any reason you wish to use it :
 ```
-#Install 'devtools' if you do not already have it installed:
+#1. Install 'devtools' if you do not already have it installed:
 install.packages("devtools")
 
-#Load the 'devtools' package and temporarily install the development version of AnnotationBustR from GitHub:
+#2. Load the 'devtools' package and temporarily install the development version of 'AnnotationBustR' from GitHub:
+library(devtools)
+dev_mode(on=T)
+install_github("sborstein/AnnotationBustR")  # install the package from GitHub
+library(AnnotationBustR)# load the package
 
+#3. Leave developers mode after using the development version of 'AnnotationBustR' so it will not remain on your system permanently.
+dev_mode(on=F)
 ```
+#3: Using the AnnotationBustR Package
+To load AnnotationBustR and all of its functions/data:
+```
+library(AnnotationBustR)
+```
+##3.1 Load the 
 
 
+#4: Final Comments
+Further information on the functions and their usage can be found in the helpfiles `help(package=AnnotationBustR)`. For any further issues and questions send an email with subject 'AnnotationBustR support' to sborstei@vols.utk.edu.
 
 ## Styles
 
