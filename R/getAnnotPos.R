@@ -20,6 +20,7 @@ GetSeqPos<-function(accessions, genes, duplicate.genes =NULL){
     new.access<-strsplit(accessions[i],"\\.",perl=TRUE)[[1]][1]#split and decimal spot in accession number. seqinr won't take them with it
     rec<-seqinr::query(paste("AC=",new.access,sep=""))#get the genbank record. Getting error related to paste and it won't show accession, but it is working.
     current.annot<-seqinr::getAnnot(rec$req[[1]],nbl=20000)#I think nbl is ok, but maybe we should up it to something ridiculous just to be safe
+    current.annot<-gsub("<|>","",current.annot)# Kill the < or >. They throw stuff off and are not useful.
     genes.modified <- genes
     for (duplicate.gene.index in sequence(length(duplicate.genes))) {
       matching.terms <- unique(genes[which(genes$gene %in% duplicate.genes[duplicate.gene.index]),]$term3)
@@ -81,3 +82,10 @@ looks<-GetSeqPos(accessions = tester, genes = mtDNAterms,duplicate.genes =c("tRN
 found.result.match <- stringr::str_match_all(paste(current.annot, collapse=" "), paste(genes.local[k,2],"\\s+(\\d+)..(\\d+)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\s+""\\\"*\\\"", sep=""))#Match all cases for genes with duplicates tRNA in this case
 
 found.result.match <- stringr::str_match_all(paste(current.annot, collapse=" "), paste(genes.local[k,2],"\\s+(\\d+)..(\\d+)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"*\\\"", sep=""))#Match all cases for genes with duplicates tRNA in this case
+
+found.result.match <- stringr::str_match_all(paste(current.annot, collapse=" "), paste(genes.local[k,2],"\\s+\\((\\d+)..(\\d+)\\)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"*", sep=""))#Match all cases for genes with duplicates tRNA in this case
+
+
+found.result.match <- str_match_all(paste(current.annot, collapse=" "), paste(genes.local[k,2],"\\s+(\\d+)..(\\d+)\\s*+/*",genes.local[k,3],"=*\\\"*", genes.local[k,4], "\\\"", sep=""))#Match all cases for genes with duplicates tRNA in this case
+
+
