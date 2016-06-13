@@ -12,7 +12,7 @@
 
 <meta name="author" content="Samuel R. Borstein" />
 
-<meta name="date" content="2016-05-25" />
+<meta name="date" content="2016-05-28" />
 
 <title>AnnotationBustR Tutorial</title>
 
@@ -70,13 +70,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">AnnotationBustR Tutorial</h1>
 <h4 class="author"><em>Samuel R. Borstein</em></h4>
-<h4 class="date"><em>2016-05-25</em></h4>
+<h4 class="date"><em>2016-05-28</em></h4>
 
 
 
 <div id="introduction" class="section level1">
 <h1>1: Introduction</h1>
-<p>This is a tutorial for the use of the R package AnnotationBustR. AnnotationBustR reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files by searching through the annotations in the features table. In this tutorial we will cover the basics of how to use AnnotationBustR to extract parts of a GenBank sequence. AnnotationBustR allows the user to extract parts of a sequence based on the features qucikly, which until this package mostly had to be done manually, which is time consuming. This proves useful, for example, if you need to extract a single gene from multiple accessions of mitogenomes or chloroplast genomes.</p>
+<p>This is a tutorial for the use of the R package AnnotationBustR. AnnotationBustR reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files by searching through the annotations in the features table. In this tutorial we will cover the basics of how to use AnnotationBustR to extract parts of a GenBank sequence. AnnotationBustR allows the user to quickly extract parts of a sequence based on the features table, which until this package had to be done manually, which is time consuming. This proves useful, for example, if you need to extract a single gene from multiple accessions of mitogenomes or chloroplast genomes.</p>
 </div>
 <div id="installation" class="section level1">
 <h1>2: Installation</h1>
@@ -103,9 +103,11 @@ dev_mode(on=F)</code></pre>
 </div>
 <div id="using-the-annotationbustr-package" class="section level1">
 <h1>3: Using the AnnotationBustR Package</h1>
-<p>To load AnnotationBustR and all of its functions/data: <code>library(AnnotationBustR)</code></p>
-<div id="load-the" class="section level2">
-<h2>3.1 Load the</h2>
+<p>To load AnnotationBustR and all of its functions/data:</p>
+<pre><code>library(AnnotationBustR)</code></pre>
+<div id="annotationbustr-work-flow" class="section level2">
+<h2>3.0 AnnotationBustR Work Flow</h2>
+<p>Before we begin a tutorial on how to use AnnotationBustR to extract sequences, lets first discuss the basic workflow of the functions in the package. All boxes in blue in the graphic below represent steps that occur using AnnotationBustR. The only step you must do is obtain a list of accession numbers you are interested in. This can be done either by downloading the accession numbers themselves from GenBank (<a href="http://www.ncbi.nlm.nih.gov/nuccore" class="uri">http://www.ncbi.nlm.nih.gov/nuccore</a>)</p>
 </div>
 </div>
 <div id="final-comments" class="section level1">

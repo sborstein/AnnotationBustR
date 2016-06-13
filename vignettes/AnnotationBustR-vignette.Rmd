@@ -11,7 +11,7 @@ vignette: >
 
 # 1: Introduction
 
-This is a tutorial for the use of the R package AnnotationBustR. AnnotationBustR reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files by searching through the annotations in the features table. In this tutorial we will cover the basics of how to use AnnotationBustR to extract parts of a GenBank sequence. AnnotationBustR allows the user to extract parts of a sequence based on the features qucikly, which until this package mostly had to be done manually, which is time consuming. This proves useful, for example, if you need to extract a single gene from multiple accessions of mitogenomes or chloroplast genomes. 
+This is a tutorial for the use of the R package AnnotationBustR. AnnotationBustR reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files by searching through the annotations in the features table. In this tutorial we will cover the basics of how to use AnnotationBustR to extract parts of a GenBank sequence. AnnotationBustR allows the user to quickly extract parts of a sequence based on the features table, which until this package  had to be done manually, which is time consuming. This proves useful, for example, if you need to extract a single gene from multiple accessions of mitogenomes or chloroplast genomes. 
 
 # 2: Installation
 ##2.1: Installation From CRAN
@@ -39,8 +39,8 @@ To load AnnotationBustR and all of its functions/data:
 ```
 library(AnnotationBustR)
 ```
-##3.1 Load the 
-
+##3.0 AnnotationBustR Work Flow 
+Before we begin a tutorial on how to use AnnotationBustR to extract sequences, lets first discuss the basic workflow of the functions in the package. All boxes in blue in the graphic below represent steps that occur using AnnotationBustR. The only step you must do is obtain a list of accession numbers you are interested in. This can be done either by downloading the accession numbers themselves from GenBank (http://www.ncbi.nlm.nih.gov/nuccore) or using R packages like `traits` and `rentrez`.
 
 #4: Final Comments
 Further information on the functions and their usage can be found in the helpfiles `help(package=AnnotationBustR)`. For any further issues and questions send an email with subject 'AnnotationBustR support' to sborstei@vols.utk.edu.
