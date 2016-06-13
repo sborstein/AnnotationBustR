@@ -5,8 +5,8 @@
 #' @return A table of start and stop positions of class annotPos for all the genes specified for all accession numbers that can be used to bust sequences using AnnotationBustR. Negative numbers indicate the sequence is a complement
 #' @examples
 #' ncbi.accessions<-c("FJ706343","FJ706292")#vector of two NCBI accession numbers to get the annotation positions of.
-#' data(rDNA.Genes)#load rDNA search terms as these are records of rDNA sequences
-#' my.seq.pos<-GetSeqPos(ncbi.accessions, rDNA.Genes, duplicate.genes= NULL)#Get rDNA gene positions for each sequence. There are no gene duplicates.
+#' data(rDNAterms)#load rDNA search terms as these are records of rDNA sequences
+#' my.seq.pos<-GetSeqPos(ncbi.accessions, rDNAterms, duplicate.genes= NULL)#Get rDNA gene positions for each sequence. There are no gene duplicates.
 #' @export
 
 GetSeqPos<-function(accessions, genes, duplicate.genes =NULL){
