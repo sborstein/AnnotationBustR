@@ -6,7 +6,7 @@
 #' data(rDNA.Genes)#load rDNA search terms
 #' my.seq.pos<-GetSeqPos(ncbi.accessions, rDNA.Genes, duplicate.genes= NULL)#Get rDNA gene positions for each sequence. There are no gene duplicates.
 #' my.accessions<-MakeAccessionTable(SeqPos=my.seq.pos)#Convert my.seq.pos, which is the class data.frame and Annot.Pos into a table of accessions for each gene.
-#'  @export
+#' @export
 
 MakeAccessionTable<-function(SeqPos){
   if(length((class(SeqPos))) <2)#check to make sure class is length 2
