@@ -21,6 +21,7 @@
 #' data(rDNA.Genes)#load rDNA search terms from AnnotationBustR
 #' my.sequences<-AnnotationBust(ncbi.accessions, rDNA.Genes, DuplicateSpecies=TRUE)#Run AnnotationBustR and write files to working directory
 #' my.sequences#Return the accession table for each species.
+#' @export
 
 AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=NULL, TranslateSeqs=FALSE, TranslateCode=1, DuplicateSpecies=FALSE){
   seqinr::choosebank("genbank")
