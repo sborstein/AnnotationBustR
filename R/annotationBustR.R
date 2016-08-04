@@ -115,7 +115,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
                 max.instance<-min(c(length(found.CDS),current.dup$DuplicateInstances))#to control number found and written, get lowest common number
                 for (dup.found.index in 1:max.instance){
                   if (TranslateSeqs==TRUE){
-                    found.seq<-getTrans(rec$req[[found.CDS[dup.found.index]]], numcode=TanslateCode)####Trans work?
+                    found.seq<-seqinr::getTrans(rec$req[[found.CDS[dup.found.index]]], numcode=TanslateCode)####Trans work?
                   }
                   else{found.seq<-getSequence(rec$req[found.CDS[1]], as.string=FALSE)}
                   write.fasta(found.seq,names=seq.name, paste0(unique.CDS[CDS.term.index],dup.found.index,".fasta"),open="a")
@@ -129,7 +129,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
             found.CDS<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.CDS)>0){
               if (TranslateSeqs==TRUE){
-                found.seq<-getTrans(rec$req[[found.CDS]], numcode = TranslateCode)}
+                found.seq<-seqinr::getTrans(rec$req[[found.CDS]], numcode = TranslateCode)}
                 else{found.seq<-getSequence(rec$req[found.CDS[1]], as.string=FALSE)}
               write.fasta(found.seq,names=seq.name, paste0(unique.CDS[CDS.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.CDS[CDS.term.index],"\\b"), colnames(Accession.Table))]<-new.access
