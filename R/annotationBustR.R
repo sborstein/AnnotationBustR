@@ -1,5 +1,5 @@
 #' Breaks up genbank sequences into their annotated components based on a set of search terms and writes each sub-sequence of interest to a file for each accession number supplied.
-#' @param Accessions A list of accession numbers. Note that refseq numbers (i.e. prefixes like XM_ and NC_) will not work.
+#' @param Accessions A vector of accession numbers. Note that refseq numbers (i.e. prefixes like XM_ and NC_) will not work.
 #' @param Terms A data frame of search terms. Search terms for animal mitogenomes, nuclear rRNA, chloroplast genomes, and plant mitogenomes are pre-made and can be loaded using the data()function. Additional terms can be addded using the MergeSearchTerms function.
 #' @param Duplicates A vector of loci names that have more than one copy. Default is NULL
 #' @param DuplicateInstances A numeric vector the length of Duplicates of the number of duplicates for each duplicated gene you wish to extract.Default is NULL

@@ -1,5 +1,6 @@
 #' Find the longest sequence for each species from a list of GenBank accession numbers.
 #' @param accessions A vector of GenBank accession numbers.
+#' @details For a set of GenBank accession numbers, this will return the longest sequence for in the set for species.
 #' @return A list of genbank accessions numbers for the longest sequence for each taxon in a list of accession numbers.
 #' @examples 
 #' genbank.accessions<-c("KP978059.1","KP978060.1","JX516105.1","JX516111.1")#vector of 4 genbank accessions, two each for two species
