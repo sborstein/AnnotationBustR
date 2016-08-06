@@ -4,10 +4,10 @@
 \alias{MergeSearchTerms}
 \title{Allows for the merging of two tables containing search terms to expand search term database for getAnnotPos.}
 \usage{
-MergeSearchTerms(..., sort.gene = FALSE)
+MergeSearchTerms(..., SortGenes = FALSE)
 }
 \arguments{
-\item{...}{the data frames of search terms you want to combine into a single list. The Data frames should have stringsAsFactors=FALSE if you want to sort them.}
+\item{...}{the data frames of search terms you want to combine into a single data frame The Data frame(s) should have stringsAsFactors=FALSE listed if you want to sort them.}
 
 \item{sort.gene}{Should the final data frame be sorted by gene name? Default is FALSE.}
 }
@@ -15,13 +15,14 @@ MergeSearchTerms(..., sort.gene = FALSE)
 A new merged data frame with all the search terms combined from the lists supplied. If sort.gene=TRUE, genes will be sorted by name.
 }
 \description{
-Allows for the merging of two tables containing search terms to expand search term database for getAnnotPos.
+This function merges two data frames with search terms. This allows users to easily add search terms to data frames (either their
+own or ones included in this package using data()) as GenBank annotations for the same gene may vary in gene name.
 }
 \examples{
-data(MitoGenes) #load the list of search terms for mitochondrial genes
-add.name<-data.frame("D_loop","D-loop","note", "d-loop")#Create a data frame with a new search term.
-colnames(add.names)<-colnames(Mito.Genes)# make the column names the same for combination.
-MergeSearchTerms(add.name, Mito.Genes, sort.gene=FALSE)#Run the merge search term function without sorting based on gene name.
-MergeSearchTerms(add.name, Mito.Genes, sort.gene=TRUE)#Run the merge search term function with sorting based on gene name.
+data(mtDNAterms) #load the list of search terms for mitochondrial genes
+add.name<-data.frame("COI","CDS", "CX1")#Make a data.frame of new terms to add. This is a dummy example for a non-real annoation of COI, but lets pretend it is real.
+colnames(add.name)<-colnames(mtDNAterms)# make the column names the same for combination.
+MergeSearchTerms(add.name, mtDNAterms, SortGenes=FALSE)#Run the merge search term function without sorting based on gene name.
+MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)#Run the merge search term function with sorting based on gene name.
 }
 

@@ -2,5 +2,4 @@
 
 export(AnnotationBust)
 export(FindLongestSeq)
-export(GetSeqPos)
 export(MergeSearchTerms)
