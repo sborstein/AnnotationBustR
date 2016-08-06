@@ -30,6 +30,6 @@ MergeSearchTerms<-function(..., SortGenes=FALSE){
   if(SortGenes==TRUE) {
     new.terms <- new.terms[order(new.terms$Locus),]
   }
-  row.names(new.terms)<-1:dim(aaaa)[[1]]
+  row.names(new.terms)<-1:dim(new.terms)[[1]]
   return(new.terms)
 }
