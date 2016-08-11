@@ -15,6 +15,7 @@ colnames(seq.data)<-c("Species","Accession","Length")#attribute column names
 seq.data$Length<-as.numeric(seq.data$Length)#make the length of the sequence numeric
 uni.taxa<-unique(seq.data$Species)#get unique taxa
 long.seqs<-data.frame(matrix(nrow=length(uni.taxa), ncol=dim(seq.data)[2]))#empty data frame to store results
+colnames(long.seqs)<-colnames(seq.data)
   for (taxa.index in 1:length(uni.taxa)){
     current.tax<-subset(seq.data,seq.data$Species==uni.taxa[taxa.index])
     longest.seq<-subset(current.tax,current.tax$Length==sort(as.numeric(current.tax$Length),decreasing = TRUE)[1])[1,]#id and grab longest seq
