@@ -76,7 +76,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
         current.locus<-subset(tRNA.Search, tRNA.Search$Locus==unique.tRNA[tRNA.term.index])#subset the tRNA terms by the current locus
         synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
         if (unique.tRNA[tRNA.term.index] %in% Duplicates ==TRUE){#if the locus is a duplicate
-          current.dup<-dup.frame[dup.frame$Duplicates==as.character(current.locus$Locus),]#sub out the duplicate number wanted
+          current.dup<-subset(dup.frame, dup.frame$Duplicates==as.character(unique.tRNA[tRNA.term.index]))
           for (synonym.index in 1:length(synonyms)){
             found.tRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)
             if (length(found.tRNA)>0){
@@ -93,15 +93,13 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
         else{for (synonym.index in 1:length(synonyms)){
           found.tRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
           if (length(found.tRNA)>0){
+            break}}
             found.seq<-getSequence(rec$req[found.tRNA[1]], as.string=FALSE)
             write.fasta(found.seq,names=seq.name, paste0(unique.tRNA[tRNA.term.index],".fasta"),open="a")
             Accession.Table[accession.index,grep(paste0("\\b",unique.tRNA[tRNA.term.index],"\\b"), colnames(Accession.Table))]<-new.access
-            break
           }
         }
-        }
       }
-    }
       if (uni.type[loci.type.index]=="CDS")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=CDS", sep=" "))#get the CDS
         current.annot<-seqinr::getAnnot(rec$req, nbl=20000)#read in the annotation
@@ -109,7 +107,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
           current.locus<-subset(CDS.Search, CDS.Search$Locus==unique.CDS[CDS.term.index])#subset the CDS terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
           if (unique.CDS[CDS.term.index] %in% Duplicates ==TRUE){#if the locus is a duplicate
-            current.dup<-dup.frame[dup.frame$Duplicates==as.character(current.locus$Locus),]#sub out the duplicate number wanted
+            current.dup<-subset(dup.frame, dup.frame$Duplicates==as.character(unique.CDS[CDS.term.index]))
             for (synonym.index in 1:length(synonyms)){
               found.CDS<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)
               if (length(found.CDS)>0){
@@ -129,17 +127,15 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
           else{for (synonym.index in 1:length(synonyms)){
             found.CDS<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.CDS)>0){
+              break}}
               if (TranslateSeqs==TRUE){
                 found.seq<-seqinr::getTrans(rec$req[[found.CDS]], numcode = TranslateCode)}
                 else{found.seq<-getSequence(rec$req[found.CDS[1]], as.string=FALSE)}
               write.fasta(found.seq,names=seq.name, paste0(unique.CDS[CDS.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.CDS[CDS.term.index],"\\b"), colnames(Accession.Table))]<-new.access
             }
-            break
-          }
           }
         }
-      }
       if (uni.type[loci.type.index]=="rRNA")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=rRNA", sep=" "))#get the rRNA
         current.annot<-seqinr::getAnnot(rec$req, nbl=20000)#read in the annotation
@@ -147,7 +143,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
           current.locus<-subset(rRNA.Search, rRNA.Search$Locus==unique.rRNA[rRNA.term.index])#subset the rRNA terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
           if (unique.rRNA[rRNA.term.index] %in% Duplicates ==TRUE){#if the locus is a duplicate
-            current.dup<-dup.frame[dup.frame$Duplicates==as.character(current.locus$Locus),]#sub out the duplicate number wanted
+            current.dup<-subset(dup.frame, dup.frame$Duplicates==as.character(unique.rRNA[rRNA.term.index]))
             for (synonym.index in 1:length(synonyms)){
               found.rRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)
               if (length(found.rRNA)>0){
@@ -164,15 +160,13 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
           else{for (synonym.index in 1:length(synonyms)){
             found.rRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.rRNA)>0){
+              break}}
               found.seq<-getSequence(rec$req[found.rRNA[1]], as.string=FALSE)
               write.fasta(found.seq,names=seq.name, paste0(unique.rRNA[rRNA.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.rRNA[rRNA.term.index],"\\b"), colnames(Accession.Table))]<-new.access
-              break
             }
           }
-          }
         }
-      }
       if (uni.type[loci.type.index]=="misc_RNA")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=misc_RNA", sep=" "))#get the misc_RNA
         current.annot<-seqinr::getAnnot(rec$req, nbl=20000)#read in the annotation
@@ -180,7 +174,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
           current.locus<-subset(misc_RNA.Search, misc_RNA.Search$Locus==unique.misc_RNA[misc_RNA.term.index])#subset the misc_RNA terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
           if (unique.misc_RNA[misc_RNA.term.index] %in% Duplicates ==TRUE){#if the locus is a duplicate
-            current.dup<-dup.frame[dup.frame$Duplicates==as.character(current.locus$Locus),]#sub out the duplicate number wanted
+            current.dup<-subset(dup.frame, dup.frame$Duplicates==as.character(unique.misc_RNA[misc_RNA.term.index]))
             for (synonym.index in 1:length(synonyms)){
               found.misc_RNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)
               if (length(found.misc_RNA)>0){
@@ -197,23 +191,20 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
           else{for (synonym.index in 1:length(synonyms)){
             found.misc_RNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.misc_RNA)>0){
+              break}}
               found.seq<-getSequence(rec$req[found.misc_RNA[1]], as.string=FALSE)
               write.fasta(found.seq,names=seq.name, paste0(unique.misc_RNA[misc_RNA.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.misc_RNA[misc_RNA.term.index],"\\b"), colnames(Accession.Table))]<-new.access
-              break
             }
           }
-          }
         }
-      }
-      if (uni.type[loci.type.index]=="D_loop")  {
+      if (uni.type[loci.type.index]=="D-loop")  {
         mito.loop <- query("mito.loop",paste0("AC=",new.access), virtual = TRUE)
         dloop <- extractseqs("mito.loop", operation = "feature", feature = "D-loop")
         if (length(dloop)>0){
         dloop.fasta <- read.fasta(textConnection(dloop))
         write.fasta(dloop.fasta,file="D_loop.fasta",names=seq.name, open="a")
         Accession.Table[accession.index,grep(paste0("\\b","D_loop","\\b"), colnames(Accession.Table))]<-new.access
-        
         }
       }
     }
