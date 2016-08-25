@@ -7,7 +7,7 @@
 #' @param TranslateCode Numerical representing the GenBank translation code for which sequences should be translated under. Default is 1. For all options see ?seqinr::getTrans. Some possible useful ones are: 2. Vertebrate Mitochondrial, 5. Invertebrate Mitochondrial, and 11. bacterial+plantplastid
 #' @param DuplicateSpecies Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta file 
 #' @details The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts sub-sequences from genomes or concatenated sequences.
-#' It writes files in FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
+#' This function requires internet access. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
 #' search terms for mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms),data(cpDNAterms), and data(rDNAterms) respectively.
 #' Search terms can be completely made by the user as long as they follow a similar format, with three columns. The first, Locus should contain the name of the files to be written. We recommend following
 #' a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or "." should be avoided as to not throw off R.
@@ -29,16 +29,16 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
   uni.type<-unique(Terms$Type)
   ##Deal with duplicates in regards to writing output files##
   if(is.null(Duplicates)==FALSE){
-  new.file.names<-character(length = 0)
-  dup.frame<-data.frame(Duplicates, DuplicateInstances)
-  singles<-uni.locus[uni.locus %in% dup.frame$Duplicates==FALSE]#get matching duplicates
-  doubles<-uni.locus[uni.locus %in% dup.frame$Duplicates==TRUE]#get matching duplicates
-  for (i in 1:length (doubles)){
-    sub.dups<-subset(dup.frame, dup.frame$Duplicates %in% doubles[i]==TRUE)#subset the duplicate genes
-    number.names<-paste0(sub.dups$Duplicates, 1:sub.dups$DuplicateInstances)#add duplicate numbers to names
-    new.file.names<-append(new.file.names, number.names)#append the new pasted file names
-  }
-  file.names<-c(as.vector(singles), new.file.names)#combo the names of single and dup loci
+    new.file.names<-character(length = 0)
+    dup.frame<-data.frame(Duplicates, DuplicateInstances)
+    singles<-uni.locus[uni.locus %in% dup.frame$Duplicates==FALSE]#get matching duplicates
+    doubles<-uni.locus[uni.locus %in% dup.frame$Duplicates==TRUE]#get matching duplicates
+    for (i in 1:length (doubles)){
+      sub.dups<-subset(dup.frame, dup.frame$Duplicates %in% doubles[i]==TRUE)#subset the duplicate genes
+      number.names<-paste0(sub.dups$Duplicates, 1:sub.dups$DuplicateInstances)#add duplicate numbers to names
+      new.file.names<-append(new.file.names, number.names)#append the new pasted file names
+    }
+    file.names<-c(as.vector(singles), new.file.names)#combo the names of single and dup loci
   }else {file.names<-as.vector(uni.locus)}
   Accession.Table<-data.frame(data.frame(matrix(NA, nrow = length(Accessions), ncol = 1+length(file.names))))#make empty accession table
   colnames(Accession.Table)<-c("Species",file.names)#attach loci names as colnames
@@ -69,34 +69,34 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
     ifelse(DuplicateSpecies==TRUE, seq.name<-paste(species.name,new.access,sep = "_"), seq.name<-species.name)
     Accession.Table$Species[accession.index]<-species.name
     for (loci.type.index in 1:length(uni.type)){
-    if (uni.type[loci.type.index]=="tRNA")  {
-      rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=tRNA", sep=" "))#get the tRNA
-      current.annot<-seqinr::getAnnot(rec$req, nbl=20000)#read in the annotation
-      for (tRNA.term.index in 1:length(unique.tRNA)){
-        current.locus<-subset(tRNA.Search, tRNA.Search$Locus==unique.tRNA[tRNA.term.index])#subset the tRNA terms by the current locus
-        synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
-        if (unique.tRNA[tRNA.term.index] %in% Duplicates ==TRUE){#if the locus is a duplicate
-          current.dup<-subset(dup.frame, dup.frame$Duplicates==as.character(unique.tRNA[tRNA.term.index]))
-          for (synonym.index in 1:length(synonyms)){
-            found.tRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)
-            if (length(found.tRNA)>0){
-              max.instance<-min(c(length(found.tRNA),current.dup$DuplicateInstances))#to control number found and written, get lowest common number
-              for (dup.found.index in 1:max.instance){
-                found.seq<-getSequence(rec$req[[found.tRNA[dup.found.index]]])####Trans work?
-                write.fasta(found.seq,names=seq.name, paste0(unique.tRNA[tRNA.term.index],dup.found.index,".fasta"),open="a")
-                Accession.Table[accession.index,grep(paste0("\\b",unique.tRNA[tRNA.term.index],dup.found.index,"\\b"), colnames(Accession.Table))]<-new.access
+      if (uni.type[loci.type.index]=="tRNA")  {
+        rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=tRNA", sep=" "))#get the tRNA
+        current.annot<-seqinr::getAnnot(rec$req, nbl=20000)#read in the annotation
+        for (tRNA.term.index in 1:length(unique.tRNA)){
+          current.locus<-subset(tRNA.Search, tRNA.Search$Locus==unique.tRNA[tRNA.term.index])#subset the tRNA terms by the current locus
+          synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
+          if (unique.tRNA[tRNA.term.index] %in% Duplicates ==TRUE){#if the locus is a duplicate
+            current.dup<-subset(dup.frame, dup.frame$Duplicates==as.character(unique.tRNA[tRNA.term.index]))
+            for (synonym.index in 1:length(synonyms)){
+              found.tRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)
+              if (length(found.tRNA)>0){
+                max.instance<-min(c(length(found.tRNA),current.dup$DuplicateInstances))#to control number found and written, get lowest common number
+                for (dup.found.index in 1:max.instance){
+                  found.seq<-getSequence(rec$req[[found.tRNA[dup.found.index]]])####Trans work?
+                  write.fasta(found.seq,names=seq.name, paste0(unique.tRNA[tRNA.term.index],dup.found.index,".fasta"),open="a")
+                  Accession.Table[accession.index,grep(paste0("\\b",unique.tRNA[tRNA.term.index],dup.found.index,"\\b"), colnames(Accession.Table))]<-new.access
+                }
+                break
               }
-              break
             }
           }
-        }
-        else{for (synonym.index in 1:length(synonyms)){
-          found.tRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
-          if (length(found.tRNA)>0){
-            break}}
-            found.seq<-getSequence(rec$req[found.tRNA[1]], as.string=FALSE)
-            write.fasta(found.seq,names=seq.name, paste0(unique.tRNA[tRNA.term.index],".fasta"),open="a")
-            Accession.Table[accession.index,grep(paste0("\\b",unique.tRNA[tRNA.term.index],"\\b"), colnames(Accession.Table))]<-new.access
+          else{for (synonym.index in 1:length(synonyms)){
+            found.tRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
+            if (length(found.tRNA)>0){
+              found.seq<-getSequence(rec$req[found.tRNA[1]], as.string=FALSE)
+              write.fasta(found.seq,names=seq.name, paste0(unique.tRNA[tRNA.term.index],".fasta"),open="a")
+              Accession.Table[accession.index,grep(paste0("\\b",unique.tRNA[tRNA.term.index],"\\b"), colnames(Accession.Table))]<-new.access
+              break}}
           }
         }
       }
@@ -127,15 +127,13 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
           else{for (synonym.index in 1:length(synonyms)){
             found.CDS<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.CDS)>0){
-              break}}
-              if (TranslateSeqs==TRUE){
-                found.seq<-seqinr::getTrans(rec$req[[found.CDS]], numcode = TranslateCode)}
-                else{found.seq<-getSequence(rec$req[found.CDS[1]], as.string=FALSE)}
+              ifelse(TranslateSeqs==TRUE, found.seq<-seqinr::getTrans(rec$req[[found.CDS]]),found.seq<-getSequence(rec$req[found.CDS[1]], as.string=FALSE))
               write.fasta(found.seq,names=seq.name, paste0(unique.CDS[CDS.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.CDS[CDS.term.index],"\\b"), colnames(Accession.Table))]<-new.access
-            }
+              break}}
           }
         }
+      }
       if (uni.type[loci.type.index]=="rRNA")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=rRNA", sep=" "))#get the rRNA
         current.annot<-seqinr::getAnnot(rec$req, nbl=20000)#read in the annotation
@@ -160,13 +158,13 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
           else{for (synonym.index in 1:length(synonyms)){
             found.rRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.rRNA)>0){
-              break}}
               found.seq<-getSequence(rec$req[found.rRNA[1]], as.string=FALSE)
               write.fasta(found.seq,names=seq.name, paste0(unique.rRNA[rRNA.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.rRNA[rRNA.term.index],"\\b"), colnames(Accession.Table))]<-new.access
-            }
+              break}}
           }
         }
+      }
       if (uni.type[loci.type.index]=="misc_RNA")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=misc_RNA", sep=" "))#get the misc_RNA
         current.annot<-seqinr::getAnnot(rec$req, nbl=20000)#read in the annotation
@@ -191,20 +189,20 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
           else{for (synonym.index in 1:length(synonyms)){
             found.misc_RNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.misc_RNA)>0){
-              break}}
               found.seq<-getSequence(rec$req[found.misc_RNA[1]], as.string=FALSE)
               write.fasta(found.seq,names=seq.name, paste0(unique.misc_RNA[misc_RNA.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.misc_RNA[misc_RNA.term.index],"\\b"), colnames(Accession.Table))]<-new.access
-            }
+              break}}
           }
         }
+      }
       if (uni.type[loci.type.index]=="D-loop")  {
         mito.loop <- query("mito.loop",paste0("AC=",new.access), virtual = TRUE)
         dloop <- extractseqs("mito.loop", operation = "feature", feature = "D-loop")
         if (length(dloop)>0){
-        dloop.fasta <- read.fasta(textConnection(dloop))
-        write.fasta(dloop.fasta,file="D_loop.fasta",names=seq.name, open="a")
-        Accession.Table[accession.index,grep(paste0("\\b","D_loop","\\b"), colnames(Accession.Table))]<-new.access
+          dloop.fasta <- read.fasta(textConnection(dloop))
+          write.fasta(dloop.fasta,file="D_loop.fasta",names=seq.name, open="a")
+          Accession.Table[accession.index,grep(paste0("\\b","D_loop","\\b"), colnames(Accession.Table))]<-new.access
         }
       }
     }
@@ -221,7 +219,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       found.accessions<-subset(current.loci,!is.na(current.loci))#subset the ones that are present
       numbers<-ifelse(length(found.accessions)==0, NA, paste(found.accessions, sep=",", collapse=","))#ifelse statemen, if not present, fill with NA
       Final.Accession.Table[species.index,gene.index]<-numbers
-      }
+    }
   }
   Sort.Final.Accession.Table<-Final.Accession.Table[order(Final.Accession.Table$Species),]
   Sort.Final.Accession.Table
