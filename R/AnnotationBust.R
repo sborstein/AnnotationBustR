@@ -59,8 +59,8 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       unique.rRNA<-unique(rRNA.Search$Locus)
     }
     if (uni.type[subsequence.type.index]=="misc_RNA"){
-      misc.RNA.search<-subset(Terms, Terms$Type=="misc_RNA")
-      unique.misc_RNA<-unique(misc.RNA.search$Locus)
+      misc_RNA.Search<-subset(Terms, Terms$Type=="misc_RNA")
+      unique.misc_RNA<-unique(misc_RNA.Search$Locus)
     }
   }
   for (accession.index in 1:length(Accessions)){
