@@ -1,13 +1,13 @@
 Package: AnnotationBustR
 Version: 0.1
-Date: 8/5/2016
+Date: 9/6/2016
 Title: Extraction of Genbank Sequence Components From Annotations
 Author: Samuel R. Borstein <sam@borstein.com>, Brian O'Meara <bomeara@utk.edu>
 Maintainer: Samuel R. Borstein <sam@borstein.com>
 Depends:
-    seqinr,traits,ape
+    seqinr,ape
 Imports:
-    seqinr,traits,ape
+    seqinr,ape
 Description: Breaks up genbank genomes and concatenated sequences based on annotations into their
     user specified subsequences.
 License: GPL (>= 2)
