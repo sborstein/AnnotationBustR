@@ -42,9 +42,9 @@ name for the locus of interest. For numerous synonyms for the same locus, one sh
 AnnotationBust you can call the vignette with vignette("AnnotationBustR).
 }
 \examples{
-ncbi.accessions<-c("FJ706295","FJ706343","FJ706292")#vector of two NCBI accession numbers to get the annotation positions of.
-data(rDNA.Genes)#load rDNA search terms from AnnotationBustR
-my.sequences<-AnnotationBust(ncbi.accessions, rDNA.Genes, DuplicateSpecies=TRUE)#Run AnnotationBustR and write files to working directory
+ncbi.accessions<-c("FJ706295","FJ706343","FJ706292")#vector of three NCBI accession numbers to get the annotation positions of.
+data(rDNAterms)#load rDNA search terms from AnnotationBustR
+my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE)#Run AnnotationBustR and write files to working directory
 my.sequences#Return the accession table for each species.
 }
 
