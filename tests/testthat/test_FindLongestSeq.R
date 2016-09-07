@@ -5,7 +5,7 @@
 
 test_that("More than max query works to find longest seq",{
 data(Achrist)
-long.manual<-read.GenBank(as.vector(Achrist$V1))
+long.manual<-ape::read.GenBank(as.vector(Achrist$V1))
 long.manual.res<-which(summary(long.manual)[,1]==max(as.numeric(summary(long.manual)[,1])))
 expect_identical(FindLongestSeq(Achrist$V1)$Accession, names(long.manual.res))
 })

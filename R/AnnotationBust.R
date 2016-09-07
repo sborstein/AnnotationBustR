@@ -17,9 +17,11 @@
 #' @return Writes a fasta file(s) to the current working directory selected for each unique sub-sequence of interest in Terms containing all the accession numbers the sub-sequence was fond in
 #' @return Writes an data.frame of the accession numbers per loci that can be turned into an accession table using the function MakeAccessionTable
 #' @examples
-#' ncbi.accessions<-c("FJ706295","FJ706343","FJ706292")#vector of three NCBI accession numbers to get the annotation positions of.
+#' #Create vector of three NCBI accessions of rDNA toget subsequences of and load rDNA terms.
+#' ncbi.accessions<-c("FJ706295","FJ706343","FJ706292")
 #' data(rDNAterms)#load rDNA search terms from AnnotationBustR
-#' my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE)#Run AnnotationBustR and write files to working directory
+#' #Run AnnotationBustR and write files to working directory
+#' my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE)
 #' my.sequences#Return the accession table for each species.
 #' @export
 
