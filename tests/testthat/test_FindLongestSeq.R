@@ -4,7 +4,7 @@
 #UCE loci, but a lot of them, so try it anyways
 
 test_that("More than max query works to find longest seq",{
-data(Achrist)
+data(sysdata)
 long.manual<-ape::read.GenBank(as.vector(Achrist$V1))
 long.manual.res<-which(summary(long.manual)[,1]==max(as.numeric(summary(long.manual)[,1])))
 expect_identical(FindLongestSeq(Achrist$V1)$Accession, names(long.manual.res))
