@@ -11,7 +11,7 @@ vignette: >
 
 # 1: Introduction
 
-This is a tutorial for the use of the R package AnnotationBustR. AnnotationBustR reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files by searching through the annotations in the features table. In this tutorial we will cover the basics of how to use AnnotationBustR to extract parts of a GenBank sequence. AnnotationBustR allows the user to quickly extract parts of a sequence based on the features table, which until this package  had to be done manually, which is time consuming. This proves useful, for example, if you need to extract a single gene from multiple accessions of mitogenomes or chloroplast genomes. 
+This is a tutorial for the use of the R package AnnotationBustR. AnnotationBustR reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files by searching through the annotations in the features table. In this tutorial we will cover the basics of how to use AnnotationBustR to extract parts of a GenBank sequences.This is considerably faster than doing extracting them manually and more accurate than using alignment methods like BLAST. For example, it is possible to extract to FASTA formatted files every subsequence from a mitochondrial genome (38 sequences, 13 CDS, 22 tRNA, 2rRNA, 1 D-loop) in between 26-36 seconds, which is significantly faster than if you were to do it manually. In this tutorial we will discuss how to install AnnotationBustR, the basic AnnotationBustR pipeline, and how to use the functions that are included in AnnotationBustR.
 
 # 2: Installation
 ##2.1: Installation From CRAN
