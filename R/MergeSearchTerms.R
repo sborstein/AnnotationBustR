@@ -6,11 +6,21 @@
 #' This function merges two data frames with search terms. This allows users to easily add search terms to data frames (either their
 #' own or ones included in this package using data()) as GenBank annotations for the same gene may vary in gene name. 
 #' @examples
-#' data(mtDNAterms) #load the list of search terms for mitochondrial genes
-#' add.name<-data.frame("COI","CDS", "CX1")#Make a data.frame of new terms to add. This is a dummy example for a non-real annoation of COI, but lets pretend it is real.
-#' colnames(add.name)<-colnames(mtDNAterms)# make the column names the same for combination.
-#' MergeSearchTerms(add.name, mtDNAterms, SortGenes=FALSE)#Run the merge search term function without sorting based on gene name.
-#' MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)#Run the merge search term function with sorting based on gene name.
+#' #load the list of search terms for mitochondrial genes
+#' data(mtDNAterms) 
+#' 
+#' #Make a data.frame of new terms to add.
+#' #This is a dummy example for a non-real annoation of COI, but lets pretend it is real.
+#' add.name<-data.frame("COI","CDS", "CX1")
+#' 
+#' # make the column names the same for combination.
+#' colnames(add.name)<-colnames(mtDNAterms)
+#' 
+#' #Run the merge search term function without sorting based on gene name.
+#' new.terms<-MergeSearchTerms(add.name, mtDNAterms, SortGenes=FALSE)
+#' 
+#' #Run the merge search term function with sorting based on gene name.
+#' new.terms<-MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)
 #' @export
 
 MergeSearchTerms<-function(..., SortGenes=FALSE){
