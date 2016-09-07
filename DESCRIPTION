@@ -9,7 +9,7 @@ Depends:
 Imports:
     ape,
     seqinr
-Description: extract sub-sequences from GenBank annotations
+Description: Extract sub-sequences from GenBank annotations.
 License: GPL (>= 2)
 LazyData: true
 RoxygenNote: 5.0.1
