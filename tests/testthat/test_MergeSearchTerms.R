@@ -2,8 +2,8 @@
 #Will merge rDNA and Mitogenome terms together, which will be included in the package as data. 
 #Do one to test if it merges and another to see if it sorts
 test_that("merging search terms works", {
-data("MitoGenes.RData")#load mito search terms
-data("rDNA.RData")#load rDNA search terms
+data("mtDNAterms")#load mito search terms
+data("rDNAterms")#load rDNA search terms
 #No Sorting
 reg_merged<-rbind(mtDNAterms, rDNAterms)#simple rbind
 reg.test.merge<-MergeSearchTerms(mtDNAterms, rDNAterms, SortGenes = FALSE)#run the function w/out sorting
