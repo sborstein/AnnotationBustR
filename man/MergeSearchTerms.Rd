@@ -9,7 +9,7 @@ MergeSearchTerms(..., SortGenes = FALSE)
 \arguments{
 \item{...}{the data frames of search terms you want to combine into a single data frame The Data frame(s) should have stringsAsFactors=FALSE listed if you want to sort them.}
 
-\item{sort.gene}{Should the final data frame be sorted by gene name? Default is FALSE.}
+\item{SortGenes}{Should the final data frame be sorted by gene name? Default is FALSE.}
 }
 \value{
 A new merged data frame with all the search terms combined from the lists supplied. If sort.gene=TRUE, genes will be sorted by name.
