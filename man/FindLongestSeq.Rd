@@ -4,10 +4,10 @@
 \alias{FindLongestSeq}
 \title{Find the longest sequence for each species from a list of GenBank accession numbers.}
 \usage{
-FindLongestSeq(accessions)
+FindLongestSeq(Accessions)
 }
 \arguments{
-\item{accessions}{A vector of GenBank accession numbers.}
+\item{Accessions}{A vector of GenBank accession numbers.}
 }
 \value{
 A list of genbank accessions numbers for the longest sequence for each taxon in a list of accession numbers.
