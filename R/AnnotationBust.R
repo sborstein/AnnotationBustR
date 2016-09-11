@@ -87,11 +87,17 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       }
     }
     annotation.list[[length(annotation.list)+1]] <- to.store
+    #check that annotation is multiple parts
+    check.ann<-annotation.list[-1]
+    if(length(check.ann)==1){
+      Accession.Table[accession.index,2:length(colnames(Accession.Table))]<-paste("No Ann For",new.access,sep=" ") 
+      next
+    }
     #Now find loci for every loci type
     for (loci.type.index in 1:length(uni.type)){
       if (uni.type[loci.type.index]=="tRNA")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=tRNA", sep=" "))#get the tRNA
-        current.annot<-annotation.list[grep("tRNA",annotation.list)]#subset in the parsed annotation
+        current.annot<-annotation.list[grep("tRNA            ",annotation.list)]#subset in the parsed annotation
         for (tRNA.term.index in 1:length(unique.tRNA)){
           current.locus<-subset(tRNA.Search, tRNA.Search$Locus==unique.tRNA[tRNA.term.index])#subset the tRNA terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
@@ -122,7 +128,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       }
       if (uni.type[loci.type.index]=="CDS")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=CDS", sep=" "))#get the CDS
-        current.annot<-annotation.list[grep("CDS",annotation.list)]#subset in the parsed annotation
+        current.annot<-annotation.list[grep("CDS            ",annotation.list)]#subset in the parsed annotation
         for (CDS.term.index in 1:length(unique.CDS)){
           current.locus<-subset(CDS.Search, CDS.Search$Locus==unique.CDS[CDS.term.index])#subset the CDS terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
@@ -156,7 +162,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       }
       if (uni.type[loci.type.index]=="rRNA")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=rRNA", sep=" "))#get the rRNA
-        current.annot<-annotation.list[grep("rRNA",annotation.list)]#subset in the parsed annotation
+        current.annot<-annotation.list[grep("rRNA            ",annotation.list)]#subset in the parsed annotation
         for (rRNA.term.index in 1:length(unique.rRNA)){
           current.locus<-subset(rRNA.Search, rRNA.Search$Locus==unique.rRNA[rRNA.term.index])#subset the rRNA terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
@@ -187,7 +193,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       }
       if (uni.type[loci.type.index]=="misc_RNA")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=misc_RNA", sep=" "))#get the misc_RNA
-        current.annot<-annotation.list[grep("misc_RNA",annotation.list)]#subset in the parsed annotation
+        current.annot<-annotation.list[grep("misc_RNA            ",annotation.list)]#subset in the parsed annotation
         for (misc_RNA.term.index in 1:length(unique.misc_RNA)){
           current.locus<-subset(misc_RNA.Search, misc_RNA.Search$Locus==unique.misc_RNA[misc_RNA.term.index])#subset the misc_RNA terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms

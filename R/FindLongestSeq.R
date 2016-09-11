@@ -1,5 +1,5 @@
 #' Find the longest sequence for each species from a list of GenBank accession numbers.
-#' @param accessions A vector of GenBank accession numbers.
+#' @param Accessions A vector of GenBank accession numbers.
 #' @details For a set of GenBank accession numbers, this will return the longest sequence for in the set for species.
 #' @return A list of genbank accessions numbers for the longest sequence for each taxon in a list of accession numbers.
 #' @examples 
@@ -9,8 +9,8 @@
 #' long.seq.result<-FindLongestSeq(genbank.accessions)
 #' @export
 
-FindLongestSeq<-function(accessions){
-raw.accessions<-ape::read.GenBank(accessions)#get the seqs
+FindLongestSeq<-function(Accessions){
+raw.accessions<-ape::read.GenBank(Accessions)#get the seqs
 seq.ids<-attr(raw.accessions, "species")#extract attribute-species name, from genbank takedown above
 seq.data<-data.frame(cbind(attr(raw.accessions, "species"), names(raw.accessions),as.vector(summary(raw.accessions)[,1])),stringsAsFactors = FALSE)#data frame it
 colnames(seq.data)<-c("Species","Accession","Length")#attribute column names
