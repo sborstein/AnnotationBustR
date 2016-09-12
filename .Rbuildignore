@@ -1,2 +1,5 @@
 ## Ignore travis config file
 ^\.travis\.yml$
+
+##Ignore the cran-comments.rd
+^cran-comments\.md$

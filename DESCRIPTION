@@ -1,7 +1,7 @@
 Package: AnnotationBustR
 Version: 1.0
-Date: 9/6/2016
-Title: AnnotationBustR: An R package to extract sub-sequences from GenBank annotations
+Date: 2016-09-12
+Title: An R Package to Extract Sub-Sequences from GenBank Annotations
 Author: Samuel R. Borstein <sam@borstein.com>, Brian O'Meara <bomeara@utk.edu>
 Maintainer: Samuel R. Borstein <sam@borstein.com>
 Depends:
@@ -13,7 +13,7 @@ Description: Extract sub-sequences from GenBank annotations.
 License: GPL (>= 2)
 LazyData: true
 RoxygenNote: 5.0.1
-Suggests: 
+Suggests:
 	knitr,
     rmarkdown,
 	testthat

@@ -1,5 +1,5 @@
 ---
-title: "AnnotationBustR Tutorial "
+title: "AnnotationBustR Tutorial"
 author: "Samuel R. Borstein"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -27,7 +27,7 @@ While we recommend use of the stable CRAN version of this package, we rcommend u
 #1. Install 'devtools' if you do not already have it installed:
 install.packages("devtools")
 
-#2. Load the 'devtools' package and temporarily install the development version of 
+#2. Load the 'devtools' package and temporarily install the development version of
 #'AnnotationBustR' from GitHub:
 library(devtools)
 dev_mode(on=T)
@@ -44,7 +44,7 @@ library(AnnotationBustR)
 ```
 It is important to note that most of the functions within AnnotationBustR connect to sequence databases and require an internet connection.
 
-##3.0: AnnotationBustR Work Flow 
+##3.0: AnnotationBustR Work Flow
 Before we begin a tutorial on how to use AnnotationBustR to extract sequences, lets first discuss the basic workflow of the functions in the package (Fig. 1). Boxes in Orange represent steps that occur outside of using AnnotationBustR. The only step you must do outside of AnnotationBustR is obtain a list of accession numbers you are interested in. This can be done either by downloading the accession numbers themselves from GenBank (http://www.ncbi.nlm.nih.gov/nuccore) or using R packages like `ape`, `seqinr` and `rentrez` to find accessions of interest in R. All boxes in blue in the graphic below represent steps that occur using AnnotationBustR. Boxes in green represent steps that are not mandatory, but may prove to be useful features of AnnotationBustR. In this tutorial, we will go through the steps in order, including the optional steps to show how to fully use the AnnotationBustR package.
 
 
@@ -56,8 +56,8 @@ knitr::include_graphics("workflow.jpg")
 AnnotationBustR's `FindLongestSeq` function finds the longest available sequence for each species in a given set of GenBank accession numbers. All the user needs is obtain a list of GenBank accession numbers they would like to input. The only function argument for `FindLongestSeq` is `accessions`, which takes a vector of accession numbers as input. We can run the function below by:
 
 ```
-#Create a vector of GenBank nucleotide accession numbers. In order this contains accessions for 
-#two humans, a chimpanzee, and a gorilla. We would expect to get only 3 accesions out of this 
+#Create a vector of GenBank nucleotide accession numbers. In order this contains accessions for
+#two humans, a chimpanzee, and a gorilla. We would expect to get only 3 accesions out of this
 #function, the longest accession found for the two humans.
 
 my.accessions<-c("KX702233.1","KT725960.1","JN191205.1","KF914214")#make the vector
@@ -131,7 +131,7 @@ For the tutorial we will use the accessions we created in examples 3.1 in the ob
 ```
 my.seqs<-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c("tRNA_Leu","tRNA_Ser"), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE)#run AnnotationBust
 
-#We can return the accession table. It has our two accessions for Homo sapiens in the same row 
+#We can return the accession table. It has our two accessions for Homo sapiens in the same row
 my.seqs#retutn the accession table
 write.csv(my.seqs, file="AccessionTable.csv")#Write the accession table to a csv file
 ```

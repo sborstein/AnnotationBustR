@@ -5,7 +5,7 @@
 #' @param DuplicateInstances A numeric vector the length of Duplicates of the number of duplicates for each duplicated gene you wish to extract.Default is NULL
 #' @param TranslateSeqs Logical as to whether or not the sequence should be translated to the corresponding peptide sequence. Default is FALSE. Note that this only makes sense to list as TRUE for protein coding sequences.
 #' @param TranslateCode Numerical representing the GenBank translation code for which sequences should be translated under. Default is 1. For all options see ?seqinr::getTrans. Some possible useful ones are: 2. Vertebrate Mitochondrial, 5. Invertebrate Mitochondrial, and 11. bacterial+plantplastid
-#' @param DuplicateSpecies Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta file 
+#' @param DuplicateSpecies Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta file
 #' @details The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts sub-sequences from genomes or concatenated sequences.
 #' This function requires internet access. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
 #' search terms for mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms),data(cpDNAterms), and data(rDNAterms) respectively.
@@ -24,6 +24,7 @@
 #' my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE)
 #' my.sequences#Return the accession table for each species.
 #' @export
+#' @aliases AnnotationBustR
 
 AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=NULL, TranslateSeqs=FALSE, TranslateCode=1, DuplicateSpecies=FALSE){
   seqinr::choosebank("genbank")
@@ -90,7 +91,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
     #check that annotation is multiple parts
     check.ann<-annotation.list[-1]
     if(length(check.ann)==1){
-      Accession.Table[accession.index,2:length(colnames(Accession.Table))]<-paste("No Ann For",new.access,sep=" ") 
+      Accession.Table[accession.index,2:length(colnames(Accession.Table))]<-paste("No Ann For",new.access,sep=" ")
       next
     }
     #Now find loci for every loci type
