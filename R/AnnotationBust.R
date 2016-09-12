@@ -24,7 +24,6 @@
 #' my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE)
 #' my.sequences#Return the accession table for each species.
 #' @export
-#' @aliases AnnotationBustR
 
 AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=NULL, TranslateSeqs=FALSE, TranslateCode=1, DuplicateSpecies=FALSE){
   seqinr::choosebank("genbank")
