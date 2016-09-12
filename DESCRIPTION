@@ -8,7 +8,7 @@ Depends:
     R (>= 3.2.3)
 Imports:
     ape,
-    seqinr
+    seqinr (>= 3.3-1)
 Description: Extract sub-sequences from GenBank annotations.
 License: GPL (>= 2)
 LazyData: true
