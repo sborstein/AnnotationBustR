@@ -4,7 +4,7 @@
 \name{rDNAterms}
 \alias{rDNAterms}
 \title{Ribosomal DNA (rDNA) Search Terms}
-\format{A data frame of of 146 rows and 3 columns
+\format{A data frame of of 7 rows and 3 columns
 \itemize{
   \item Locus: Locus name, FASTA files will be written with this name
   \item Type: Type of subsequence, either CDS,tRNA,rRNA,misc_RNA, or D-loop
