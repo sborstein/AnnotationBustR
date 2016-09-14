@@ -1,4 +1,4 @@
-#' Breaks up genbank sequences into their annotated components based on a set of search terms and writes each sub-sequence of interest to a file for each accession number supplied.
+#' Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a file for each accession number supplied.
 #' @param Accessions A vector of accession numbers. Note that refseq numbers (i.e. prefixes like XM_ and NC_) will not work.
 #' @param Terms A data frame of search terms. Search terms for animal mitogenomes, nuclear rRNA, chloroplast genomes, and plant mitogenomes are pre-made and can be loaded using the data()function. Additional terms can be addded using the MergeSearchTerms function.
 #' @param Duplicates A vector of loci names that have more than one copy. Default is NULL
@@ -6,15 +6,15 @@
 #' @param TranslateSeqs Logical as to whether or not the sequence should be translated to the corresponding peptide sequence. Default is FALSE. Note that this only makes sense to list as TRUE for protein coding sequences.
 #' @param TranslateCode Numerical representing the GenBank translation code for which sequences should be translated under. Default is 1. For all options see ?seqinr::getTrans. Some possible useful ones are: 2. Vertebrate Mitochondrial, 5. Invertebrate Mitochondrial, and 11. bacterial+plantplastid
 #' @param DuplicateSpecies Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta file
-#' @details The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts sub-sequences from genomes or concatenated sequences.
+#' @details The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences.
 #' This function requires internet access. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
 #' search terms for mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms),data(cpDNAterms), and data(rDNAterms) respectively.
 #' Search terms can be completely made by the user as long as they follow a similar format, with three columns. The first, Locus should contain the name of the files to be written. We recommend following
 #' a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or "." should be avoided as to not throw off R.
-#' The second column, Type contains the type of sub-sequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a
-#' name for the locus of interest. For numerous synonyms for the same locus, one should have each synonym as its own row. For a more detailed walkthrough on using
-#' AnnotationBust you can call the vignette with vignette("AnnotationBustR).
-#' @return Writes a fasta file(s) to the current working directory selected for each unique sub-sequence of interest in Terms containing all the accession numbers the sub-sequence was fond in
+#' The second column, Type contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a
+#' name for the locus of interest. For numerous synonyms for the same locus, one should have each synonym as its own row. It is possible that some subsequences are not fully annotated on ACNUC and therefore not extractable. These will return in the accession table as type not fully Ann".
+#' It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For". For a more detailed walkthrough on using AnnotationBust you can call the vignette with vignette("AnnotationBustR).
+#' @return Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was fond in 
 #' @return Writes an data.frame of the accession numbers per loci that can be turned into an accession table using the function MakeAccessionTable
 #' @examples
 #' #Create vector of three NCBI accessions of rDNA toget subsequences of and load rDNA terms.
@@ -68,6 +68,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
   for (accession.index in 1:length(Accessions)){
     new.access<-strsplit(Accessions[accession.index],"\\.",perl=TRUE)[[1]][1]#split and decimal spot in accession number. seqinr won't take them with it
     species.name<-attr(ape::read.GenBank(Accessions[accession.index]),"species")#get the sequence names
+    print(paste("Working On Accession",new.access,species.name, sep=" "))
     ifelse(DuplicateSpecies==TRUE, seq.name<-paste(species.name,new.access,sep = "_"), seq.name<-species.name)
     Accession.Table$Species[accession.index]<-species.name
     full.rec<-seqinr::query(paste0("AC=",new.access))
@@ -90,7 +91,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
     #check that annotation is multiple parts
     check.ann<-annotation.list[-1]
     if(length(check.ann)==1){
-      Accession.Table[accession.index,2:length(colnames(Accession.Table))]<-paste("No Ann For",new.access,sep=" ")
+      Accession.Table[accession.index,2:length(colnames(Accession.Table))]<-paste("No Ann. For",new.access,sep=" ")
       next
     }
     #Now find loci for every loci type
@@ -98,6 +99,11 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       if (uni.type[loci.type.index]=="tRNA")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=tRNA", sep=" "))#get the tRNA
         current.annot<-annotation.list[grep("tRNA            ",annotation.list)]#subset in the parsed annotation
+        if (!length(current.annot)==length(rec$req)){
+          bad.cols<-which(colnames(Accession.Table) %in% unique.tRNA)
+          Accession.Table[accession.index,bad.cols]<-paste("type not fully Ann.",new.access,sep=" ")
+          next
+        }
         for (tRNA.term.index in 1:length(unique.tRNA)){
           current.locus<-subset(tRNA.Search, tRNA.Search$Locus==unique.tRNA[tRNA.term.index])#subset the tRNA terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
@@ -129,6 +135,11 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       if (uni.type[loci.type.index]=="CDS")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=CDS", sep=" "))#get the CDS
         current.annot<-annotation.list[grep("CDS            ",annotation.list)]#subset in the parsed annotation
+        if (!length(current.annot)==length(rec$req)){
+          bad.cols<-which(colnames(Accession.Table) %in% unique.CDS)
+          Accession.Table[accession.index,bad.cols]<-paste("type not fully Ann.",new.access,sep=" ")
+          next
+        }
         for (CDS.term.index in 1:length(unique.CDS)){
           current.locus<-subset(CDS.Search, CDS.Search$Locus==unique.CDS[CDS.term.index])#subset the CDS terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
@@ -163,6 +174,11 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       if (uni.type[loci.type.index]=="rRNA")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=rRNA", sep=" "))#get the rRNA
         current.annot<-annotation.list[grep("rRNA            ",annotation.list)]#subset in the parsed annotation
+        if (!length(current.annot)==length(rec$req)){
+          bad.cols<-which(colnames(Accession.Table) %in% unique.rRNA)
+          Accession.Table[accession.index,bad.cols]<-paste("type not fully Ann.",new.access,sep=" ")
+          next
+        }
         for (rRNA.term.index in 1:length(unique.rRNA)){
           current.locus<-subset(rRNA.Search, rRNA.Search$Locus==unique.rRNA[rRNA.term.index])#subset the rRNA terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
@@ -193,7 +209,12 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       }
       if (uni.type[loci.type.index]=="misc_RNA")  {
         rec<-seqinr::query(paste("SUB", paste0("AC=",new.access), "AND T=misc_RNA", sep=" "))#get the misc_RNA
-        current.annot<-annotation.list[grep("misc_RNA            ",annotation.list)]#subset in the parsed annotation
+        current.annot<-annotation.list[grep("misc_RNA        ",annotation.list)]#subset in the parsed annotation
+        if (!length(current.annot)==length(rec$req)){
+          bad.cols<-which(colnames(Accession.Table) %in% unique.misc_RNA)
+          Accession.Table[accession.index,bad.cols]<-paste("type not fully Ann.",new.access,sep=" ")
+          next
+        }
         for (misc_RNA.term.index in 1:length(unique.misc_RNA)){
           current.locus<-subset(misc_RNA.Search, misc_RNA.Search$Locus==unique.misc_RNA[misc_RNA.term.index])#subset the misc_RNA terms by the current locus
           synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
