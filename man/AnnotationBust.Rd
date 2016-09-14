@@ -2,7 +2,7 @@
 % Please edit documentation in R/AnnotationBust.R
 \name{AnnotationBust}
 \alias{AnnotationBust}
-\title{Breaks up genbank sequences into their annotated components based on a set of search terms and writes each sub-sequence of interest to a file for each accession number supplied.}
+\title{Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a file for each accession number supplied.}
 \usage{
 AnnotationBust(Accessions, Terms, Duplicates = NULL,
   DuplicateInstances = NULL, TranslateSeqs = FALSE, TranslateCode = 1,
@@ -24,22 +24,22 @@ AnnotationBust(Accessions, Terms, Duplicates = NULL,
 \item{DuplicateSpecies}{Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta file}
 }
 \value{
-Writes a fasta file(s) to the current working directory selected for each unique sub-sequence of interest in Terms containing all the accession numbers the sub-sequence was fond in
+Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was fond in
 
 Writes an data.frame of the accession numbers per loci that can be turned into an accession table using the function MakeAccessionTable
 }
 \description{
-Breaks up genbank sequences into their annotated components based on a set of search terms and writes each sub-sequence of interest to a file for each accession number supplied.
+Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a file for each accession number supplied.
 }
 \details{
-The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts sub-sequences from genomes or concatenated sequences.
+The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences.
 This function requires internet access. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
 search terms for mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms),data(cpDNAterms), and data(rDNAterms) respectively.
 Search terms can be completely made by the user as long as they follow a similar format, with three columns. The first, Locus should contain the name of the files to be written. We recommend following
 a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or "." should be avoided as to not throw off R.
-The second column, Type contains the type of sub-sequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a
-name for the locus of interest. For numerous synonyms for the same locus, one should have each synonym as its own row. For a more detailed walkthrough on using
-AnnotationBust you can call the vignette with vignette("AnnotationBustR).
+The second column, Type contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a
+name for the locus of interest. For numerous synonyms for the same locus, one should have each synonym as its own row. It is possible that some subsequences are not fully annotated on ACNUC and therefore not extractable. These will return in the accession table as type not fully Ann".
+It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For". For a more detailed walkthrough on using AnnotationBust you can call the vignette with vignette("AnnotationBustR).
 }
 \examples{
 #Create vector of three NCBI accessions of rDNA toget subsequences of and load rDNA terms.
