@@ -6,7 +6,7 @@
 \alias{AnnotationBustR-package}
 \title{An R package to extract sub-sequences from GenBank annotations under different synonyms}
 \description{
-This package is an R package.
+An R package to extract sub-sequences from GenBank annotations under different synonyms.
 }
 \details{
 Package: AnnotationBustR

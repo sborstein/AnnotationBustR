@@ -4,10 +4,10 @@
 \name{cpDNAterms}
 \alias{cpDNAterms}
 \title{Chloroplast DNA (cpDNA) Search Terms}
-\format{A data frame of of 116 rows and 3 columns
+\format{A data frame of of 201 rows and 3 columns
 \itemize{
   \item Locus: Locus name, FASTA files will be written with this name
-  \item Type: Type of subsequence, either CDS,tRNA,rRNA,misc_RNA, or D-loop
+  \item Type: Type of subsequence, either CDS,tRNA,rRNA, or misc_RNA
   \item Name:Name of synonym for a locus to search for
 }}
 \usage{
