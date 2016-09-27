@@ -9,11 +9,11 @@
 #' @details The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences.
 #' This function requires internet access. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
 #' search terms for mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms),data(cpDNAterms), and data(rDNAterms) respectively.
-#' Search terms can be completely made by the user as long as they follow a similar format, with three columns. The first, Locus should contain the name of the files to be written. We recommend following
+#' Search terms can be completely made by the user as long as they follow a similar format with three columns. The first, Locus, should contain the name of the files to be written. We recommend following
 #' a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or "." should be avoided as to not throw off R.
-#' The second column, Type contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a
-#' name for the locus of interest. For numerous synonyms for the same locus, one should have each synonym as its own row. It is possible that some subsequences are not fully annotated on ACNUC and therefore not extractable. These will return in the accession table as type not fully Ann".
-#' It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For". For a more detailed walkthrough on using AnnotationBust you can call the vignette with vignette("AnnotationBustR).
+#' The second column, Type, contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a
+#' name for the locus of interest. For numerous synonyms for the same locus, one should have each synonym as its own row. It is possible that some subsequences are not fully annotated on ACNUC and, therefore, are not extractable. These will return in the accession table as "type not fully Ann".
+#' It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For". For a more detailed walkthrough on using AnnotationBust you can access the vignette with vignette("AnnotationBustR).
 #' @return Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was fond in 
 #' @return Writes an data.frame of the accession numbers per loci that can be turned into an accession table using the function MakeAccessionTable
 #' @examples
@@ -26,7 +26,7 @@
 #' @export
 
 AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=NULL, TranslateSeqs=FALSE, TranslateCode=1, DuplicateSpecies=FALSE){
-  seqinr::choosebank("genbank")
+#  seqinr::choosebank("genbank")
   uni.locus<-unique(Terms$Locus)
   uni.type<-unique(Terms$Type)
   ##Deal with duplicates in regards to writing output files##
@@ -66,12 +66,22 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
     }
   }
   for (accession.index in 1:length(Accessions)){
+    try.test<-try(seqinr::choosebank("genbank", verbose = FALSE),silent = TRUE)
+    while(class(try.test)== "try-error"){
+      Sys.sleep(10)
+      try.test<-try(seqinr::choosebank("genbank", verbose = FALSE),silent = TRUE)
+    }
     new.access<-strsplit(Accessions[accession.index],"\\.",perl=TRUE)[[1]][1]#split and decimal spot in accession number. seqinr won't take them with it
     species.name<-attr(ape::read.GenBank(Accessions[accession.index]),"species")#get the sequence names
     print(paste("Working On Accession",new.access,species.name, sep=" "))
     ifelse(DuplicateSpecies==TRUE, seq.name<-paste(species.name,new.access,sep = "_"), seq.name<-species.name)
     Accession.Table$Species[accession.index]<-species.name
-    full.rec<-seqinr::query(paste0("AC=",new.access))
+    full.rec<-try(seqinr::query(paste0("AC=",new.access)))
+    while(class(full.rec)== "try-error"){
+      Sys.sleep(10)
+      try.test<-try(seqinr::choosebank("genbank", verbose = FALSE),silent = TRUE)
+      full.rec<-try(seqinr::query(paste0("AC=",new.access)))
+    }
     full.annot<-seqinr::getAnnot(full.rec$req, nbl=20000)#read in the annotation
     start.loci<-grep("FEATURES", full.annot[[1]])#find start of features
     new.ann<-full.annot[[1]][-c(1:start.loci,length(full.annot[[1]]))]#cut just to the feature
@@ -253,6 +263,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
         }
       }
     }
+    seqinr::closebank()
   }
   #Make Final Accession Table
   UniqueSpecies<-unique(Accession.Table$Species)
