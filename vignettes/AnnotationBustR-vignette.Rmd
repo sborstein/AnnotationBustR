@@ -78,7 +78,7 @@ Below (Figure 2) is an example of where these corresponding items would be in th
 knitr::include_graphics("featuresMarked.jpg")
 ```
 
-So, if we wanted to use AnnotationBustR to capture these, we could set up a data frame that looks like the following.
+So, if we wanted to use AnnotationBustR to capture these and write them to a FASTA, we could set up a data frame that looks like the following.
 ```{r, echo=FALSE}
 ex.frame<-rbind(c("ATP8","CDS","ATPase8"),c("ATP6","CDS","ATPase6"))
 colnames(ex.frame)<-c("Locus","Type","Name")
@@ -103,7 +103,7 @@ tRNA.terms<-mtDNAterms[mtDNAterms$Type=="tRNA",]#subset out the tRNAs into a new
 
 ##3.3:(Optional Step) Merge Search Terms If Neccessary
 
-While we have tried to cover as many synonyms for genes in our pre-made data frames, it is likely that some synonyms may not be represented due to the vast array of synonyms for genes in the features table. To solve this we have included the function `MergeSearchTerms`.
+While we have tried to cover as many synonyms for genes in our pre-made data frames, it is likely that some synonyms may not be represented due to the vast array of synonyms a single gene may be listed under in the features table. To solve this we have included the function `MergeSearchTerms`.
 
 For example, let's imagine that we found a completely new annotation for the gene cytochrome oxidase subunit 1 (COI) listed as CX1. The `MergeSearchTerms` function only has two arguments, `...`, which takes two or more objects of class `data.frame` and  the logical `Sort.Genes`, which We could easily add this to other mitochondrial gene terms by:
 
@@ -124,13 +124,15 @@ Additional arguments include the ability to specify duplicate genes you wish to 
 
 AnnotationBustR also has arguments to translate coding sequences into the corresponding peptide sequence setting the `TranslateSeqs` argument to TRUE. If `TranslateSeqs=TRUE`, users should also specify the GenBank translation code number corresponding to their sequences using the `TranslateCode` argument. A list of GenBank translaton codes for taxa is available here: http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
 
-The final argument of `AnnotationBust` is `DuplicateSpecies` which when set to `DuplicateSpecies=TRUE` adds the accession number to the species name for the FASTA file. This can be useful for later analyses involving FASTA files as duplicate names can pose problems with some programs. It is important to note that if users select `DuplicateSpecies=TRUE` that while FASTA file will contain species names with their respected accession number, the corresponding accession table will have a single row per species containing all the accession numbers for each sub-sequence locus found for that species seperated by a comma.
+An additional argument of `AnnotationBust` is `DuplicateSpecies` which when set to `DuplicateSpecies=TRUE` adds the accession number to the species name for the FASTA file. This can be useful for later analyses involving FASTA files as duplicate names in FASTA headers can pose problems with some programs. It is important to note that if users select `DuplicateSpecies=TRUE` that while FASTA file will contain species names with their respected accession number, the corresponding accession table will have a single row per species containing all the accession numbers for each sub-sequence locus found for that species seperated by a comma.
 
-For the tutorial, we will use the accessions we created in examples 3.1 in the object `my.accessions`. This is a vector that contains four accessions for mitogenomes of two humans, one chimpanzee, and one gorilla. For this example, we will use all the arguments of `AnnotationBust` to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser, which occur twice in vertebrate mitogenomes. We will translate the CDS using `TranslateSeqs` argument with `TranslateCode=2`, the code for vertebrate mitogenomes. Because we have to accessions for the same species (Humans), we will specify `DuplicateSpecies=TRUE`. This will create 38 FASTA files in the working director.
+The final argument of `AnnotantionBust` is `Prefix`. This argument can either be `NULL` or a character vector of length 1. If Prefix is not `NULL` it will add the prefix specified to all FASTA files. If left as `Prefix=NULL` files names will just be the name of the locus.
+
+For the tutorial, we will use the accessions we created in examples 3.1 in the object `my.accessions`. This is a vector that contains four accessions for mitogenomes of two humans, one chimpanzee, and one gorilla. For this example, we will use all the arguments of `AnnotationBust` to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser, which occur twice in vertebrate mitogenomes. We will translate the CDS using `TranslateSeqs` argument with `TranslateCode=2`, the code for vertebrate mitogenomes. Because we have to accessions for the same species (Humans), we will specify `DuplicateSpecies=TRUE` and have out FASTA files output with the prefix "Demo" by specifying `Prefix="Demo"`. This will create 38 FASTA files for all mitochondrial loci in the mitochondrial genome in the working director.
 
 ```
 #run AnnotationBust function for two duplicate tRNA genes occuring twice and translate CDS
-my.seqs<-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c("tRNA_Leu","tRNA_Ser"), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE)
+my.seqs<-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c("tRNA_Leu","tRNA_Ser"), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE, Prefix="Demo")
 
 #We can return the accession table. It has our two accessions for Homo sapiens in the same row 
 my.seqs#retutn the accession table

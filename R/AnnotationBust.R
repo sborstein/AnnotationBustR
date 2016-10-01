@@ -1,13 +1,14 @@
 #' Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a file for each accession number supplied.
-#' @param Accessions A vector of accession numbers. Note that refseq numbers (i.e. prefixes like XM_ and NC_) will not work.
+#' @param Accessions A vector of INSDC GenBank accession numbers. Note that refseq numbers (i.e. prefixes like XM_ and NC_) will not work.
 #' @param Terms A data frame of search terms. Search terms for animal mitogenomes, nuclear rRNA, chloroplast genomes, and plant mitogenomes are pre-made and can be loaded using the data()function. Additional terms can be addded using the MergeSearchTerms function.
 #' @param Duplicates A vector of loci names that have more than one copy. Default is NULL
 #' @param DuplicateInstances A numeric vector the length of Duplicates of the number of duplicates for each duplicated gene you wish to extract.Default is NULL
 #' @param TranslateSeqs Logical as to whether or not the sequence should be translated to the corresponding peptide sequence. Default is FALSE. Note that this only makes sense to list as TRUE for protein coding sequences.
 #' @param TranslateCode Numerical representing the GenBank translation code for which sequences should be translated under. Default is 1. For all options see ?seqinr::getTrans. Some possible useful ones are: 2. Vertebrate Mitochondrial, 5. Invertebrate Mitochondrial, and 11. bacterial+plantplastid
 #' @param DuplicateSpecies Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta file
+#' @param Prefix Character If a prefix is specified, all output FASTA files written will begin with the prefix. Defaul is NULL.
 #' @details The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences.
-#' This function requires internet access. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
+#' This function requires a steady internet connection. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
 #' search terms for mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms),data(cpDNAterms), and data(rDNAterms) respectively.
 #' Search terms can be completely made by the user as long as they follow a similar format with three columns. The first, Locus, should contain the name of the files to be written. We recommend following
 #' a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or "." should be avoided as to not throw off R.
@@ -25,7 +26,7 @@
 #' my.sequences#Return the accession table for each species.
 #' @export
 
-AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=NULL, TranslateSeqs=FALSE, TranslateCode=1, DuplicateSpecies=FALSE){
+AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=NULL, TranslateSeqs=FALSE, TranslateCode=1, DuplicateSpecies=FALSE, Prefix=NULL){
 #  seqinr::choosebank("genbank")
   uni.locus<-unique(Terms$Locus)
   uni.type<-unique(Terms$Type)
@@ -44,8 +45,12 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
   }else {file.names<-as.vector(uni.locus)}
   Accession.Table<-data.frame(data.frame(matrix(NA, nrow = length(Accessions), ncol = 1+length(file.names))))#make empty accession table
   colnames(Accession.Table)<-c("Species",file.names)#attach loci names as colnames
+  #Setup Prefix
+  if(is.null(Prefix)){
+    File.Prefix<-NULL
+  }else{File.Prefix<-paste0(Prefix,"_")}
   for (locus.index in 1:length(file.names)){#For each locus, write empty file to append to later
-    write(NULL, file=paste0(file.names[locus.index], ".fasta"))#write it as a fasta
+    write(NULL, file=paste0(File.Prefix,file.names[locus.index], ".fasta"))#write it as a fasta
   }
   for (subsequence.type.index in 1:length(uni.type)){#for each sequence type, get the stuff subset. Don't do d-loop as it has a seperate pathway to being captured
     if (uni.type[subsequence.type.index]=="CDS"){
@@ -125,7 +130,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
                 max.instance<-min(c(length(found.tRNA),current.dup$DuplicateInstances))#to control number found and written, get lowest common number
                 for (dup.found.index in 1:max.instance){
                   found.seq<-seqinr::getSequence(rec$req[[found.tRNA[dup.found.index]]])####Trans work?
-                  seqinr::write.fasta(found.seq,names=seq.name, paste0(unique.tRNA[tRNA.term.index],dup.found.index,".fasta"),open="a")
+                  seqinr::write.fasta(found.seq,names=seq.name, paste0(File.Prefix,unique.tRNA[tRNA.term.index],dup.found.index,".fasta"),open="a")
                   Accession.Table[accession.index,grep(paste0("\\b",unique.tRNA[tRNA.term.index],dup.found.index,"\\b"), colnames(Accession.Table))]<-new.access
                 }
                 break
@@ -136,7 +141,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
             found.tRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.tRNA)>0){
               found.seq<-seqinr::getSequence(rec$req[found.tRNA[1]], as.string=FALSE)
-              seqinr::write.fasta(found.seq,names=seq.name, paste0(unique.tRNA[tRNA.term.index],".fasta"),open="a")
+              seqinr::write.fasta(found.seq,names=seq.name, paste0(File.Prefix,unique.tRNA[tRNA.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.tRNA[tRNA.term.index],"\\b"), colnames(Accession.Table))]<-new.access
               break}}
           }
@@ -164,7 +169,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
                     found.seq<-seqinr::getTrans(rec$req[[found.CDS[dup.found.index]]], numcode=TranslateCode)####Trans work?
                   }
                   else{found.seq<-seqinr::getSequence(rec$req[found.CDS[1]], as.string=FALSE)}
-                  seqinr::write.fasta(found.seq,names=seq.name, paste0(unique.CDS[CDS.term.index],dup.found.index,".fasta"),open="a")
+                  seqinr::write.fasta(found.seq,names=seq.name, paste0(File.Prefix,unique.CDS[CDS.term.index],dup.found.index,".fasta"),open="a")
                   Accession.Table[accession.index,grep(paste0("\\b",unique.CDS[CDS.term.index],dup.found.index,"\\b"), colnames(Accession.Table))]<-new.access
                 }
                 break
@@ -175,7 +180,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
             found.CDS<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.CDS)>0){
               ifelse(TranslateSeqs==TRUE, found.seq<-seqinr::getTrans(rec$req[[found.CDS]],numcode=TranslateCode),found.seq<-seqinr::getSequence(rec$req[found.CDS[1]], as.string=FALSE))
-              seqinr::write.fasta(found.seq,names=seq.name, paste0(unique.CDS[CDS.term.index],".fasta"),open="a")
+              seqinr::write.fasta(found.seq,names=seq.name, paste0(File.Prefix,unique.CDS[CDS.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.CDS[CDS.term.index],"\\b"), colnames(Accession.Table))]<-new.access
               break}}
           }
@@ -200,7 +205,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
                 max.instance<-min(c(length(found.rRNA),current.dup$DuplicateInstances))#to control number found and written, get lowest common number
                 for (dup.found.index in 1:max.instance){
                   found.seq<-seqinr::getSequence(rec$req[[found.rRNA[dup.found.index]]])####Trans work?
-                  seqinr::write.fasta(found.seq,names=seq.name, paste0(unique.rRNA[rRNA.term.index],dup.found.index,".fasta"),open="a")
+                  seqinr::write.fasta(found.seq,names=seq.name, paste0(File.Prefix,unique.rRNA[rRNA.term.index],dup.found.index,".fasta"),open="a")
                   Accession.Table[accession.index,grep(paste0("\\b",unique.rRNA[rRNA.term.index],dup.found.index,"\\b"), colnames(Accession.Table))]<-new.access
                 }
                 break
@@ -211,7 +216,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
             found.rRNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.rRNA)>0){
               found.seq<-seqinr::getSequence(rec$req[found.rRNA[1]], as.string=FALSE)
-              seqinr::write.fasta(found.seq,names=seq.name, paste0(unique.rRNA[rRNA.term.index],".fasta"),open="a")
+              seqinr::write.fasta(found.seq,names=seq.name, paste0(File.Prefix,unique.rRNA[rRNA.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.rRNA[rRNA.term.index],"\\b"), colnames(Accession.Table))]<-new.access
               break}}
           }
@@ -236,7 +241,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
                 max.instance<-min(c(length(found.misc_RNA),current.dup$DuplicateInstances))#to control number found and written, get lowest common number
                 for (dup.found.index in 1:max.instance){
                   found.seq<-seqinr::getSequence(rec$req[[found.misc_RNA[dup.found.index]]])####Trans work?
-                  seqinr::write.fasta(found.seq,names=seq.name, paste0(unique.misc_RNA[misc_RNA.term.index],dup.found.index,".fasta"),open="a")
+                  seqinr::write.fasta(found.seq,names=seq.name, paste0(File.Prefix,unique.misc_RNA[misc_RNA.term.index],dup.found.index,".fasta"),open="a")
                   Accession.Table[accession.index,grep(paste0("\\b",unique.misc_RNA[misc_RNA.term.index],dup.found.index,"\\b"), colnames(Accession.Table))]<-new.access
                 }
                 break
@@ -247,7 +252,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
             found.misc_RNA<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
             if (length(found.misc_RNA)>0){
               found.seq<-seqinr::getSequence(rec$req[found.misc_RNA[1]], as.string=FALSE)
-              seqinr::write.fasta(found.seq,names=seq.name, paste0(unique.misc_RNA[misc_RNA.term.index],".fasta"),open="a")
+              seqinr::write.fasta(found.seq,names=seq.name, paste0(File.Prefix,unique.misc_RNA[misc_RNA.term.index],".fasta"),open="a")
               Accession.Table[accession.index,grep(paste0("\\b",unique.misc_RNA[misc_RNA.term.index],"\\b"), colnames(Accession.Table))]<-new.access
               break}}
           }
@@ -258,7 +263,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
         dloop <- seqinr::extractseqs("mito.loop", operation = "feature", feature = "D-loop")
         if (length(dloop)>0){
           dloop.fasta <- seqinr::read.fasta(textConnection(dloop))
-          seqinr::write.fasta(dloop.fasta,file="D_loop.fasta",names=seq.name, open="a")
+          seqinr::write.fasta(dloop.fasta,file=paste0(File.Prefix,"D_loop.fasta"),names=seq.name, open="a")
           Accession.Table[accession.index,grep(paste0("\\b","D_loop","\\b"), colnames(Accession.Table))]<-new.access
         }
       }

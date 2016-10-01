@@ -12,7 +12,7 @@
 
 <meta name="author" content="Samuel R. Borstein" />
 
-<meta name="date" content="2016-09-19" />
+<meta name="date" content="2016-09-30" />
 
 <title>AnnotationBustR Tutorial</title>
 
@@ -32,7 +32,7 @@
 
 <h1 class="title toc-ignore">AnnotationBustR Tutorial</h1>
 <h4 class="author"><em>Samuel R. Borstein</em></h4>
-<h4 class="date"><em>2016-09-19</em></h4>
+<h4 class="date"><em>2016-09-30</em></h4>
 
 
 
@@ -90,13 +90,13 @@ Fig. 1: AnnotationBustR Workflow. Steps in orange occur outside the package whil
 my.accessions&lt;-c(&quot;KX702233.1&quot;,&quot;KT725960.1&quot;,&quot;JN191205.1&quot;,&quot;KF914214&quot;)#make the vector
 my.longest.seqs&lt;-FindLongestSeq(my.accessions)#Run the FindLongestSeq function
 my.longest.seqs#return the longest seqs found</code></pre>
-<p>In this case we can see that the function worked and for the two human accessions only returned accession KT725960.1 (16570 bp) which was longer than accession KX702233.1 (16569 bp). The table returns a three column data frame with the species name, the corresponding accession number, and the length.</p>
+<p>In this case we can see that the function worked and, for the two human accessions, only returned accession KT725960.1 (16570 bp) which was longer than accession KX702233.1 (16569 bp). The table returns a three-column data frame with the species name, the corresponding accession number, and the length.</p>
 </div>
 <div id="load-a-data-frame-of-search-terms-of-gene-synonyms-to-search-with" class="section level2">
 <h2>3.2: Load a Data Frame of Search Terms of Gene Synonyms to Search With:</h2>
-<p>AnnotationBustR works by searching through the annotation features table for a locus of interest using search terms for it (i.e possible synonyms it may be listed under). These search terms are formatted to have three columns:</p>
+<p>AnnotationBustR works by searching through the annotation features table for a locus of interest using search terms for it (i.e. possible synonyms it may be listed under). These search terms are formatted to have three columns:</p>
 <ul>
-<li>Locus: The name of the locus and the name of the FASTA of the file for that locus to be written. It is important that you use names that will not upset R, so don’t start these with numbers or include other characters like “.” or “-” that R uses for math.</li>
+<li>Locus: The name of the locus and the name of the FASTA of the file for that locus to be written. It is important that you use names that will not confuse R, so don’t start these with numbers or include other characters like “.” or “-” that R uses for math.</li>
 <li>Type: The type of sequence to search for. Can be one of CDS, tRNA, rRNA, misc_RNA, D-Loop, or misc_feature.</li>
 <li>Name: A possible synonym that the locus could be listed under.</li>
 </ul>
@@ -107,7 +107,7 @@ Below (Figure 2) is an example of where these corresponding items would be in th
 Fig. 2: GenBank features annotation for accession G295784.1 that contains ATP8 and ATP6. The words highlighted in yellow would fall under the column of Type. Here they are both CDS. The type of sequence is always listed farthest to the left in the features table. Colors in blue indicate terms that would be placed in the Name column, here indicating that the two CDS in this example are ATP8, labeled as ATPase8 and ATP6 respectively.
 </p>
 </div>
-<p>So, if we wanted to use AnnotationBustR to capture these, we could set up a data frame that looks like the following.</p>
+<p>So, if we wanted to use AnnotationBustR to capture these and write them to a FASTA, we could set up a data frame that looks like the following.</p>
 <pre><code>##   Locus Type    Name
 ## 1  ATP8  CDS ATPase8
 ## 2  ATP6  CDS ATPase6</code></pre>
@@ -122,8 +122,8 @@ tRNA.terms&lt;-mtDNAterms[mtDNAterms$Type==&quot;tRNA&quot;,]#subset out the tRN
 </div>
 <div id="optional-step-merge-search-terms-if-neccessary" class="section level2">
 <h2>3.3:(Optional Step) Merge Search Terms If Neccessary</h2>
-<p>Wile we have tried to cover as many synonyms for genes in our pre-made data frames, it is likely that some synonyms may not be covered in them due to the vast array of synonyms a gene can be listed on in the features table. To solve this we have included the function <code>MergeSearchTerms</code>.</p>
-<p>For example, lets imagine that we found a completely new annotation for the gene cytochrome oxidase subunit 1 (COI) listed as CX1. The <code>MergeSearchTerms</code> function only has two arguments, <code>...</code>, which takes two or more objects of class <code>data.frame</code> and the logical <code>Sort.Genes</code>, which We could easily add this to other mitochondrial gene terms by:</p>
+<p>While we have tried to cover as many synonyms for genes in our pre-made data frames, it is likely that some synonyms may not be represented due to the vast array of synonyms a single gene may be listed under in the features table. To solve this we have included the function <code>MergeSearchTerms</code>.</p>
+<p>For example, let’s imagine that we found a completely new annotation for the gene cytochrome oxidase subunit 1 (COI) listed as CX1. The <code>MergeSearchTerms</code> function only has two arguments, <code>...</code>, which takes two or more objects of class <code>data.frame</code> and the logical <code>Sort.Genes</code>, which We could easily add this to other mitochondrial gene terms by:</p>
 <pre><code>add.name&lt;-data.frame(&quot;COI&quot;,&quot;CDS&quot;, &quot;CX1&quot;)#Add imaginary gene synonym for cytochrome oxidase subunit 1, CX1
 colnames(add.name)&lt;-colnames(mtDNAterms)#make the columnames for this synonym those needed for AnnotationBustR
 
@@ -135,13 +135,14 @@ new.terms&lt;-MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)</code></pre
 </div>
 <div id="extract-sequences-with-annotationbust" class="section level2">
 <h2>3.4 Extract sequences with AnnotationBust</h2>
-<p>The main function of AnnotationBustR is <code>AnnotationBust</code>. This function extracts the sub-sequence(s) of interest from the accessions and writes them to FASTA files to the current working directory. In addition to writing sub-sequences to FASTA files, <code>AnnotationBust</code> also generates an accession table for all found sub-sequences written to FASTA files that can then be written to a csv file using base R <code>write.csv</code>. AnnotationBustR requires at least two arguments, a vector of accessions for <code>Accessions</code> and a data frame of search terms formated as discussed in 3.2 and 3.3 for <code>Terms</code>.</p>
+<p>The main function of AnnotationBustR is <code>AnnotationBust</code>. This function extracts the sub-sequence(s) of interest from the accessions and writes them to FASTA files in the current working directory. In addition to writing sub-sequences to FASTA files, <code>AnnotationBust</code> also generates an accession table for all found sub-sequences written to FASTA files which can then be written to a csv file using base R <code>write.csv</code>. AnnotationBustR requires at least two arguments, a vector of accessions for <code>Accessions</code> and a data frame of search terms formatted as discussed in 3.2 and 3.3 for <code>Terms</code>.</p>
 <p>Additional arguments include the ability to specify duplicate genes you wish to recover as a vector of gene names using the <code>Duplicates</code> argument and specifying the number of duplicate instances to extract using a numeric vector (which must be the same length as <code>Duplicates</code>) using the <code>DuplicateInstances</code> argument.</p>
 <p>AnnotationBustR also has arguments to translate coding sequences into the corresponding peptide sequence setting the <code>TranslateSeqs</code> argument to TRUE. If <code>TranslateSeqs=TRUE</code>, users should also specify the GenBank translation code number corresponding to their sequences using the <code>TranslateCode</code> argument. A list of GenBank translaton codes for taxa is available here: <a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi" class="uri">http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi</a></p>
-<p>The final argument of <code>AnnotationBust</code> is <code>DuplicateSpecies</code> which when set to <code>DuplicateSpecies=TRUE</code> adds the accession number to the species name for the FASTA file. This can be useful for later analyses involving FASTA files as duplicate names can pose problems with some programs. It is important to note that if users select <code>DuplicateSpecies=TRUE</code> that while FASTA file will contain species names with their respected accession number, the corresponding accession table will have a single row per species containing all the accession numbers for each sub-sequence locus found for that species.</p>
-<p>For the tutorial we will use the accessions we created in examples 3.1 in the object <code>my.accessions</code>. This is a vector that contains four accessions for mitogenomes of two humans, one chimpanzee, and one gorilla. For this example we will use all the arguments of <code>AnnotationBust</code> to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser which occur twice in vertebrate mitogenomes. We will translate the CDS using <code>TranslateSeqs</code> argument with <code>TranslateCode=2</code>, the code for vertebrate mitogenomes. Because we have to accessions for the same species (Humans), we will specify <code>DuplicateSpecies=TRUE</code>. This will create 38 FASTA files in the working director.</p>
+<p>An additional argument of <code>AnnotationBust</code> is <code>DuplicateSpecies</code> which when set to <code>DuplicateSpecies=TRUE</code> adds the accession number to the species name for the FASTA file. This can be useful for later analyses involving FASTA files as duplicate names in FASTA headers can pose problems with some programs. It is important to note that if users select <code>DuplicateSpecies=TRUE</code> that while FASTA file will contain species names with their respected accession number, the corresponding accession table will have a single row per species containing all the accession numbers for each sub-sequence locus found for that species seperated by a comma.</p>
+<p>The final argument of <code>AnnotantionBust</code> is <code>Prefix</code>. This argument can either be <code>NULL</code> or a character vector of length 1. If Prefix is not <code>NULL</code> it will add the prefix specified to all FASTA files. If left as <code>Prefix=NULL</code> files names will just be the name of the locus.</p>
+<p>For the tutorial, we will use the accessions we created in examples 3.1 in the object <code>my.accessions</code>. This is a vector that contains four accessions for mitogenomes of two humans, one chimpanzee, and one gorilla. For this example, we will use all the arguments of <code>AnnotationBust</code> to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser, which occur twice in vertebrate mitogenomes. We will translate the CDS using <code>TranslateSeqs</code> argument with <code>TranslateCode=2</code>, the code for vertebrate mitogenomes. Because we have to accessions for the same species (Humans), we will specify <code>DuplicateSpecies=TRUE</code> and have out FASTA files output with the prefix “Demo” by specifying <code>Prefix=&quot;Demo&quot;</code>. This will create 38 FASTA files for all mitochondrial loci in the mitochondrial genome in the working director.</p>
 <pre><code>#run AnnotationBust function for two duplicate tRNA genes occuring twice and translate CDS
-my.seqs&lt;-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c(&quot;tRNA_Leu&quot;,&quot;tRNA_Ser&quot;), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE)
+my.seqs&lt;-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c(&quot;tRNA_Leu&quot;,&quot;tRNA_Ser&quot;), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE, Prefix=&quot;Demo&quot;)
 
 #We can return the accession table. It has our two accessions for Homo sapiens in the same row 
 my.seqs#retutn the accession table

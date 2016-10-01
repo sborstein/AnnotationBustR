@@ -6,10 +6,10 @@
 \usage{
 AnnotationBust(Accessions, Terms, Duplicates = NULL,
   DuplicateInstances = NULL, TranslateSeqs = FALSE, TranslateCode = 1,
-  DuplicateSpecies = FALSE)
+  DuplicateSpecies = FALSE, Prefix = NULL)
 }
 \arguments{
-\item{Accessions}{A vector of accession numbers. Note that refseq numbers (i.e. prefixes like XM_ and NC_) will not work.}
+\item{Accessions}{A vector of INSDC GenBank accession numbers. Note that refseq numbers (i.e. prefixes like XM_ and NC_) will not work.}
 
 \item{Terms}{A data frame of search terms. Search terms for animal mitogenomes, nuclear rRNA, chloroplast genomes, and plant mitogenomes are pre-made and can be loaded using the data()function. Additional terms can be addded using the MergeSearchTerms function.}
 
@@ -22,6 +22,8 @@ AnnotationBust(Accessions, Terms, Duplicates = NULL,
 \item{TranslateCode}{Numerical representing the GenBank translation code for which sequences should be translated under. Default is 1. For all options see ?seqinr::getTrans. Some possible useful ones are: 2. Vertebrate Mitochondrial, 5. Invertebrate Mitochondrial, and 11. bacterial+plantplastid}
 
 \item{DuplicateSpecies}{Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta file}
+
+\item{Prefix}{Character If a prefix is specified, all output FASTA files written will begin with the prefix. Defaul is NULL.}
 }
 \value{
 Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was fond in
@@ -33,7 +35,7 @@ Breaks up genbank sequences into their annotated components based on a set of se
 }
 \details{
 The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences.
-This function requires internet access. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
+This function requires a steady internet connection. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
 search terms for mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms),data(cpDNAterms), and data(rDNAterms) respectively.
 Search terms can be completely made by the user as long as they follow a similar format with three columns. The first, Locus, should contain the name of the files to be written. We recommend following
 a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or "." should be avoided as to not throw off R.
