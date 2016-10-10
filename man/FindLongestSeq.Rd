@@ -16,7 +16,7 @@ A list of genbank accessions numbers for the longest sequence for each taxon in 
 Find the longest sequence for each species from a list of GenBank accession numbers.
 }
 \details{
-For a set of GenBank accession numbers, this will return the longest sequence found in the set for each species.
+For a set of GenBank accession numbers, this will return the longest sequence for in the set for species.
 }
 \examples{
 #vector of 4 genbank accessions, two each for two species
