@@ -7,7 +7,7 @@ Maintainer: Samuel R. Borstein <sam@borstein.com>
 Depends:
     R (>= 3.2.3)
 Imports:
-    ape (4.0>=),
+    ape (>= 4.0),
     seqinr (>= 3.3-1)
 Description: Extraction of subsequences into FASTA files from GenBank annotations where gene names may vary among accessions.
 License: GPL (>= 2)
