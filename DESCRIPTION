@@ -7,9 +7,9 @@ Maintainer: Samuel R. Borstein <sam@borstein.com>
 Depends:
     R (>= 3.2.3)
 Imports:
-    ape,
+    ape (4.0>=),
     seqinr (>= 3.3-1)
-Description: Extract subsequences from GenBank annotations.
+Description: Extraction of subsequences into FASTA files from GenBank annotations where gene names may vary among accessions.
 License: GPL (>= 2)
 LazyData: true
 RoxygenNote: 5.0.1
