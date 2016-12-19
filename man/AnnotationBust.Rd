@@ -44,11 +44,13 @@ name for the locus of interest. For numerous synonyms for the same locus, one sh
 It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For". For a more detailed walkthrough on using AnnotationBust you can access the vignette with vignette("AnnotationBustR).
 }
 \examples{
+\dontrun{
 #Create vector of three NCBI accessions of rDNA toget subsequences of and load rDNA terms.
 ncbi.accessions<-c("FJ706295","FJ706343","FJ706292")
 data(rDNAterms)#load rDNA search terms from AnnotationBustR
 #Run AnnotationBustR and write files to working directory
 my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE)
 my.sequences#Return the accession table for each species.
+}
 }
 
