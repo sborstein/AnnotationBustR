@@ -139,5 +139,9 @@ my.seqs#retutn the accession table
 write.csv(my.seqs, file="AccessionTable.csv")#Write the accession table to a csv file
 ```
 
+##3.5 Troubleshooting
+As `AnnotationBustR` is dependent on access to online databases, it is important that you make sure you have a strong internet connection while using the package, especially for the `FindLongestSeq` and `AnnotationBust` functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still haivng isues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.
+
+
 #4: Final Comments
 Further information on the functions and their usage can be found in the helpfiles `help(package=AnnotationBustR)`. For any further issues and questions send an email with subject 'AnnotationBustR support' to sborstei@vols.utk.edu or post to the issues section on GitHub(https://github.com/sborstein/AnnotationBustR/issues).
