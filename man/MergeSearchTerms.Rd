@@ -2,7 +2,7 @@
 % Please edit documentation in R/MergeSearchTerms.R
 \name{MergeSearchTerms}
 \alias{MergeSearchTerms}
-\title{Allows for the merging of two tables containing search terms to expand search term database for getAnnotPos.}
+\title{Allows for the merging of two tables containing search terms to expand search term database for AnnotationBust.}
 \usage{
 MergeSearchTerms(..., SortGenes = FALSE)
 }
@@ -16,7 +16,7 @@ A new merged data frame with all the search terms combined from the lists suppli
 }
 \description{
 This function merges two data frames with search terms. This allows users to easily add search terms to data frames (either their
-own or ones included in this package using data()) as GenBank annotations for the same gene may vary in gene name.
+own or ones included in this package using data() as GenBank annotations for the same genes may vary in gene name.
 }
 \examples{
 #load the list of search terms for mitochondrial genes
