@@ -12,7 +12,7 @@
 
 <meta name="author" content="Samuel R. Borstein" />
 
-<meta name="date" content="2016-09-30" />
+<meta name="date" content="2017-01-12" />
 
 <title>AnnotationBustR Tutorial</title>
 
@@ -32,7 +32,7 @@
 
 <h1 class="title toc-ignore">AnnotationBustR Tutorial</h1>
 <h4 class="author"><em>Samuel R. Borstein</em></h4>
-<h4 class="date"><em>2016-09-30</em></h4>
+<h4 class="date"><em>2017-01-12</em></h4>
 
 
 
@@ -147,6 +147,10 @@ my.seqs&lt;-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c(&quot;tRNA_Leu
 #We can return the accession table. It has our two accessions for Homo sapiens in the same row 
 my.seqs#retutn the accession table
 write.csv(my.seqs, file=&quot;AccessionTable.csv&quot;)#Write the accession table to a csv file</code></pre>
+</div>
+<div id="troubleshooting" class="section level2">
+<h2>3.5 Troubleshooting</h2>
+<p>As <code>AnnotationBustR</code> is dependent on access to online databases, it is important that you make sure you have a strong internet connection while using the package, especially for the <code>FindLongestSeq</code> and <code>AnnotationBust</code> functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still haivng isues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.</p>
 </div>
 </div>
 <div id="final-comments" class="section level1">

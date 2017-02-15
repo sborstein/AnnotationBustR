@@ -1,10 +1,10 @@
-#' Allows for the merging of two tables containing search terms to expand search term database for getAnnotPos.
+#' Merging of two tables containing search terms to expand search term database for the AnnotationBust function.
 #' @param ... the data frames of search terms you want to combine into a single data frame The Data frame(s) should have stringsAsFactors=FALSE listed if you want to sort them.
 #' @param SortGenes Should the final data frame be sorted by gene name? Default is FALSE.
 #' @return A new merged data frame with all the search terms combined from the lists supplied. If sort.gene=TRUE, genes will be sorted by name.
 #' @description 
 #' This function merges two data frames with search terms. This allows users to easily add search terms to data frames (either their
-#' own or ones included in this package using data()) as GenBank annotations for the same gene may vary in gene name. 
+#' own or ones included in this package using data() as GenBank annotations for the same genes may vary in gene name. 
 #' @examples
 #' #load the list of search terms for mitochondrial genes
 #' data(mtDNAterms) 
