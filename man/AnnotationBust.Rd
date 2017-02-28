@@ -26,9 +26,9 @@ AnnotationBust(Accessions, Terms, Duplicates = NULL,
 \item{Prefix}{Character If a prefix is specified, all output FASTA files written will begin with the prefix. Defaul is NULL.}
 }
 \value{
-Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was fond in
+Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was found in.
 
-Writes an data.frame of the accession numbers per loci that can be turned into an accession table using the function MakeAccessionTable
+Writes an data.frame of the accession numbers per loci that can be turned into an accession table using the function MakeAccessionTable.
 }
 \description{
 Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a file for each accession number supplied.
@@ -37,11 +37,16 @@ Breaks up genbank sequences into their annotated components based on a set of se
 The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences.
 This function requires a steady internet connection. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
 search terms for mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms),data(cpDNAterms), and data(rDNAterms) respectively.
-Search terms can be completely made by the user as long as they follow a similar format with three columns. The first, Locus, should contain the name of the files to be written. We recommend following
-a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or "." should be avoided as to not throw off R.
-The second column, Type, contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a
-name for the locus of interest. For numerous synonyms for the same locus, one should have each synonym as its own row. It is possible that some subsequences are not fully annotated on ACNUC and, therefore, are not extractable. These will return in the accession table as "type not fully Ann".
-It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For". For a more detailed walkthrough on using AnnotationBust you can access the vignette with vignette("AnnotationBustR).
+Search terms can be completely made by the user as long as they follow a similar format with three columns. The first, Locus, should contain the name of the locus that will also be used to name the files. We recommend following
+a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or ".", and names starting with numbers should be avoided as to not throw off R.
+The second column, Type, contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a possible
+name for the locus of interest as it might appear in an annotation. For numerous synonyms for the same locus, one should have each synonym as its own row.
+
+It is possible that some subsequences are not fully annotated on ACNUC and, therefore, are not extractable. These will return in the accession table as "type not fully Ann". It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For". 
+If the function returns "Acc. Not Found", the accession number supplied could not be found on NCBI. If "Not On ACNUC GenBank" is returned, the accession is not available through AcNUC.
+This may be due to ACNUC not being fully up to date. To see the last time ACNUC was updated, run seqinr::choosebank("genbank", infobank=T).
+
+For a more detailed walkthrough on using AnnotationBust you can access the vignette with vignette("AnnotationBustR).
 }
 \examples{
 \dontrun{
@@ -53,4 +58,3 @@ my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE)
 my.sequences#Return the accession table for each species.
 }
 }
-

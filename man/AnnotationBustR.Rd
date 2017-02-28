@@ -26,11 +26,10 @@ under different synonyms. It writes these sub-sequences to FASTA files and creat
 table. The package comes with pre-made search terms with synonyms. A vignette going over the basic functions and
 how to use them can be accessed with vignette("AnnotationBustR-vignette").
 }
+\seealso{
+\code{\link{AnnotationBust}},\code{\link{cpDNAterms}},\code{\link{FindLongestSeq}},\code{\link{MergeSearchTerms}},\code{\link{mtDNAterms}},\code{\link{rDNAterms}}
+}
 \author{
 Samuel Borstein, Brian O'Meara.
 Maintainer: Samuel Borstein <sborstei@vols.utk.edu>
 }
-\seealso{
-\code{\link{AnnotationBust}},\code{\link{cpDNAterms}},\code{\link{FindLongestSeq}},\code{\link{MergeSearchTerms}},\code{\link{mtDNAterms}},\code{\link{rDNAterms}}
-}
-

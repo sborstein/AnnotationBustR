@@ -2,7 +2,7 @@
 % Please edit documentation in R/MergeSearchTerms.R
 \name{MergeSearchTerms}
 \alias{MergeSearchTerms}
-\title{Allows for the merging of two tables containing search terms to expand search term database for AnnotationBust.}
+\title{Merging of two tables containing search terms to expand search term database for the AnnotationBust function.}
 \usage{
 MergeSearchTerms(..., SortGenes = FALSE)
 }
@@ -35,4 +35,3 @@ new.terms<-MergeSearchTerms(add.name, mtDNAterms, SortGenes=FALSE)
 #Run the merge search term function with sorting based on gene name.
 new.terms<-MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)
 }
-

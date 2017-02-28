@@ -22,4 +22,3 @@ A data frame containing search terms for ribosomal RNA loci. Can be subset for l
 \code{\link{MergeSearchTerms}}
 }
 \keyword{datasets}
-

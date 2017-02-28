@@ -22,4 +22,3 @@ A data frame containing search terms for Chloroplast loci. Can be subset for loc
 \code{\link{MergeSearchTerms}}
 }
 \keyword{datasets}
-
