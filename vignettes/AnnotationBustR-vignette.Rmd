@@ -142,6 +142,18 @@ write.csv(my.seqs, file="AccessionTable.csv")#Write the accession table to a csv
 ##3.5 Troubleshooting
 As `AnnotationBustR` is dependent on access to online databases, it is important that you make sure you have a reliable internet connection while using the package, especially for the `FindLongestSeq` and `AnnotationBust` functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still haivng isues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.
 
+The `AnnotationBust` function may also provide the following warnings and report the following in the accessions table:
+
+"Acc. # Not Found" = The supplied accession number does not seem to exist, check that it is correct.
+
+"Acc. # Not On ACNUC GenBank" = Sometime ACNUC is behind a day or two from NCBI GenBank. To double check the date for the current version of the ACNUC database you can run the following code:
+
+```
+ACNUC.GB.Info<-seqinr::choosebank("genbank", infobank=T)
+ACNUC.GB.INFO#return info on date
+```
+
+"type not fully Ann." = Indicates that the sequence is on GenBank, but is lacking necessary annotation information to fully extract all subsequences. They may be concatenated and not contain position information for each subsequence.
 
 #4: Final Comments
 Further information on the functions and their usage can be found in the helpfiles `help(package=AnnotationBustR)`. For any further issues and questions send an email with subject 'AnnotationBustR support' to sborstei@vols.utk.edu or post to the issues section on GitHub(https://github.com/sborstein/AnnotationBustR/issues).

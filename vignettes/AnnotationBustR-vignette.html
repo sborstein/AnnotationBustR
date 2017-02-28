@@ -12,7 +12,7 @@
 
 <meta name="author" content="Samuel R. Borstein" />
 
-<meta name="date" content="2017-01-12" />
+<meta name="date" content="2017-02-28" />
 
 <title>AnnotationBustR Tutorial</title>
 
@@ -32,7 +32,7 @@
 
 <h1 class="title toc-ignore">AnnotationBustR Tutorial</h1>
 <h4 class="author"><em>Samuel R. Borstein</em></h4>
-<h4 class="date"><em>2017-01-12</em></h4>
+<h4 class="date"><em>2017-02-28</em></h4>
 
 
 
@@ -150,7 +150,13 @@ write.csv(my.seqs, file=&quot;AccessionTable.csv&quot;)#Write the accession tabl
 </div>
 <div id="troubleshooting" class="section level2">
 <h2>3.5 Troubleshooting</h2>
-<p>As <code>AnnotationBustR</code> is dependent on access to online databases, it is important that you make sure you have a strong internet connection while using the package, especially for the <code>FindLongestSeq</code> and <code>AnnotationBust</code> functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still haivng isues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.</p>
+<p>As <code>AnnotationBustR</code> is dependent on access to online databases, it is important that you make sure you have a reliable internet connection while using the package, especially for the <code>FindLongestSeq</code> and <code>AnnotationBust</code> functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still haivng isues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.</p>
+<p>The <code>AnnotationBust</code> function may also provide the following warnings and report the following in the accessions table:</p>
+<p>“Acc. # Not Found” = The supplied accession number does not seem to exist, check that it is correct.</p>
+<p>“ACC. # Not On ACNUC GenBank” = Sometime ACNUC is behind a day or two from NCBI GenBank. To double check the activate data of the ACNUC database you can run the following code:</p>
+<pre><code>ACNUC.GB.Info&lt;-seqinr::choosebank(&quot;genbank&quot;, infobank=T)
+ACNUC.GB.INFO#return info on date</code></pre>
+<p>“type not fully Ann.” = Indicates that the sequence is on GenBank, but is lacking necessary annotation information to fully extract all subsequences. They may be concatenated and not contain position information for each subsequence.</p>
 </div>
 </div>
 <div id="final-comments" class="section level1">
