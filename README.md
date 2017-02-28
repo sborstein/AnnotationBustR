@@ -5,5 +5,5 @@
 >>>>>>> b02f280ab7a2d107c2097832d055f86c4b881031
 
 # AnnotationBustR
-AnnotationBustR: An R package to extract sub-sequences from GenBank annotations
+AnnotationBustR: An R package to extract sub-sequences from GenBank annotations.
 
