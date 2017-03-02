@@ -2,6 +2,7 @@
 #Run on one mitogenome which is missing ND5, which should return NA
 #Run with duplicate genes and translated seqs
 test_that("AnnotationBust Works",{
+skip_on_cran()
 data(mtDNAterms)
 #load("sysdata.rda")#Manual output of all genes. Missing ND5 gene (misc_feature). Should be missing in real run.
 #test with accession=JN628859.1
