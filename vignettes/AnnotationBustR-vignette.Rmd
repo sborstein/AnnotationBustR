@@ -140,7 +140,7 @@ write.csv(my.seqs, file="AccessionTable.csv")#Write the accession table to a csv
 ```
 
 ## 3.5 Troubleshooting
-As `AnnotationBustR` is dependent on access to online databases, it is important that you make sure you have a reliable internet connection while using the package, especially for the `FindLongestSeq` and `AnnotationBust` functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still haivng issues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.
+As `AnnotationBustR` is dependent on access to online databases, it is important that you make sure you have a reliable internet connection while using the package, especially for the `FindLongestSeq` and `AnnotationBust` functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still having issues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.
 
 The `AnnotationBust` function may also provide the following warnings and report the following in the accessions table:
 
