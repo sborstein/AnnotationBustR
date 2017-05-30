@@ -16,12 +16,12 @@ This is a tutorial for using the R package AnnotationBustR. AnnotationBustR read
 In this tutorial we will cover the basics of how to use AnnotationBustR to extract parts of a GenBank sequences.This is considerably faster than  extracting them manually and more accurate than using alignment methods like BLAST. For example, it is possible to extract into FASTA files every subsequence from a mitochondrial genome (38 sequences, 13 CDS, 22 tRNA, 2rRNA, 1 D-loop) in  26-36 seconds, which is significantly faster than if you were to do it manually from the online GenBank features table. In this tutorial, we will discuss how to install AnnotationBustR, the basic AnnotationBustR pipeline, and how to use the functions that are included in AnnotationBustR.
 
 # 2: Installation
-##2.1: Installation From CRAN
+## 2.1: Installation From CRAN
 In order to install the stable CRAN version of the AnnotationBustR package:
 ```
 install.packages("AnnotationBustR")
 ```
-##2.2: Installation of Development Version From GitHub
+## 2.2: Installation of Development Version From GitHub
 While we recommend use of the stable CRAN version of this package, we recommend using the package `devtools` to temporarily install the development version of the package from GitHub if for any reason you wish to use it :
 ```
 #1. Install 'devtools' if you do not already have it installed:
@@ -37,7 +37,7 @@ library(AnnotationBustR)# load the package
 #3. Leave developers mode after using the development version of 'AnnotationBustR' so it will not #remain on your system permanently.
 dev_mode(on=F)
 ```
-#3: Using AnnotationBustR
+# 3: Using AnnotationBustR
 To load AnnotationBustR and all of its functions/data:
 ```
 library(AnnotationBustR)
@@ -52,7 +52,7 @@ Before we begin a tutorial on how to use AnnotationBustR to extract sequences, l
 knitr::include_graphics("workflow.jpg")
 ```
 
-##3.1:(Optional Step) Finding the Longest Available
+## 3.1:(Optional Step) Finding the Longest Available
 AnnotationBustR's `FindLongestSeq` function finds the longest available sequence for each species in a given set of GenBank accession numbers. All the user needs is to obtain a list of GenBank accession numbers they would like to input. The only function argument for `FindLongestSeq` is `Accessions`, which takes a vector of accession numbers as input. We can run the function below by:
 
 ```
@@ -66,7 +66,7 @@ my.longest.seqs#return the longest seqs found
 ```
 In this case we can see that the function worked and, for the two human accessions, only returned accession KT725960.1 (16570 bp) which was longer than accession KX702233.1 (16569 bp). The table returns a three-column data frame with the species name, the corresponding accession number, and the length.
 
-##3.2: Load a Data Frame of Search Terms of Gene Synonyms to Search With:
+## 3.2: Load a Data Frame of Search Terms of Gene Synonyms to Search With:
 AnnotationBustR works by searching through the annotation features table for a locus of interest using search terms for it (i.e. possible synonyms it may be listed under). These search terms are formatted to have three columns:
 
 - Locus: The name of the locus and the name of the FASTA of the file for that locus to be written. It is important that you use names that will not confuse R, so don't start these with numbers or include other characters like "." or "-" that R uses for math.
@@ -101,7 +101,7 @@ data(mtDNAterms)#load the data frame of mitochondrial DNA terms
 tRNA.terms<-mtDNAterms[mtDNAterms$Type=="tRNA",]#subset out the tRNAs into a new data frame
 ```
 
-##3.3:(Optional Step) Merge Search Terms If Neccessary
+## 3.3:(Optional Step) Merge Search Terms If Neccessary
 
 While we have tried to cover as many synonyms for genes in our pre-made data frames, it is likely that some synonyms may not be represented due to the vast array of synonyms a single gene may be listed under in the features table. To solve this we have included the function `MergeSearchTerms`.
 
@@ -117,7 +117,7 @@ new.terms<-MergeSearchTerms(add.name, mtDNAterms, SortGenes=FALSE)
 #Run the merge search term function with sorting based on gene name.
 new.terms<-MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)
 ```
-##3.4 Extract sequences with AnnotationBust
+## 3.4 Extract sequences with AnnotationBust
 The main function of AnnotationBustR is `AnnotationBust`. This function extracts the sub-sequence(s) of interest from the accessions and writes them to FASTA files in the current working directory. In addition to writing sub-sequences to FASTA files, `AnnotationBust` also generates an accession table for all found sub-sequences written to FASTA files which can then be written to a csv file using base R `write.csv`. AnnotationBustR requires at least two arguments, a vector of accessions for `Accessions` and a data frame of search terms formatted as discussed in 3.2 and 3.3 for `Terms`.
 
 Additional arguments include the ability to specify duplicate genes you wish to recover as a vector of gene names using the `Duplicates` argument and specifying the number of duplicate instances to extract using a numeric vector (which must be the same length as `Duplicates`) using the `DuplicateInstances` argument.
@@ -139,8 +139,8 @@ my.seqs#retutn the accession table
 write.csv(my.seqs, file="AccessionTable.csv")#Write the accession table to a csv file
 ```
 
-##3.5 Troubleshooting
-As `AnnotationBustR` is dependent on access to online databases, it is important that you make sure you have a reliable internet connection while using the package, especially for the `FindLongestSeq` and `AnnotationBust` functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still haivng isues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.
+## 3.5 Troubleshooting
+As `AnnotationBustR` is dependent on access to online databases, it is important that you make sure you have a reliable internet connection while using the package, especially for the `FindLongestSeq` and `AnnotationBust` functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still haivng issues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.
 
 The `AnnotationBust` function may also provide the following warnings and report the following in the accessions table:
 
@@ -155,5 +155,5 @@ ACNUC.GB.INFO#return info on date
 
 "type not fully Ann." = Indicates that the sequence is on GenBank, but is lacking necessary annotation information to fully extract all subsequences. They may be concatenated and not contain position information for each subsequence.
 
-#4: Final Comments
+## 4: Final Comments
 Further information on the functions and their usage can be found in the helpfiles `help(package=AnnotationBustR)`. For any further issues and questions send an email with subject 'AnnotationBustR support' to sborstei@vols.utk.edu or post to the issues section on GitHub(https://github.com/sborstein/AnnotationBustR/issues).
