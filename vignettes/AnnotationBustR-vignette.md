@@ -1,6 +1,6 @@
 # AnnotationBustR Tutorial 
 Samuel R. Borstein  
-`r Sys.Date()`  
+`r format(Sys.time(), '%d %B, %Y')`  
 
 # 1: Introduction
 

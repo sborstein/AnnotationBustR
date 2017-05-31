@@ -1,7 +1,7 @@
 ---
 title: "AnnotationBustR Tutorial "
 author: "Samuel R. Borstein"
-date: "`r Sys.Date()`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
     keep_md: true
