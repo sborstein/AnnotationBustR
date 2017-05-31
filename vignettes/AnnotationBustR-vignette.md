@@ -1,15 +1,6 @@
----
-title: "AnnotationBustR Tutorial "
-author: "Samuel R. Borstein"
-date: "`r Sys.Date()`"
-output:
-  html_document:
-    keep_md: true
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
+# AnnotationBustR Tutorial 
+Samuel R. Borstein  
+`r Sys.Date()`  
 
 # 1: Introduction
 
@@ -50,9 +41,10 @@ It is important to note that most of the functions within AnnotationBustR connec
 Before we begin a tutorial on how to use AnnotationBustR to extract sequences, lets first discuss the basic workflow of the functions in the package (Fig. 1). The orange box represents the step that occur outside of using AnnotationBustR. The only step you must do outside of AnnotationBustR is obtain a target list of accession numbers. This can be done either by downloading the accession numbers themselves from GenBank (http://www.ncbi.nlm.nih.gov/nuccore) or using R packages like `ape`, `seqinr` and `rentrez` to find accessions of interest in R. All boxes in blue in the graphic below represent steps that occur using AnnotationBustR. Boxes in green represent steps that are not mandatory, but may prove to be useful features of AnnotationBustR. In this tutorial, we will go through the steps in order, including the optional steps to show how to fully use the AnnotationBustR package.
 
 
-```{r, out.width = "100%", echo=FALSE,fig.align='left',fig.cap= "Fig. 1: AnnotationBustR Workflow. Steps in orange occur outside the package while steps in blue are core parts of AnnotationBustR and steps in green represent optional steps"}
-knitr::include_graphics("workflow.jpg")
-```
+<div class="figure" style="text-align: left">
+<img src="workflow.jpg" alt="Fig. 1: AnnotationBustR Workflow. Steps in orange occur outside the package while steps in blue are core parts of AnnotationBustR and steps in green represent optional steps" width="100%" />
+<p class="caption">Fig. 1: AnnotationBustR Workflow. Steps in orange occur outside the package while steps in blue are core parts of AnnotationBustR and steps in green represent optional steps</p>
+</div>
 
 ## 3.1:(Optional Step) Finding the Longest Available
 AnnotationBustR's `FindLongestSeq` function finds the longest available sequence for each species in a given set of GenBank accession numbers. All the user needs is to obtain a list of GenBank accession numbers they would like to input. The only function argument for `FindLongestSeq` is `Accessions`, which takes a vector of accession numbers as input. We can run the function below by:
@@ -76,16 +68,17 @@ AnnotationBustR works by searching through the annotation features table for a l
 - Name: A possible synonym that the locus could be listed under.
 
 Below (Figure 2) is an example of where these corresponding items would be in the GenBank features table:
-```{r, out.width = "100%", echo=FALSE, fig.align='left',fig.cap= "Fig. 2: GenBank features annotation for accession G295784.1 that contains ATP8 and ATP6. The words highlighted in yellow would fall under the column of Type. Here they are both CDS. The type of sequence is always listed farthest to the left in the features table. Colors in blue indicate terms that would be placed in the Name column, here indicating that the two CDS in this example are ATP8, labeled as ATPase8 and ATP6 respectively."}
-knitr::include_graphics("featuresMarked.jpg")
-```
+<div class="figure" style="text-align: left">
+<img src="featuresMarked.jpg" alt="Fig. 2: GenBank features annotation for accession G295784.1 that contains ATP8 and ATP6. The words highlighted in yellow would fall under the column of Type. Here they are both CDS. The type of sequence is always listed farthest to the left in the features table. Colors in blue indicate terms that would be placed in the Name column, here indicating that the two CDS in this example are ATP8, labeled as ATPase8 and ATP6 respectively." width="100%" />
+<p class="caption">Fig. 2: GenBank features annotation for accession G295784.1 that contains ATP8 and ATP6. The words highlighted in yellow would fall under the column of Type. Here they are both CDS. The type of sequence is always listed farthest to the left in the features table. Colors in blue indicate terms that would be placed in the Name column, here indicating that the two CDS in this example are ATP8, labeled as ATPase8 and ATP6 respectively.</p>
+</div>
 
 So, if we wanted to use AnnotationBustR to capture these and write them to a FASTA, we could set up a data frame that looks like the following.
-```{r, echo=FALSE}
-ex.frame<-rbind(c("ATP8","CDS","ATPase8"),c("ATP6","CDS","ATPase6"))
-colnames(ex.frame)<-c("Locus","Type","Name")
-ex.frame<-as.data.frame(ex.frame)
-print(ex.frame)
+
+```
+##   Locus Type    Name
+## 1  ATP8  CDS ATPase8
+## 2  ATP6  CDS ATPase6
 ```
 
 While AnnotationBustR will work with any data frame formatted as discussed above, we have included in it pre-made search terms for mitochondrial DNA (mtDNA), chloroplast DNA (cpDNA), and ribosomal DNA (rDNA). These can be loaded from AnnotationBustR using:
