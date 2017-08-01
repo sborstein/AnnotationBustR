@@ -34,7 +34,7 @@
 #' }
 #' @export
 
-AnnotationBust.Branch<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=NULL, TranslateSeqs=FALSE, TranslateCode=1, DuplicateSpecies=FALSE, Prefix=NULL, TidyAccessions=TRUE){
+AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=NULL, TranslateSeqs=FALSE, TranslateCode=1, DuplicateSpecies=FALSE, Prefix=NULL, TidyAccessions=TRUE){
   #seqinr::choosebank("genbank")
   uni.locus<-unique(Terms$Locus)
   uni.type<-unique(Terms$Type)
