@@ -3,4 +3,5 @@
 # AnnotationBustR
 AnnotationBustR: An R package to extract sub-sequences from GenBank annotations.
 
-For a detailed walkthrough on how to use AnnotationBustR, see the vignette: https://github.com/sborstein/AnnotationBustR/blob/master/vignettes/AnnotationBustR-vignette.Rmd
+For a detailed walkthrough on how to use AnnotationBustR, see the vignette: https://github.com/sborstein/AnnotationBustR/blob/master/vignettes/AnnotationBustR-vignette.md
+
