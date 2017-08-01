@@ -1,10 +1,10 @@
-#' Mitochondrial DNA Search Terms
+#' Mitochondrial DNA Search Terms for Animals
 #'
 #' A data frame containing search terms for animal mitochondrial loci. Can be subset for loci of 
 #'  interest. Columns are as follows and users should follow the column format if they wish to
 #'  add search terms using the MergeSearchTerms function:
 #'
-#' @format A data frame of of 168 rows and 3 columns
+#' @format A data frame of of 174 rows and 3 columns
 #' \itemize{
 #'   \item Locus: Locus name, FASTA files will be written with this name
 #'   \item Type: Type of subsequence, either CDS,tRNA,rRNA,misc_RNA, or D-loop

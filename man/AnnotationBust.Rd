@@ -2,14 +2,14 @@
 % Please edit documentation in R/AnnotationBust.R
 \name{AnnotationBust}
 \alias{AnnotationBust}
-\title{Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a file for each accession number supplied.}
+\title{Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a FASTA for each accession number supplied.}
 \usage{
 AnnotationBust(Accessions, Terms, Duplicates = NULL,
   DuplicateInstances = NULL, TranslateSeqs = FALSE, TranslateCode = 1,
-  DuplicateSpecies = FALSE, Prefix = NULL)
+  DuplicateSpecies = FALSE, Prefix = NULL, TidyAccessions = TRUE)
 }
 \arguments{
-\item{Accessions}{A vector of INSDC GenBank accession numbers. Note that refseq numbers (i.e. prefixes like XM_ and NC_) will not work.}
+\item{Accessions}{A vector of INSDC GenBank accession numbers. Note that refseq numbers are not supported at the moment (i.e. prefixes like XM_ and NC_) will not work.}
 
 \item{Terms}{A data frame of search terms. Search terms for animal mitogenomes, nuclear rRNA, chloroplast genomes, and plant mitogenomes are pre-made and can be loaded using the data()function. Additional terms can be addded using the MergeSearchTerms function.}
 
@@ -23,22 +23,24 @@ AnnotationBust(Accessions, Terms, Duplicates = NULL,
 
 \item{DuplicateSpecies}{Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta file}
 
-\item{Prefix}{Character If a prefix is specified, all output FASTA files written will begin with the prefix. Defaul is NULL.}
+\item{Prefix}{Character If a prefix is specified, all output FASTA files written will begin with the prefix. Default is NULL.}
+
+\item{TidyAccessions}{Logical as to whether the accession table should have a single row per species. If numerous accessions for a species occur, they will be seperated by a comma in the accession table. Default=TRUE.}
 }
 \value{
 Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was found in.
 
-Writes an data.frame of the accession numbers per loci that can be turned into an accession table using the function MakeAccessionTable.
+An accesion table of class data.frame.
 }
 \description{
-Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a file for each accession number supplied.
+Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a FASTA for each accession number supplied.
 }
 \details{
 The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences.
-This function requires a steady internet connection. It writes files in the FASTA format to the working directory and returns an accession table. AnnoitationBustR comes with pre-made
+This function requires a steady internet connection. It writes files in the FASTA format to the working directory and returns an accession table. Files append, so use different prefixes between runs, otherwise they will be added to the current files in the working directory. AnnoitationBustR comes with pre-made
 search terms for mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms),data(cpDNAterms), and data(rDNAterms) respectively.
 Search terms can be completely made by the user as long as they follow a similar format with three columns. The first, Locus, should contain the name of the locus that will also be used to name the files. We recommend following
-a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or ".", and names starting with numbers should be avoided as to not throw off R.
+a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or ".", and names starting with numbers should be avoided as it can cause errors with R.
 The second column, Type, contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a possible
 name for the locus of interest as it might appear in an annotation. For numerous synonyms for the same locus, one should have each synonym as its own row.
 
