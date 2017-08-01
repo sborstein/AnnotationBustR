@@ -1,6 +1,6 @@
 #' Mitochondrial DNA Search Terms
 #'
-#' A data frame containing search terms for mitochondrial loci. Can be subset for loci of 
+#' A data frame containing search terms for animal mitochondrial loci. Can be subset for loci of 
 #'  interest. Columns are as follows and users should follow the column format if they wish to
 #'  add search terms using the MergeSearchTerms function:
 #'
