@@ -38,7 +38,7 @@ Breaks up genbank sequences into their annotated components based on a set of se
 \details{
 The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences.
 This function requires a steady internet connection. It writes files in the FASTA format to the working directory and returns an accession table. Files append, so use different prefixes between runs, otherwise they will be added to the current files in the working directory. AnnoitationBustR comes with pre-made
-search terms for mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms),data(cpDNAterms), and data(rDNAterms) respectively.
+search terms for metazoan mitogenomes, plant mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms), data(mtDNAtermsPlants),data(cpDNAterms), and data(rDNAterms) respectively.
 Search terms can be completely made by the user as long as they follow a similar format with three columns. The first, Locus, should contain the name of the locus that will also be used to name the files. We recommend following
 a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or ".", and names starting with numbers should be avoided as it can cause errors with R.
 The second column, Type, contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a possible

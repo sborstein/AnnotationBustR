@@ -14,6 +14,22 @@
 #' @seealso \code{\link{MergeSearchTerms}}
 "mtDNAterms"
 
+#' Mitochondrial DNA Search Terms for Plants
+#'
+#' A data frame containing search terms for plant mitochondrial loci. Can be subset for loci of 
+#'  interest. Columns are as follows and users should follow the column format if they wish to
+#'  add search terms using the MergeSearchTerms function:
+#'
+#' @format A data frame of of 233 rows and 3 columns
+#' \itemize{
+#'   \item Locus: Locus name, FASTA files will be written with this name
+#'   \item Type: Type of subsequence, either CDS,tRNA,rRNA,misc_RNA, or D-loop
+#'   \item Name:Name of synonym for a locus to search for
+#' }
+#' 
+#' @seealso \code{\link{MergeSearchTerms}}
+"mtDNAtermsPlants"
+
 #' Chloroplast DNA (cpDNA) Search Terms
 #'
 #' A data frame containing search terms for Chloroplast loci. Can be subset for loci of 

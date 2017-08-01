@@ -81,11 +81,12 @@ So, if we wanted to use AnnotationBustR to capture these and write them to a FAS
 ## 2  ATP6  CDS ATPase6
 ```
 
-While AnnotationBustR will work with any data frame formatted as discussed above, we have included in it pre-made search terms for mitochondrial DNA (mtDNA), chloroplast DNA (cpDNA), and ribosomal DNA (rDNA). These can be loaded from AnnotationBustR using:
+While AnnotationBustR will work with any data frame formatted as discussed above, we have included in it pre-made search terms for metazoan and plant mitochondrial DNA (mtDNA), chloroplast DNA (cpDNA), and ribosomal DNA (rDNA). These can be loaded from AnnotationBustR using:
 
 ```
 #Load in pre-made data frames of search terms
-data(mtDNAterms)#loads the mitochondrial DNA search terms
+data(mtDNAterms)#loads the mitochondrial DNA search terms for metazoans
+data(mtDNAtermsPlants)#loads the mitochondrial DNA search terms for plants
 data(cpDNAterms)#loads the chloroplast DNA search terms
 data(rDNAterms)#loads the ribosomal DNA search terms
 ```
@@ -121,7 +122,9 @@ AnnotationBustR also has arguments to translate coding sequences into the corres
 
 An additional argument of `AnnotationBust` is `DuplicateSpecies` which when set to `DuplicateSpecies=TRUE` adds the accession number to the species name for the FASTA file. This can be useful for later analyses involving FASTA files as duplicate names in FASTA headers can pose problems with some programs. It is important to note that if users select `DuplicateSpecies=TRUE` that while FASTA file will contain species names with their respected accession number, the corresponding accession table will have a single row per species containing all the accession numbers for each sub-sequence locus found for that species seperated by a comma.
 
-The final argument of `AnnotantionBust` is `Prefix`. This argument can either be `NULL` or a character vector of length 1. If Prefix is not `NULL` it will add the prefix specified to all FASTA files. If left as `Prefix=NULL` files names will just be the name of the locus.
+The argument `Prefix`can either be `NULL` or a character vector of length 1. If Prefix is not `NULL` it will add the prefix specified to all FASTA files. If left as `Prefix=NULL` files names will just be the name of the locus.
+
+The final argument `TidyAccessions` effects the format of the final accession table. If `TidyAccessions=TRUE`, all sequence for a single species will be collapsed into a single cell per locus and accessions will be seperated by commas. If `TidyAccessions=FALSE` it will leave each accession number in its own row in the accession table. 
 
 For the tutorial, we will use the accessions we created in examples 3.1 in the object `my.accessions`. This is a vector that contains four accessions for mitogenomes of two humans, one chimpanzee, and one gorilla. For this example, we will use all the arguments of `AnnotationBust` to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser, which occur twice in vertebrate mitogenomes. We will translate the CDS using `TranslateSeqs` argument with `TranslateCode=2`, the code for vertebrate mitogenomes. Because we have to accessions for the same species (Humans), we will specify `DuplicateSpecies=TRUE` and have out FASTA files output with the prefix "Demo" by specifying `Prefix="Demo"`. This will create 38 FASTA files for all mitochondrial loci in the mitochondrial genome in the working director.
 
@@ -135,7 +138,7 @@ write.csv(my.seqs, file="AccessionTable.csv")#Write the accession table to a csv
 ```
 
 ## 3.5 Troubleshooting
-As `AnnotationBustR` is dependent on access to online databases, it is important that you make sure you have a reliable internet connection while using the package, especially for the `FindLongestSeq` and `AnnotationBust` functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still having issues, check that these sites and their servers are not down or undergoing maintainence, which they do occasionally.
+As `AnnotationBustR` is dependent on access to online databases, it is important that you make sure you have a reliable internet connection while using the package, especially for the `FindLongestSeq` and `AnnotationBust` functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still having issues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.
 
 The `AnnotationBust` function may also provide the following warnings and report the following in the accessions table:
 

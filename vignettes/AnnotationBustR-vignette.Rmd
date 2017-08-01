@@ -88,11 +88,12 @@ ex.frame<-as.data.frame(ex.frame)
 print(ex.frame)
 ```
 
-While AnnotationBustR will work with any data frame formatted as discussed above, we have included in it pre-made search terms for mitochondrial DNA (mtDNA), chloroplast DNA (cpDNA), and ribosomal DNA (rDNA). These can be loaded from AnnotationBustR using:
+While AnnotationBustR will work with any data frame formatted as discussed above, we have included in it pre-made search terms for metazoan and plant mitochondrial DNA (mtDNA), chloroplast DNA (cpDNA), and ribosomal DNA (rDNA). These can be loaded from AnnotationBustR using:
 
 ```
 #Load in pre-made data frames of search terms
-data(mtDNAterms)#loads the mitochondrial DNA search terms
+data(mtDNAterms)#loads the mitochondrial DNA search terms for metazoans
+data(mtDNAtermsPlants)#loads the mitochondrial DNA search terms for plants
 data(cpDNAterms)#loads the chloroplast DNA search terms
 data(rDNAterms)#loads the ribosomal DNA search terms
 ```
@@ -128,13 +129,15 @@ AnnotationBustR also has arguments to translate coding sequences into the corres
 
 An additional argument of `AnnotationBust` is `DuplicateSpecies` which when set to `DuplicateSpecies=TRUE` adds the accession number to the species name for the FASTA file. This can be useful for later analyses involving FASTA files as duplicate names in FASTA headers can pose problems with some programs. It is important to note that if users select `DuplicateSpecies=TRUE` that while FASTA file will contain species names with their respected accession number, the corresponding accession table will have a single row per species containing all the accession numbers for each sub-sequence locus found for that species seperated by a comma.
 
-The final argument of `AnnotantionBust` is `Prefix`. This argument can either be `NULL` or a character vector of length 1. If Prefix is not `NULL` it will add the prefix specified to all FASTA files. If left as `Prefix=NULL` files names will just be the name of the locus.
+The argument `Prefix`can either be `NULL` or a character vector of length 1. If Prefix is not `NULL` it will add the prefix specified to all FASTA files. If left as `Prefix=NULL` files names will just be the name of the locus.
 
-For the tutorial, we will use the accessions we created in examples 3.1 in the object `my.accessions`. This is a vector that contains four accessions for mitogenomes of two humans, one chimpanzee, and one gorilla. For this example, we will use all the arguments of `AnnotationBust` to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser, which occur twice in vertebrate mitogenomes. We will translate the CDS using `TranslateSeqs` argument with `TranslateCode=2`, the code for vertebrate mitogenomes. Because we have to accessions for the same species (Humans), we will specify `DuplicateSpecies=TRUE` and have out FASTA files output with the prefix "Demo" by specifying `Prefix="Demo"`. This will create 38 FASTA files for all mitochondrial loci in the mitochondrial genome in the working director.
+The final argument `TidyAccessions` effects the format of the final accession table. If `TidyAccessions=TRUE`, all sequence for a single species will be collapsed into a single cell per locus and accessions will be seperated by commas. If `TidyAccessions=FALSE` it will leave each accession number in its own row in the accession table. 
+
+For the tutorial, we will use the accessions we created in examples 3.1 in the object `my.accessions`. This is a vector that contains four accessions for mitogenomes of two humans, one chimpanzee, and one gorilla. For this example, we will use all the arguments of `AnnotationBust` to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser, which occur twice in vertebrate mitogenomes. We will translate the CDS using `TranslateSeqs` argument with `TranslateCode=2`, the code for vertebrate mitogenomes. Because we have to accessions for the same species (Humans), we will specify `DuplicateSpecies=TRUE` and have out FASTA files output with the prefix "Demo" by specifying `Prefix="Demo"` and with the . This will create 38 FASTA files for all mitochondrial loci in the mitochondrial genome in the working director.
 
 ```
 #run AnnotationBust function for two duplicate tRNA genes occuring twice and translate CDS
-my.seqs<-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c("tRNA_Leu","tRNA_Ser"), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE, Prefix="Demo")
+my.seqs<-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c("tRNA_Leu","tRNA_Ser"), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE, Prefix="Demo", TidyAccessions=TRUE)
 
 #We can return the accession table. It has our two accessions for Homo sapiens in the same row
 my.seqs#retutn the accession table
