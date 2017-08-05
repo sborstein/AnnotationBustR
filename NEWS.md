@@ -7,6 +7,7 @@ AnnotationBustR 1.1
 * new function AnnotationBustIE for extrcting introns and exons
 
 ##UPDATED FEATURES
+
 **Meatazoan mtDNAterms**
 - ATPase subunit 6 for ATP Synthase Subunit 6
 - ATPase subunit 8 for ATP Synthase Subunit 8
