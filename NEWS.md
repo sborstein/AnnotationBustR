@@ -6,7 +6,7 @@ AnnotationBustR 1.1
 * mtDNAtermsPlants search terms for plant mitochondrial DNA
 * new function AnnotationBustIE for extrcting introns and exons
 
-##UPDATED FEATURES
+## UPDATED FEATURES
 
 **Meatazoan mtDNAterms**
 - ATPase subunit 6 for ATP Synthase Subunit 6
