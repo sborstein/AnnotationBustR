@@ -62,9 +62,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
   if(is.null(Prefix)){
     File.Prefix<-NULL
   }else{File.Prefix<-paste0(Prefix,"_")}
-  #for (locus.index in 1:length(file.names)){#For each locus, write empty file to append to later
-   # write(NULL, file=paste0(File.Prefix,file.names[locus.index], ".fasta"))#write it as a fasta
-  #}
+  
   for (subsequence.type.index in 1:length(uni.type)){#for each sequence type, get the stuff subset. Don't do d-loop as it has a seperate pathway to being captured
     if (uni.type[subsequence.type.index]=="CDS"){
       CDS.Search<-subset(Terms, Terms$Type=="CDS")
@@ -396,11 +394,15 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
       found.accessions<-subset(current.loci,!is.na(current.loci))#subset the ones that are present
       numbers<-ifelse(length(found.accessions)==0, NA, paste(found.accessions, sep=",", collapse=","))#ifelse statemen, if not present, fill with NA
       Final.Accession.Table[species.index,gene.index]<-numbers
+      Sort.Final.Accession.Table<-Final.Accession.Table[order(Final.Accession.Table$Species),]
     }
+    rownames(Sort.Final.Accession.Table)<-1:nrow(Sort.Final.Accession.Table)
   }
   }else{
   Final.Accession.Table<-Accession.Table
-}
   Sort.Final.Accession.Table<-Final.Accession.Table[order(Final.Accession.Table$Species),]
+  rownames(Sort.Final.Accession.Table)<-1:nrow(Sort.Final.Accession.Table)
+  
+}
   Sort.Final.Accession.Table
 }
