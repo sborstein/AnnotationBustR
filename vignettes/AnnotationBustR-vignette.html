@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">AnnotationBustR Tutorial</h1>
 <h4 class="author"><em>Samuel R. Borstein</em></h4>
-<h4 class="date"><em>05 August, 2017</em></h4>
+<h4 class="date"><em>06 August, 2017</em></h4>
 
 </div>
 
@@ -230,12 +230,28 @@ new.terms&lt;-MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)</code></pre
 <p>The argument <code>Prefix</code>can either be <code>NULL</code> or a character vector of length 1. If Prefix is not <code>NULL</code> it will add the prefix specified to all FASTA files. If left as <code>Prefix=NULL</code> files names will just be the name of the locus.</p>
 <p>The final argument <code>TidyAccessions</code> effects the format of the final accession table. If <code>TidyAccessions=TRUE</code>, all sequence for a single species will be collapsed into a single cell per locus and accessions will be seperated by commas. If <code>TidyAccessions=FALSE</code> it will leave each accession number in its own row in the accession table.</p>
 <p>For the tutorial, we will use the accessions we created in examples 3.1 in the object <code>my.accessions</code>. This is a vector that contains four accessions for mitogenomes of two humans, one chimpanzee, and one gorilla. For this example, we will use all the arguments of <code>AnnotationBust</code> to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser, which occur twice in vertebrate mitogenomes. We will translate the CDS using <code>TranslateSeqs</code> argument with <code>TranslateCode=2</code>, the code for vertebrate mitogenomes. Because we have to accessions for the same species (Humans), we will specify <code>DuplicateSpecies=TRUE</code> and have out FASTA files output with the prefix “Demo” by specifying <code>Prefix=&quot;Demo&quot;</code> and with the . This will create 38 FASTA files for all mitochondrial loci in the mitochondrial genome in the working director.</p>
+<p>For this tutorial we will be extracting loci from the mitochondrial genomes of a fish genus, <em>Barbonymus</em>. We’ll start off by using the R package <code>rentrez</code> to search for accessions to use in this tutorial. There are a variety of R packages that can be used to find accessions you may want to extract subsequences from (<code>seqinr</code>,<code>rentrez</code>,<code>reutils</code>) or you can perform a search on the NCBI Database website (<a href="https://www.ncbi.nlm.nih.gov/nuccore" class="uri">https://www.ncbi.nlm.nih.gov/nuccore</a>) and download a list of accession numbers that can then be read into R.</p>
+<pre><code>#Get mitochondrial genome accessions for the genus Barbonymus
+#install (if necessary) and load rentrez
+#install.packages(&quot;rentrez&quot;)#install if necessary
+library(rentrez)
+#Create a string to search for
+search.seqs&lt;-paste(&quot;Barbonymus&quot;,' ','&quot;',&quot;complete genome&quot;,'&quot;',sep=&quot;&quot;)
+#perform the search and retrieve accessions 
+demo.search &lt;- esearch(term = &quot;Barbonymus[orgn] and complete genome&quot;, db = 'nuccore', usehistory = TRUE)#search
+accessions&lt;-efetch(uid, rettype = &quot;acc&quot;,retmode = &quot;text&quot;)#fetch accessions
+accessions &lt;- strsplit(content(accessions), &quot;\n&quot;)[[1]]#split out accessions from other meta-data
+
+
+
+</code></pre>
 <pre><code>#run AnnotationBust function for two duplicate tRNA genes occuring twice and translate CDS
 my.seqs&lt;-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c(&quot;tRNA_Leu&quot;,&quot;tRNA_Ser&quot;), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE, Prefix=&quot;Demo&quot;, TidyAccessions=TRUE)
 
 #We can return the accession table. It has our two accessions for Homo sapiens in the same row
 my.seqs#retutn the accession table
 write.csv(my.seqs, file=&quot;AccessionTable.csv&quot;)#Write the accession table to a csv file</code></pre>
+<p>We can also use <code>AnnotationBustR</code> to extract introns from sequences. One limitation to this is that the introns must be annotated within the subsequence, which is lacking from some accessions (e.x. not all chloroplasts have introns annotated).</p>
 </div>
 <div id="troubleshooting" class="section level2">
 <h2>3.5 Troubleshooting</h2>

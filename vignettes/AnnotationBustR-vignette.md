@@ -128,6 +128,25 @@ The final argument `TidyAccessions` effects the format of the final accession ta
 
 For the tutorial, we will use the accessions we created in examples 3.1 in the object `my.accessions`. This is a vector that contains four accessions for mitogenomes of two humans, one chimpanzee, and one gorilla. For this example, we will use all the arguments of `AnnotationBust` to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser, which occur twice in vertebrate mitogenomes. We will translate the CDS using `TranslateSeqs` argument with `TranslateCode=2`, the code for vertebrate mitogenomes. Because we have to accessions for the same species (Humans), we will specify `DuplicateSpecies=TRUE` and have out FASTA files output with the prefix "Demo" by specifying `Prefix="Demo"` and with the . This will create 38 FASTA files for all mitochondrial loci in the mitochondrial genome in the working director.
 
+For this tutorial we will be extracting loci from the mitochondrial genomes of a fish genus, *Barbonymus*. We'll start off by using the R package `rentrez` to search for accessions to use in this tutorial. There are a variety of R packages that can be used to find accessions you may want to extract subsequences from (`seqinr`,`rentrez`,`reutils`) or you can perform a search on the NCBI Database website (https://www.ncbi.nlm.nih.gov/nuccore) and download a list of accession numbers that can then be read into R.
+
+```
+#Get mitochondrial genome accessions for the genus Barbonymus
+#install (if necessary) and load rentrez
+#install.packages("rentrez")#install if necessary
+library(rentrez)
+#Create a string to search for
+search.seqs<-paste("Barbonymus",' ','"',"complete genome",'"',sep="")
+#perform the search and retrieve accessions 
+demo.search <- esearch(term = "Barbonymus[orgn] and complete genome", db = 'nuccore', usehistory = TRUE)#search
+accessions<-efetch(uid, rettype = "acc",retmode = "text")#fetch accessions
+accessions <- strsplit(content(accessions), "\n")[[1]]#split out accessions from other meta-data
+
+
+
+
+```
+
 ```
 #run AnnotationBust function for two duplicate tRNA genes occuring twice and translate CDS
 my.seqs<-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c("tRNA_Leu","tRNA_Ser"), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE, Prefix="Demo", TidyAccessions=TRUE)
@@ -136,6 +155,9 @@ my.seqs<-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c("tRNA_Leu","tRNA_
 my.seqs#retutn the accession table
 write.csv(my.seqs, file="AccessionTable.csv")#Write the accession table to a csv file
 ```
+
+We can also use `AnnotationBustR` to extract introns from sequences. One limitation to this is that the introns must be annotated within the subsequence, which is lacking from some accessions (e.x. not all chloroplasts have introns annotated).
+
 
 ## 3.5 Troubleshooting
 As `AnnotationBustR` is dependent on access to online databases, it is important that you make sure you have a reliable internet connection while using the package, especially for the `FindLongestSeq` and `AnnotationBust` functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still having issues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.
