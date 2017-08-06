@@ -23,6 +23,7 @@
 #' For a more detailed walkthrough on using AnnotationBust you can access the vignette with vignette("AnnotationBustR).
 #' @return Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was found in.
 #' @return An accesion table of class data.frame.
+#' @references Borstein, Samuel R., and Brian C. O'Meara. "AnnotationBustR: An R package to extract subsequences from GenBank annotations." PeerJ Preprints 5 (2017): e2920v1. 
 #' @examples
 #' \dontrun{
 #' #Create vector of three NCBI accessions of rDNA toget subsequences of and load rDNA terms.
@@ -31,6 +32,10 @@
 #' #Run AnnotationBustR and write files to working directory
 #' my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE)
 #' my.sequences#Return the accession table for each species.
+#' 
+#' ###Example With Introns/Exons##
+#' #Create vector od accessions to extract
+#' ncbi.accessions<-c()
 #' }
 #' @export
 
@@ -84,6 +89,10 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
     if (uni.type[subsequence.type.index]=="Exon"){
       Exon.Search<-subset(Terms, Terms$Type=="Exon")
       unique.Exon<-unique(Exon.Search$Locus)
+    }
+    if (uni.type[subsequence.type.index]=="misc_feature"){
+      misc_feature.Search<-subset(Terms, Terms$Type=="misc_feature")
+      unique.misc_feature<-unique(misc_feature.Search$Locus)
     }
   }
   for (accession.index in 1:length(Accessions)){
@@ -331,6 +340,30 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
                 ifelse(length(foundNumber)==0|length(found.Exon)==1,foundNumber<-found.Exon,foundNumber<-foundNumber)
                 if (length(foundNumber)>0){
                   seqinr::write.fasta(Exon.fasta[foundNumber],names=seq.name, paste0(File.Prefix,unique.Exon[Exon.term.index],".fasta"),open="a",nbchar = 60)
+                  Accession.Table[accession.index,grep(paste0("\\b",unique.Exon[Exon.term.index],"\\b"), colnames(Accession.Table))]<-new.access
+                  break}
+              }
+            }
+          }
+        }
+        if (uni.type[loci.type.index]=="misc_feature")  {
+          current.annot<-annotation.list[grep("misc_feature    ",annotation.list)]#subset in the parsed annotation
+          misc_feature.find <- seqinr::query("misc_feature.find",paste0("AC=",new.access), virtual = TRUE)
+          check.misc_feature <- seqinr::extractseqs("misc_feature.find", operation = "feature", feature = "misc_feature")
+          if (length(check.misc_feature)>0){
+            misc_feature.fasta <- seqinr::read.fasta(textConnection(check.misc_feature),as.string = FALSE,forceDNAtolower = FALSE)
+            if (!length(current.annot)==length(misc_feature.fasta)){
+              bad.cols<-which(colnames(Accession.Table) %in% unique.misc_feature)
+              Accession.Table[accession.index,bad.cols]<-paste("type not fully Ann.",new.access,sep=" ")
+              next
+            }
+            for (misc_feature.term.index in 1:length(unique.misc_feature)){
+              current.locus<-subset(misc_feature.Search, misc_feature.Search$Locus==unique.misc_feature[misc_feature.term.index])#subset the misc_feature terms by the current locus
+              synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
+              for (synonym.index in 1:length(synonyms)){
+                found.misc_feature<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#Find Exons for gene name
+                if (length(found.misc_feature)>0){
+                  seqinr::write.fasta(misc_feature.fasta[found.misc_feature],names=seq.name, paste0(File.Prefix,unique.misc_feature[misc_feature.term.index],".fasta"),open="a",nbchar = 60)
                   Accession.Table[accession.index,grep(paste0("\\b",unique.Exon[Exon.term.index],"\\b"), colnames(Accession.Table))]<-new.access
                   break}
               }
