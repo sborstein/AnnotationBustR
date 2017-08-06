@@ -13,9 +13,9 @@
 #' search terms for metazoan mitogenomes, plant mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms), data(mtDNAtermsPlants),data(cpDNAterms), and data(rDNAterms) respectively.
 #' Search terms can be completely made by the user as long as they follow a similar format with three columns. The first, Locus, should contain the name of the locus that will also be used to name the files. We recommend following
 #' a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or ".", and names starting with numbers should be avoided as it can cause errors with R.
-#' The second column, Type, contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, and D_Loop. The last column, Name, consists of a possible
-#' name for the locus of interest as it might appear in an annotation. For numerous synonyms for the same locus, one should have each synonym as its own row.
-#' 
+#' The second column, Type, contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, Intro, Exon, and D_Loop. The last column, Name, consists of a possible
+#' name for the locus of interest as it might appear in an annotation. For numerous synonyms for the same locus, one should have each synonym as its own row.An additional fourth column is needed for extracting introns/exons.
+#' This column, called IntronExonNumber should contain the number of the intron to extract. See the examples below and the vignette for detailed examples on extracting intron and exons.
 #' It is possible that some subsequences are not fully annotated on ACNUC and, therefore, are not extractable. These will return in the accession table as "type not fully Ann". It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For". 
 #' If the function returns "Acc. Not Found", the accession number supplied could not be found on NCBI. If "Not On ACNUC GenBank" is returned, the accession is not available through AcNUC.
 #' This may be due to ACNUC not being fully up to date. To see the last time ACNUC was updated, run seqinr::choosebank("genbank", infobank=T).
@@ -80,6 +80,10 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
     if (uni.type[subsequence.type.index]=="Intron"){
       Intron.Search<-subset(Terms, Terms$Type=="Intron")
       unique.Intron<-unique(Intron.Search$Locus)
+    }
+    if (uni.type[subsequence.type.index]=="Exon"){
+      Exon.Search<-subset(Terms, Terms$Type=="Exon")
+      unique.Exon<-unique(Exon.Search$Locus)
     }
   }
   for (accession.index in 1:length(Accessions)){
@@ -293,11 +297,41 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
             for (Intron.term.index in 1:length(unique.Intron)){
               current.locus<-subset(Intron.Search, Intron.Search$Locus==unique.Intron[Intron.term.index])#subset the Intron terms by the current locus
               synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
+              IntronNumber<-unique(current.locus$IntronExonNumber)
               for (synonym.index in 1:length(synonyms)){
-                found.Intron<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
-                if (length(found.Intron)>0){
-                  seqinr::write.fasta(intron.fasta[found.Intron],names=seq.name, paste0(File.Prefix,unique.Intron[Intron.term.index],".fasta"),open="a",nbchar = 60)
+                found.Intron<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#Find introns for gene name
+                foundNumber<-grep(paste0("\\b", IntronNumber[synonym.index],"\\b"),current.annot[found.Intron])#find intron number that is to be extracted
+                ifelse(length(foundNumber)==0|length(found.Intron)==1,foundNumber<-found.Intron,foundNumber<-foundNumber)
+                if (length(foundNumber)>0){
+                  seqinr::write.fasta(intron.fasta[foundNumber],names=seq.name, paste0(File.Prefix,unique.Intron[Intron.term.index],".fasta"),open="a",nbchar = 60)
                   Accession.Table[accession.index,grep(paste0("\\b",unique.Intron[Intron.term.index],"\\b"), colnames(Accession.Table))]<-new.access
+                  break}
+              }
+            }
+          }
+        }
+        if (uni.type[loci.type.index]=="Exon")  {
+          current.annot<-annotation.list[grep("exon            ",annotation.list)]#subset in the parsed annotation
+          Exon.find <- seqinr::query("Exon.find",paste0("AC=",new.access), virtual = TRUE)
+          check.Exon <- seqinr::extractseqs("Exon.find", operation = "feature", feature = "Exon")
+          if (length(check.Exon)>0){
+            Exon.fasta <- seqinr::read.fasta(textConnection(check.Exon),as.string = FALSE,forceDNAtolower = FALSE)
+            if (!length(current.annot)==length(Exon.fasta)){
+              bad.cols<-which(colnames(Accession.Table) %in% unique.Exon)
+              Accession.Table[accession.index,bad.cols]<-paste("type not fully Ann.",new.access,sep=" ")
+              next
+            }
+            for (Exon.term.index in 1:length(unique.Exon)){
+              current.locus<-subset(Exon.Search, Exon.Search$Locus==unique.Exon[Exon.term.index])#subset the Exon terms by the current locus
+              synonyms<-unique(current.locus$Name)#subset the Name column, which includes the synonyms
+              ExonNumber<-unique(current.locus$IntronExonNumber)
+              for (synonym.index in 1:length(synonyms)){
+                found.Exon<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#Find Exons for gene name
+                foundNumber<-grep(paste0("\\b", ExonNumber[synonym.index],"\\b"),current.annot[found.Exon])#find Exon number that is to be extracted
+                ifelse(length(foundNumber)==0|length(found.Exon)==1,foundNumber<-found.Exon,foundNumber<-foundNumber)
+                if (length(foundNumber)>0){
+                  seqinr::write.fasta(Exon.fasta[foundNumber],names=seq.name, paste0(File.Prefix,unique.Exon[Exon.term.index],".fasta"),open="a",nbchar = 60)
+                  Accession.Table[accession.index,grep(paste0("\\b",unique.Exon[Exon.term.index],"\\b"), colnames(Accession.Table))]<-new.access
                   break}
               }
             }
