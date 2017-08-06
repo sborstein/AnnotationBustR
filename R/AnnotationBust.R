@@ -364,7 +364,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
                 found.misc_feature<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#Find Exons for gene name
                 if (length(found.misc_feature)>0){
                   seqinr::write.fasta(misc_feature.fasta[found.misc_feature],names=seq.name, paste0(File.Prefix,unique.misc_feature[misc_feature.term.index],".fasta"),open="a",nbchar = 60)
-                  Accession.Table[accession.index,grep(paste0("\\b",unique.Exon[Exon.term.index],"\\b"), colnames(Accession.Table))]<-new.access
+                  Accession.Table[accession.index,grep(paste0("\\b",unique.misc_feature[misc_feature.term.index],"\\b"), colnames(Accession.Table))]<-new.access
                   break}
               }
             }
