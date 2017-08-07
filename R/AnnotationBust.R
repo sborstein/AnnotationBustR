@@ -198,9 +198,9 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
                   max.instance<-min(c(length(found.CDS),current.dup$DuplicateInstances))#to control number found and written, get lowest common number
                   for (dup.found.index in 1:max.instance){
                     if (TranslateSeqs==TRUE){
-                      found.seq<-seqinr::getTrans(rec$req[[found.CDS[dup.found.index]]], numcode=TranslateCode)####Trans work?
+                      found.seq<-seqinr::c2s(seqinr::getTrans(rec$req[[found.CDS[dup.found.index]]], numcode=TranslateCode))####Trans work?
                     }
-                    else{found.seq<-seqinr::getSequence(rec$req[found.CDS[1]], as.string=FALSE)}
+                    else{found.seq<-seqinr::getSequence(rec$req[found.CDS[dup.found.index]], as.string=FALSE)}
                     seqinr::write.fasta(toupper(found.seq[[1]]),names=seq.name, paste0(File.Prefix,unique.CDS[CDS.term.index],dup.found.index,".fasta"),open="a",nbchar = 60)
                     Accession.Table[accession.index,grep(paste0("\\b",unique.CDS[CDS.term.index],dup.found.index,"\\b"), colnames(Accession.Table))]<-new.access
                   }
@@ -211,7 +211,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
             else{for (synonym.index in 1:length(synonyms)){
               found.CDS<-grep(paste0("\\b",synonyms[synonym.index],"\\b"), current.annot)#search for the regular
               if (length(found.CDS)>0){
-                ifelse(TranslateSeqs==TRUE, found.seq<-seqinr::getTrans(rec$req[[found.CDS]],numcode=TranslateCode),found.seq<-seqinr::getSequence(rec$req[found.CDS[1]], as.string=FALSE))
+                ifelse(TranslateSeqs==TRUE, found.seq<-seqinr::c2s(seqinr::getTrans(rec$req[[found.CDS]],numcode=TranslateCode)),found.seq<-seqinr::getSequence(rec$req[found.CDS[1]], as.string=FALSE))
                 seqinr::write.fasta(toupper(found.seq[[1]]),names=seq.name, paste0(File.Prefix,unique.CDS[CDS.term.index],".fasta"),open="a",nbchar = 60)
                 Accession.Table[accession.index,grep(paste0("\\b",unique.CDS[CDS.term.index],"\\b"), colnames(Accession.Table))]<-new.access
                 break}}
