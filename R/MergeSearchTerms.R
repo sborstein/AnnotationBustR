@@ -21,18 +21,38 @@
 #' 
 #' #Run the merge search term function with sorting based on gene name.
 #' new.terms<-MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)
+#' 
+#' #Merge search terms and create an additional column for introns and/or exons to
+#' #In this example, add the trnK intron to the terms
+#' #create empty IntornExonNumber column for non-intron/exons
+#' cp.terms<-cbind(cpDNAterms,rep(NA,length(cpDNAterms$Name)))
+#' colnames(cp.terms)[4]<-"IntronExonNumber"#Name the column IntronExonNumber
+#' trnK.intron.terms<-subset(cpDNAterms,cpDNAterms$Locus=="trnK")#subset trnK
+#' #Create a vector of 1's the same length as the number of rows for trnK
+#' trnK.terms<-cbind(trnK.intron.terms,rep(1,length(trnK.intron.terms$Name)))
+#' colnames(trnK.terms)[4]<-"IntronExonNumber"#Name the column IntronExonNumber
+#' #Use MergeSearchTerms to merge the modified cpDNAterms and new intron terms
+#' all.terms<-MergeSearchTerms(cp.terms,trnK.terms)
 #' @export
 
 MergeSearchTerms<-function(..., SortGenes=FALSE){
   dots <- list(...)
+  check.names<-c(colnames(mtDNAterms),"IntronExonNumber")
+  if(length(unique(sapply(lapply(dots, dim), "[", 2)))>1){
+    stop(paste("The input data frames are of different dimensions"))
+  }
   for (i in sequence(length(dots))) {
     working <- TRUE
     if(class(dots[[i]])!="data.frame") {
       stop(paste("The input object is the wrong format", sep=""))
       #working <- FALSE
     }
-    if(dim(dots[[i]])[2]!=3) {
+    if(dim(dots[[i]])[2]!=3&&dim(dots[[i]])[2]!=4) {
       stop(paste("The input object is the wrong dimensions", sep=""))
+      #working <- FALSE
+    }
+    if(length(grep(TRUE,colnames(dots[[i]])!=check.names[1:unique(sapply(lapply(dots, dim), "[", 2))])>0)) {
+      stop(paste("The columns for table",i, "do not have the proper names ('Locus','Type','Name' and if extracting introns/exons, the additional column 'IntronExonNumber')", sep=" "))
       #working <- FALSE
     }
   }

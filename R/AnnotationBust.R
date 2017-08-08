@@ -30,12 +30,35 @@
 #' ncbi.accessions<-c("FJ706295","FJ706343","FJ706292")
 #' data(rDNAterms)#load rDNA search terms from AnnotationBustR
 #' #Run AnnotationBustR and write files to working directory
-#' my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE)
+#' my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
+#' prefix="Example1")
 #' my.sequences#Return the accession table for each species.
 #' 
-#' ###Example With Introns/Exons##
-#' #Create vector od accessions to extract
-#' ncbi.accessions<-c()
+#' ###Example With matK CDS and trnK Introns/Exons##
+#' #Subset out matK from cpDNAterms
+#' cds.terms<-subset(cpDNAterms,cpDNAterms$Locus=="matK")
+#' #Create a vecotr of NA so we can merge with the search terms for introns and exons
+#' cds.terms<-cbind(cds.terms,(rep(NA,length(cds.terms$Locus))))
+#' colnames(cds.terms)[4]<-"IntronExonNumber"
+#'
+#' #Prepare a search term table for the intron and exons to remove
+#' #We can start with the cpDNAterms for trnK
+#' IntronExon.terms<-subset(cpDNAterms,cpDNAterms$Locus=="trnK")
+#' #As we want to go for two exons, we will want the synonyms repeated as we are doing and intron 
+#' #and an exon
+#' IntronExon.terms<-rbind(IntronExon.terms,IntronExon.terms)#duplicate the terms
+#' #rep the sequence type we want to extract
+#' IntronExon.terms$Type<-rep(c("Intron","Intron","Exon","Exon"))
+#' IntronExon.terms$Locus<-rep(c("trnK_Intron","trnK_Exon2"),each=2)
+#' IntronExon.terms<-cbind(IntronExon.terms,rep(c(1,1,2,2)))#Add intron/exon number info
+#' #change column name for number info for IntronExon name
+#' colnames(IntronExon.terms)[4]<-"IntronExonNumber"
+#' #We can then merge everything together with MergeSearchTerms terms
+#' IntronExonExampleTerms<-MergeSearchTerms(IntronExon.terms,cds.terms)
+#'
+#' #Run AnnotationBust
+#' IntronExon.example<-AnnotationBust(Accessions=c("KX687911.1", "KX687910.1"), 
+#' Terms=IntronExonExampleTerms, Prefix="DemoIntronExon")
 #' }
 #' @export
 
