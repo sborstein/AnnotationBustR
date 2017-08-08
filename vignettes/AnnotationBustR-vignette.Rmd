@@ -79,7 +79,7 @@ AnnotationBustR's `FindLongestSeq` function finds the longest available sequence
 ```
 #Create a vector of GenBank nucleotide accession numbers. In order this contains accessions 
 my.longest.seqs<-FindLongestSeq(accessions)#Run the FindLongestSeq function
-my.longest.seqs#return the longest seqs found
+my.longest.seqs#returns the longest seqs found per species
 ```
 In this case we can see that the function worked as it only returned accession AP011317.1 (16577 bp) for *Barbonymus schwanefeldii* which was longer than accessions KU498040.2, KU233186.2, KJ573467.1  (16570,16478, and 16576 bp respectively) as well as the single accessions for *Barbonymus altus* and *Barbonymus gonionnotus*. The table returns a three-column data frame with the species name, the corresponding accession number, and the length.
 
@@ -129,7 +129,7 @@ While we have tried to cover as many synonyms for genes in our pre-made data fra
 For example, let's imagine that we found a completely new annotation for the gene cytochrome oxidase subunit 1 (COI) listed as CX1. The `MergeSearchTerms` function only has two arguments, `...`, which takes two or more objects of class `data.frame` and  the logical `Sort.Genes`, which We could easily add this to other mitochondrial gene terms by:
 
 ```
-add.name<-data.frame("COI","CDS", "CX1")#Add imaginary gene synonym for cytochrome oxidase subunit 1, CX1
+add.name<-data.frame("COI","CDS", "CX1", stringsAsFactors = FALSE)#Add imaginary gene synonym for cytochrome oxidase subunit 1, CX1
 colnames(add.name)<-colnames(mtDNAterms)#make the columnames for this synonym those needed for AnnotationBustR
 
 #Run the merge search term function without sorting based on gene name.
@@ -145,29 +145,49 @@ Additional arguments include the ability to specify duplicate genes you wish to 
 
 AnnotationBustR also has arguments to translate coding sequences into the corresponding peptide sequence setting the `TranslateSeqs` argument to TRUE. If `TranslateSeqs=TRUE`, users should also specify the GenBank translation code number corresponding to their sequences using the `TranslateCode` argument. A list of GenBank translaton codes for taxa is available here: http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
 
-An additional argument of `AnnotationBust` is `DuplicateSpecies` which when set to `DuplicateSpecies=TRUE` adds the accession number to the species name for the FASTA file. This can be useful for later analyses involving FASTA files as duplicate names in FASTA headers can pose problems with some programs. It is important to note that if users select `DuplicateSpecies=TRUE` that while FASTA file will contain species names with their respected accession number, the corresponding accession table will have a single row per species containing all the accession numbers for each sub-sequence locus found for that species seperated by a comma.
+An additional argument of `AnnotationBust` is `DuplicateSpecies` which when set to `DuplicateSpecies=TRUE` adds the accession number to the species name for the FASTA file. This can be useful for later analyses involving FASTA files as duplicate names in FASTA headers can pose problems with some programs. It is important to note that if users select `DuplicateSpecies=TRUE` that while FASTA file will contain species names with their respected accession number, the corresponding accession table will either have a single row per species containing all the accession numbers for each subsequence locus found for that species seperated by a comma or a seperate row for each accession number dependent on what the user chooses for the `TidyAccessions` argument (see description below).
 
 The argument `Prefix`can either be `NULL` or a character vector of length 1. If Prefix is not `NULL` it will add the prefix specified to all FASTA files. If left as `Prefix=NULL` files names will just be the name of the locus.
 
 The final argument `TidyAccessions` effects the format of the final accession table. If `TidyAccessions=TRUE`, all sequence for a single species will be collapsed into a single cell per locus and accessions will be seperated by commas. If `TidyAccessions=FALSE` it will leave each accession number in its own row in the accession table. 
 
-For the tutorial, we will use the accessions we created in examples 3.1 in the object `my.longest.accessions`. This is a vector that contains three accessions for mitogenomes of three species of *Barbonymus*.
-
-For this example, we will use all the arguments of `AnnotationBust` to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser, which occur twice in vertebrate mitogenomes. We will translate the CDS using `TranslateSeqs` argument with `TranslateCode=2`, the code for vertebrate mitogenomes. Because we have to accessions for the same species (Humans), we will specify `DuplicateSpecies=TRUE` and have out FASTA files output with the prefix "Demo" by specifying `Prefix="Demo"` and with the . This will create 38 FASTA files for all mitochondrial loci in the mitochondrial genome in the working director.
-
+For the tutorial, we will use the accessions we created in examples 3.1 in the object `my.longest.accessions`. This is a vector that contains three accessions for mitogenomes of three species of *Barbonymus*. These accessions provide a good highlight as to the utility of this package.If we look at the annotations of these three accessions(https://www.ncbi.nlm.nih.gov/nuccore/AP011317.1,https://www.ncbi.nlm.nih.gov/nuccore/AP011181.1,https://www.ncbi.nlm.nih.gov/nuccore/AB238966.1), we can see that while AP011317 and AP011181 are annotated with similar nomenclature, AB238966 differs substantially (e.x. COI vs CO2, Cyt b vs Cb, etc.). For this example, we will use all the arguments of `AnnotationBust` to extract all 38 subsequences for the four accessions (22 tRNAs, 13 CDS, 2 rRNAs, and 1 D-loop). For this we will have to specify duplicates, in this case for tRNA-Leu and tRNA-Ser, which occur twice in vertebrate mitogenomes. We will translate the CDS using `TranslateSeqs` argument with `TranslateCode=2`, the code for vertebrate mitogenomes. Because we have a single accession for each species, we will specify `DuplicateSpecies=FALSE` and have out FASTA files output with the prefix "Demo" by specifying `Prefix="Demo"` and with `TiddyAccessions=TRUE`. This will create 38 FASTA files for all mitochondrial loci in the mitochondrial genome in the working director with the prefix "Demo".
 
 ```
 #run AnnotationBust function for two duplicate tRNA genes occuring twice and translate CDS
-my.seqs<-AnnotationBust(my.accessions, mtDNAterms,Duplicates=c("tRNA_Leu","tRNA_Ser"), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE, Prefix="Demo", TidyAccessions=TRUE)
+my.seqs<-AnnotationBust(Accessions=my.longest.seqs$Accession, Terms=mtDNAterms,Duplicates=c("tRNA_Leu","tRNA_Ser"), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE, Prefix="Demo", TidyAccessions=TRUE)
 
 #We can return the accession table. It has our two accessions for Homo sapiens in the same row
 my.seqs#retutn the accession table
 write.csv(my.seqs, file="AccessionTable.csv")#Write the accession table to a csv file
 ```
 
-We can also use `AnnotationBustR` to extract introns from sequences. One limitation to this is that the introns must be annotated within the subsequence, which is lacking from some accessions (e.x. not all chloroplasts have introns annotated).
+We can also use `AnnotationBustR` to extract introns from sequences. One limitation to this is that the introns must be annotated within the subsequence, which is lacking from some accessions (e.x. not all chloroplasts have introns annotated). As stated above, this requires the use of a fourth column in the search terms, labelled `IntronExonNumber`, which is used to find which number intron is to be extracted. For instance, lets imagine we want to extract the coding sequence matK and exon 2 and intron 1 of trnK from the chloroplast genomes KX687911.1 and KX687910.1 We could set up the search terms as follows using the current `cpDNAterms`:
 
+```
+#Subset out atpE from cpDNAterms
+cds.terms<-subset(cpDNAterms,cpDNAterms$Locus=="matK")
+#Create a vecotr of NA so we can merge with the search terms for introns and exons
+cds.terms<-cbind(cds.terms,(rep(NA,length(cds.terms$Locus))))
+colnames(cds.terms)[4]<-"IntronExonNumber"
 
+#Prepare a search term table for the intron and exons to remove
+#We can start with the cpDNAterms for trnK
+IntronExon.terms<-subset(cpDNAterms,cpDNAterms$Locus=="trnK")
+#As we want to go for two exons, we will want the synonyms repeated as we are doing and intron and an exon
+IntronExon.terms<-rbind(IntronExon.terms,IntronExon.terms)#duplicate the terms
+IntronExon.terms$Type<-rep(c("Intron","Intron","Exon","Exon"))#rep the sequence type we want to extract
+IntronExon.terms$Locus<-rep(c("trnK_Intron","trnK_Exon2"),each=2)
+IntronExon.terms<-cbind(IntronExon.terms,rep(c(1,1,2,2)))#Add intron/exon number info
+colnames(IntronExon.terms)[4]<-"IntronExonNumber"#change column name for number info for IntronExon name
+
+#We can then merge everything together with MergeSearchTerms terms
+IntronExonExampleTerms<-MergeSearchTerms(IntronExon.terms,cds.terms)
+
+#Run AnnotationBust
+IntronExon.example<-AnnotationBust(Accessions=c("KX687911.1", "KX687910.1"), Terms=IntronExonExampleTerms, Prefix="DemoIntronExon")
+
+```
 ## 3.5 Troubleshooting
 As `AnnotationBustR` is dependent on access to online databases, it is important that you make sure you have a reliable internet connection while using the package, especially for the `FindLongestSeq` and `AnnotationBust` functions. Additionally, as these functions require access to GenBank and ACNUC, if you have internet access yet are still having issues, check that these sites and there servers are not down or undergoing maintainence, which they do occasionally.
 
