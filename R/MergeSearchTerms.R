@@ -37,7 +37,7 @@
 
 MergeSearchTerms<-function(..., SortGenes=FALSE){
   dots <- list(...)
-  check.names<-c(colnames(mtDNAterms),"IntronExonNumber")
+  check.names<-c("Locus","Type","Name","IntronExonNumber")
   if(length(unique(sapply(lapply(dots, dim), "[", 2)))>1){
     stop(paste("The input data frames are of different dimensions"))
   }
