@@ -15,9 +15,9 @@ Type: Package
 
 Title: An R package to extract sub-sequences from GenBank annotations under different synonyms
 
-Version: 1.0
+Version: 1.1
 
-Date: 2016-09-13
+Date: 2017-8-15
 
 License: GPL (>= 2)
 
