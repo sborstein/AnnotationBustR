@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/sborstein/AnnotationBustR.svg)](https://travis-ci.org/sborstein/AnnotationBustR)
+[![Build Status](https://travis-ci.org/sborstein/AnnotationBustR.svg)](https://travis-ci.org/sborstein/AnnotationBustR) [![](http://cranlogs.r-pkg.org/badges/AnnotationBustR)](http://cran.rstudio.com/web/packages/AnnotationBustR/index.html)
+
 
 # AnnotationBustR
 AnnotationBustR: An R package to extract sub-sequences from GenBank annotations.
