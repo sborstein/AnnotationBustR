@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/sborstein/AnnotationBustR.svg)](https://travis-ci.org/sborstein/AnnotationBustR) [![](http://cranlogs.r-pkg.org/badges/AnnotationBustR)](http://cran.rstudio.com/web/packages/AnnotationBustR/index.html)
+[![Build Status](https://travis-ci.org/sborstein/AnnotationBustR.svg)](https://travis-ci.org/sborstein/AnnotationBustR) [![](http://cranlogs.r-pkg.org/badges/AnnotationBustR)](http://cran.rstudio.com/web/packages/AnnotationBustR/index.html) [![](http://www.r-pkg.org/badges/version/AnnotationBustR)](http://cran.rstudio.com/web/packages/AnnotationBustR/index.html)
 
 
 # AnnotationBustR
