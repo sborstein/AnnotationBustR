@@ -4,7 +4,7 @@
 \name{mtDNAtermsPlants}
 \alias{mtDNAtermsPlants}
 \title{Mitochondrial DNA Search Terms for Plants}
-\format{A data frame of of 233 rows and 3 columns
+\format{A data frame of of 248 rows and 3 columns
 \itemize{
   \item Locus: Locus name, FASTA files will be written with this name
   \item Type: Type of subsequence, either CDS,tRNA,rRNA,misc_RNA, or D-loop

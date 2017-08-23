@@ -1,6 +1,6 @@
 Package: AnnotationBustR
 Version: 1.1
-Date: 2017-8-7
+Date: 2017-8-25
 Title: Extract Subsequences from GenBank Annotations
 Author: Samuel R. Borstein <sam@borstein.com>, Brian O'Meara <bomeara@utk.edu>
 Maintainer: Samuel R. Borstein <sam@borstein.com>
