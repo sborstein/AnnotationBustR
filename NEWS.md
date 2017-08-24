@@ -8,4 +8,4 @@ AnnotationBustR 1.1
 
 ## UPDATED FEATURES
 
-* Substantial changes to both mtDNAterms and cpDNAterms adding ~50+ terms to each.
+* Substantial changes to both mtDNAterms and cpDNAterms adding 50+ terms to each.
