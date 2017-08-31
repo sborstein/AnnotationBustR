@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">AnnotationBustR Tutorial</h1>
 <h4 class="author"><em>Samuel R. Borstein</em></h4>
-<h4 class="date"><em>28 August, 2017</em></h4>
+<h4 class="date"><em>31 August, 2017</em></h4>
 
 </div>
 
@@ -126,7 +126,7 @@ $(document).ready(function () {
 <div id="introduction" class="section level1">
 <h1>1: Introduction</h1>
 <p>This is a tutorial for using the R package AnnotationBustR. AnnotationBustR reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files given a set of search terms. This is useful as it allows users to quickly extract parts of concatenated or genomic sequences based on GenBank features and write them to FASTA files, even when feature annotations for homologous loci may vary (i.e. gene synonyms like COI, COX1, COXI all being used for cytochrome oxidase subunit 1).</p>
-<p>In this tutorial we will cover the basics of how to use AnnotationBustR to extract parts of a GenBank sequences.This is considerably faster than extracting them manually and requires minimal effort by the user. While command line utilities like BLAST also work, they require the buliding of databases to search against and can be computationally intensive and in some cases may have issues aligning disparate yet homologous sequences. For example, it is possible to extract into FASTA files every subsequence from a mitochondrial genome (38 sequences, 13 CDS, 22 tRNA, 2rRNA, 1 D-loop) in 26-36 seconds, which is significantly faster than if you were to do it manually from the online GenBank features table. In this tutorial, we will discuss how to install AnnotationBustR, the basic AnnotationBustR pipeline, and how to use the functions that are included in AnnotationBustR.</p>
+<p>In this tutorial we will cover the basics of how to use AnnotationBustR to extract parts of a GenBank sequences.This is considerably faster than extracting them manually and requires minimal effort by the user. While command line utilities like BLAST can also work, they require the buliding of databases to search against and can be computationally intensive and can have difficulties with highly complex sequences, like trans-spliced genes. They also require a far more complex query language to extract the subsequence and write it to a file. For example, it is possible to extract into FASTA files every subsequence from a mitochondrial genome (38 sequences, 13 CDS, 22 tRNA, 2rRNA, 1 D-loop) in 26-36 seconds, which is significantly faster than if you were to do it manually from the online GenBank features table. In this tutorial, we will discuss how to install AnnotationBustR, the basic AnnotationBustR pipeline, and how to use the functions that are included in AnnotationBustR.</p>
 </div>
 <div id="installation" class="section level1">
 <h1>2: Installation</h1>
@@ -167,8 +167,7 @@ Fig. 1: AnnotationBustR Workflow. Steps in orange occur outside the package whil
 </p>
 </div>
 <p>For this tutorial we will be extracting loci from the mitochondrial genomes of a fish genus, <em>Barbonymus</em>. We’ll start off by using the R package <code>reutils</code> to search for accessions to use in this tutorial. There are a variety of R packages that can be used to find accessions you may want to extract subsequences from (i.e. <code>seqinr</code>,<code>rentrez</code>,<code>reutils</code>) or you can perform a search on the NCBI Database website (<a href="https://www.ncbi.nlm.nih.gov/nuccore" class="uri">https://www.ncbi.nlm.nih.gov/nuccore</a>) and download a list of accession numbers that can then be read into R.</p>
-<pre><code>#Get mitochondrial genome accessions for the genus Barbonymus
-#install (if necessary) and load rentrez
+<pre><code>#install (if necessary) and load reutils
 #install.packages(&quot;reutils&quot;)#install if necessary
 library(reutils)</code></pre>
 <p>Lets pretend we wanted to search for the gene cytochrome B. We could perform a search using the following.</p>
@@ -183,7 +182,7 @@ accessions&lt;-efetch(demo.search, rettype = &quot;acc&quot;,retmode = &quot;tex
 accessions &lt;- strsplit(content(accessions), &quot;\n&quot;)[[1]]#split out accessions from other meta-data
 #Currently, ACNUC, which AnnotationBustR uses through the seqinr dependency, doesn't have access to refseq accessions, so remove them
 accessions&lt;-accessions[-grep(&quot;NC_&quot;,accessions)]</code></pre>
-<p>We can see that this returns six complete mitochondrial genome sequences on GenBank for <em>Barbonymus</em> species. We’ll be using these accessions for the rest of the tutorial.</p>
+<p>We can see that this returns six complete mitochondrial genome sequences on GenBank for <em>Barbonymus</em> species. We’ll be using these accessions later in this tutorial.</p>
 </div>
 <div id="optional-step-finding-the-longest-available" class="section level2">
 <h2>3.1:(Optional Step) Finding the Longest Available</h2>
@@ -235,6 +234,7 @@ new.terms&lt;-MergeSearchTerms(add.name, mtDNAterms, SortGenes=FALSE)
 
 #Run the merge search term function with sorting based on gene name.
 new.terms&lt;-MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)</code></pre>
+<p>We will use this function again in a more realistic example later in this vignette.</p>
 </div>
 <div id="extract-sequences-with-annotationbust" class="section level2">
 <h2>3.4 Extract sequences with AnnotationBust</h2>
@@ -248,11 +248,11 @@ new.terms&lt;-MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)</code></pre
 <pre><code>#run AnnotationBust function for two duplicate tRNA genes occuring twice and translate CDS
 my.seqs&lt;-AnnotationBust(Accessions=my.longest.seqs$Accession, Terms=mtDNAterms,Duplicates=c(&quot;tRNA_Leu&quot;,&quot;tRNA_Ser&quot;), DuplicateInstances=c(2,2), TranslateSeqs=TRUE, TranslateCode=2, DuplicateSpecies=TRUE, Prefix=&quot;Demo&quot;, TidyAccessions=TRUE)
 
-#We can return the accession table. It has our two accessions for Homo sapiens in the same row
+#We can return the accession table and write it to a CSV file.
 my.seqs#retutn the accession table
 write.csv(my.seqs, file=&quot;AccessionTable.csv&quot;)#Write the accession table to a csv file</code></pre>
 <p>We can also use <code>AnnotationBustR</code> to extract introns from sequences. One limitation to this is that the introns must be annotated within the subsequence, which is lacking from some accessions (e.x. not all chloroplasts have introns annotated). As stated above, this requires the use of a fourth column in the search terms, labelled <code>IntronExonNumber</code>, which is used to find which number intron is to be extracted. For instance, lets imagine we want to extract the coding sequence matK and exon 2 and intron 1 of trnK from the chloroplast genomes KX687911.1 and KX687910.1 We could set up the search terms as follows using the current <code>cpDNAterms</code>:</p>
-<pre><code>#Subset out atpE from cpDNAterms
+<pre><code>#Subset out matK from cpDNAterms
 cds.terms&lt;-subset(cpDNAterms,cpDNAterms$Locus==&quot;matK&quot;)
 #Create a vecotr of NA so we can merge with the search terms for introns and exons
 cds.terms&lt;-cbind(cds.terms,(rep(NA,length(cds.terms$Locus))))
