@@ -18,3 +18,5 @@ Suggests:
     rmarkdown,
 	testthat
 VignetteBuilder: knitr
+URL: https://github.com/sborstein/AnnotationBustR, https://www.ncbi.nlm.nih.gov/nuccore, https://en.wikipedia.org/wiki/FASTA_format
+BugReports: https://github.com/sborstein/AnnotationBustR/issues

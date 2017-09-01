@@ -1,4 +1,4 @@
-# AnnotationBustR Tutorial 
+# AnnotationBustR Tutorial
 Samuel R. Borstein  
 `r format(Sys.time(), '%d %B, %Y')`  
 

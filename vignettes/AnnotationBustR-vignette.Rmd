@@ -1,12 +1,12 @@
 ---
-title: "AnnotationBustR Tutorial "
+title: "AnnotationBustR Tutorial"
 author: "Samuel R. Borstein"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
     keep_md: true
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{AnnotationBustR Tutorial}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
