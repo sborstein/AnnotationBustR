@@ -211,6 +211,9 @@ ACNUC.GB.INFO#return info on date
 
 "type not fully Ann." = Indicates that the sequence is on GenBank, but is lacking necessary annotation information to fully extract all subsequences. They may be concatenated and not contain position information for each subsequence.
 
+"Warning: In socketConnection(host = host, port = port, server = server, blocking = blocking, :pbil.univ-lyon1.fr:5558 cannot be opened" = There was an issue connecting to ACNUC. This is an error with the seqinr dependency indicating it is having issues connecting to the ACNUC server. This isn't usually common with a solid internet connection, but does occassionally occur when trying to connect to the ANCUC server for the first time during a session.
+
+
 It is also important to note that refseq numbers are not supported at the moment (i.e. prefixes like XM_ and NC_). This is due to a limitation in our dependency `seqinr`, which only provides access to refseq viruses at present. We have been in contact with the maintainers of `seqinr` and look forward to implementing refseq accessability into AnotationBusR in the future.
 
 ## 4: Final Comments
