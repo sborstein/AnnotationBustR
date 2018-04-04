@@ -1,11 +1,11 @@
 #' This is an internal function in AnnotationBustR that is amodified version of ape's read.GenBank () to get accession numbers and info from GenBank 
-#' @param Accessions A vector of GenBank accession numbers.
+#' @param access.nb A vector of GenBank accession numbers.
+#' @param seq.names Names for sequences
+#' @param species.names Logical. Should species names be returned.Default is TRUE.
+#' @param gene.names Logical. Should gene names be returned.Default is FALSE.
+#' @param as.character Logical. Should returned object strings be treated as character. Default is FALSE.
 #' @details internal function returns accessions and fasta files to measure length in AnnotationBustR
 #' @return A fasta with sequence names and length info
-#' @examples 
-#' #a vector of 4 genbank accessions, there are two for each species.
-#' genbank.accessions<-c("KP978059.1","KP978060.1","JX516105.1","JX516111.1")
-#' example.getGB<-getGB(genbank.accessions)
 #' @references Popescu, Andrei-Alin, Katharina T. Huber, and Emmanuel Paradis. "ape 3.0: New tools for distance-based phylogenetics and evolutionary analysis in R." Bioinformatics 28.11 (2012): 1536-1537.
 
 getGB<-function (access.nb, seq.names = access.nb, species.names = TRUE, 
