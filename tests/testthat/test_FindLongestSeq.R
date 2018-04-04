@@ -214,7 +214,7 @@ Achrist<-structure(list(V1 = structure(1:1041, .Label = c("KT634321.1",
                                                    "KT691928.1", "KT691982.1", "KT692038.1", "KT692094.1", "KT692150.1", 
                                                    "KT692259.1", "KT692315.1", "KT692370.1", "KT692425.1", "KT692481.1"
   ), class = "factor")), .Names = "V1", class = "data.frame", row.names = c(NA, -1041L))
-long.manual<-ape::read.GenBank(as.vector(Achrist$V1))
+long.manual<-getGB(as.vector(Achrist$V1))
 long.manual.res<-which(summary(long.manual)[,1]==max(as.numeric(summary(long.manual)[,1])))
 expect_identical(FindLongestSeq(Achrist$V1)$Accession, names(long.manual.res))
 })
