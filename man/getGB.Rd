@@ -30,3 +30,4 @@ internal function returns accessions and fasta files to measure length in Annota
 \references{
 Popescu, Andrei-Alin, Katharina T. Huber, and Emmanuel Paradis. "ape 3.0: New tools for distance-based phylogenetics and evolutionary analysis in R." Bioinformatics 28.11 (2012): 1536-1537.
 }
+\keyword{internal}
