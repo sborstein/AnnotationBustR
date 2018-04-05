@@ -1,14 +1,12 @@
 ## Resubmission
-This is a resubmission of a package update of AnnotationBustR from v1.0 to v1.1. In this version I have:
+This is a resubmission of a package update of AnnotationBustR from v1.1 to v1.2. In this version I have:
 
-* Added a URL for GenBank
-* Added a URL rather than a DOI linking to a description of FASTA. FASTA format originated from a now defunct software program which does not mention the format by name in the paper describing the program, yet the format has survived and is still widely used to date.
-* Removed possible bad URLs
+* Fixed an issue brought to my attention by CRAN causing tests to fail due to an issue with a dependency.
 
 ## Test environments
-* local OS X install, R 3.4.1
-* ubuntu 12.04 (on travis-ci), R 3.4.1
-* win-builder (devel and release), R 3.4.1
+* local OS X install, R 3.4.4
+* ubuntu 12.04 (on travis-ci), R 3.4.4
+* win-builder (devel and release), R 3.4.4
 
 ## R CMD check results
 0 errors | 0 warnings | 0 notes
