@@ -1,4 +1,5 @@
 #' This is an internal function in AnnotationBustR that is amodified version of ape's read.GenBank () to get accession numbers and info from GenBank 
+#' @keywords internal
 #' @param access.nb A vector of GenBank accession numbers.
 #' @param seq.names Names for sequences
 #' @param species.names Logical. Should species names be returned.Default is TRUE.
