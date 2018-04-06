@@ -31,7 +31,7 @@
 #' data(rDNAterms)#load rDNA search terms from AnnotationBustR
 #' #Run AnnotationBustR and write files to working directory
 #' my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
-#' prefix="Example1")
+#' Prefix="Example1")
 #' my.sequences#Return the accession table for each species.
 #' 
 #' ###Example With matK CDS and trnK Introns/Exons##
