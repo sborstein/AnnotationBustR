@@ -10,7 +10,8 @@
 #' @export
 
 FindLongestSeq<-function(Accessions){
-raw.accessions<-getGB(Accessions)#get the seqs
+Accessions<-sapply(strsplit(as.character(Accessions),"\\.",perl = TRUE), `[`, 1)
+raw.accessions<-ape::read.GenBank(Accessions)#get the seqs
 seq.ids<-attr(raw.accessions, "species")#extract attribute-species name, from genbank takedown above
 seq.data<-data.frame(cbind(attr(raw.accessions, "species"), names(raw.accessions),as.vector(summary(raw.accessions)[,1])),stringsAsFactors = FALSE)#data frame it
 colnames(seq.data)<-c("Species","Accession","Length")#attribute column names
