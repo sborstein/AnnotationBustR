@@ -36,7 +36,8 @@ dev_mode(on=T)
 install_github("sborstein/AnnotationBustR")  # install the package from GitHub
 library(AnnotationBustR)# load the package
 
-#3. Leave developers mode after using the development version of 'AnnotationBustR' so it will not #remain on your system permanently.
+#3. Leave developers mode after using the development version of 'AnnotationBustR' so it will not remain on 
+#your system permanently.
 dev_mode(on=F)
 ```
 # 3: Using AnnotationBustR
@@ -74,10 +75,22 @@ We can see that this returned 51 sequences. Many of these are accessions for a s
 demo.search <- esearch(term = "Barbonymus[orgn] and complete genome[title]", db = 'nuccore')#search
 accessions<-efetch(demo.search, rettype = "acc",retmode = "text")#fetch accessions
 accessions <- strsplit(content(accessions), "\n")[[1]]#split out accessions from other meta-data
-#Currently, ACNUC, which AnnotationBustR uses through the seqinr dependency, doesn't have access to refseq accessions, so remove them
+#Currently, ACNUC, which AnnotationBustR uses through the seqinr dependency, doesn't have access to refseq 
+#accessions, so remove them
 accessions<-accessions[-grep("NC_",accessions)]
 ```
 We can see that this returns six complete mitochondrial genome sequences on GenBank for *Barbonymus* species. We'll be using these accessions later in this tutorial.
+
+One important note for using `reutils` for finding sequences is that if you are trying to retrieve over 500 accession numbers, you will get a warning that you need to write it to a file locally on the machine. In this case, you can use the folowing code below. As the file is local and not stored in R, you will need to read it back into R for use with AnnotationBustR. Luckily, this doesn't write meta-data to the file, so we don't have to run the line stripping the meta-data.
+
+```
+#Perform search given critera
+demo.search <- esearch(term = "Pristimantis[orgn] and 12S[title]", db = 'nuccore', usehistory = TRUE) 
+#As more than 500 records, write the records to file in the current working directory
+accessions1<-efetch(demo.search, rettype = "acc",retmode  = "text", outfile = "12S.txt")
+#Read in file with records, you can now use these in AnnotationBustR
+accessions<-read.table("12S.txt",header = FALSE,stringsAsFactors = FALSE) 
+```
 
 ## 3.1:(Optional Step) Finding the Longest Available
 AnnotationBustR's `FindLongestSeq` function finds the longest available sequence for each species in a given set of GenBank accession numbers. All the user needs is to obtain a list of GenBank accession numbers they would like to input. The only function argument for `FindLongestSeq` is `Accessions`, which takes a vector of accession numbers as input. We can run the function below on the six Barbonymus accessions we found above by:
@@ -135,7 +148,8 @@ While we have tried to cover as many synonyms for genes in our pre-made data fra
 For example, let's imagine that we found a completely new annotation for the gene cytochrome oxidase subunit 1 (COI) listed as CX1. The `MergeSearchTerms` function only has two arguments, `...`, which takes two or more objects of class `data.frame` and  the logical `Sort.Genes`, which We could easily add this to other mitochondrial gene terms by:
 
 ```
-add.name<-data.frame("COI","CDS", "CX1", stringsAsFactors = FALSE)#Add imaginary gene synonym for cytochrome oxidase subunit 1, CX1
+#Add imaginary gene synonym for cytochrome oxidase subunit 1, CX1
+add.name<-data.frame("COI","CDS", "CX1", stringsAsFactors = FALSE)
 colnames(add.name)<-colnames(mtDNAterms)#make the columnames for this synonym those needed for AnnotationBustR
 
 #Run the merge search term function without sorting based on gene name.
