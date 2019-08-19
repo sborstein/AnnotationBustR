@@ -1,0 +1,32 @@
+citHeader("To cite AnnotationBustR in publications please use:")
+
+    
+citHeader("To cite hisse in publications use:")
+
+citEntry(entry = "Article",
+  title        = "AnnotationBustR: an R package to extract subsequences from GenBank annotations.",
+  author       = personList(as.person("Samuel R. Borstein"),
+                   as.person("Brian C. O'Meara")),
+  journal      = "PeerJ",
+  year         = "2018",
+  volume       = "6",
+  pages        = "e5179",
+  url          = "https://academic.oup.com/sysbio/article/65/4/583/1753616",
+
+  textVersion  =
+  paste("Borstein, S.R., and B.C. O'Meara (2018).",
+        "AnnotationBustR: an R package to extract subsequences from GenBank annotations.",
+        "PeerJ 6:e5179",
+        "URL https://peerj.com/articles/5179/")
+)
+
+citEntry(entry = "Manual",
+         title   = "AnnotationBustR: Extract Subsequences from GenBank Annotations",
+         author  = "Samuel Borstein and Brian O'Meara",
+         year    = "2019",
+         note    = "R package version 1.2",
+         url     = "https://github.com/sborstein/AnnotationBustR",
+         
+         textVersion =
+           paste("Samuel Borstein and Brian O'Meara. (2019) AnnotationBustR: Extract Subsequences from GenBank Annotations. R package version 1.2. https://github.com/sborstein/AnnotationBustR")
+)
