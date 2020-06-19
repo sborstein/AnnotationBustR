@@ -16,24 +16,24 @@
 #' The second column, Type, contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, Intro, Exon, and D_Loop. The last column, Name, consists of a possible
 #' name for the locus of interest as it might appear in an annotation. For numerous synonyms for the same locus, one should have each synonym as its own row.An additional fourth column is needed for extracting introns/exons.
 #' This column, called IntronExonNumber should contain the number of the intron to extract. If extracting both introns/exons and non-intron/exon sequences the fourth column should be NA for non-intron/exon sequence types. See the examples below and the vignette for detailed examples on extracting intron and exons.
-#' It is possible that some subsequences are not fully annotated on ACNUC and, therefore, are not extractable. These will return in the accession table as "type not fully Ann". It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For". 
+#' It is possible that some subsequences are not fully annotated on ACNUC and, therefore, are not extractable. These will return in the accession table as "type not fully Ann". It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For".
 #' If the function returns "Acc. Not Found", the accession number supplied could not be found on NCBI. If "Not On ACNUC GenBank" is returned, the accession is not available through AcNUC.
 #' This may be due to ACNUC not being fully up to date. To see the last time ACNUC was updated, run seqinr::choosebank("genbank", infobank=T).
-#' 
+#'
 #' For a more detailed walkthrough on using AnnotationBust you can access the vignette with vignette("AnnotationBustR).
 #' @return Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was found in.
 #' @return An accesion table of class data.frame.
-#' @references Borstein, Samuel R., and Brian C. O'Meara. "AnnotationBustR: An R package to extract subsequences from GenBank annotations." PeerJ Preprints 5 (2017): e2920v1. 
+#' @references Borstein, Samuel R., and Brian C. O'Meara. "AnnotationBustR: An R package to extract subsequences from GenBank annotations." PeerJ Preprints 5 (2017): e2920v1.
 #' @examples
 #' \dontrun{
 #' #Create vector of three NCBI accessions of rDNA toget subsequences of and load rDNA terms.
 #' ncbi.accessions<-c("FJ706295","FJ706343","FJ706292")
 #' data(rDNAterms)#load rDNA search terms from AnnotationBustR
 #' #Run AnnotationBustR and write files to working directory
-#' my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
+#' my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE,
 #' Prefix="Example1")
 #' my.sequences#Return the accession table for each species.
-#' 
+#'
 #' ###Example With matK CDS and trnK Introns/Exons##
 #' #Subset out matK from cpDNAterms
 #' cds.terms<-subset(cpDNAterms,cpDNAterms$Locus=="matK")
@@ -44,7 +44,7 @@
 #' #Prepare a search term table for the intron and exons to remove
 #' #We can start with the cpDNAterms for trnK
 #' IntronExon.terms<-subset(cpDNAterms,cpDNAterms$Locus=="trnK")
-#' #As we want to go for two exons, we will want the synonyms repeated as we are doing and intron 
+#' #As we want to go for two exons, we will want the synonyms repeated as we are doing and intron
 #' #and an exon
 #' IntronExon.terms<-rbind(IntronExon.terms,IntronExon.terms)#duplicate the terms
 #' #rep the sequence type we want to extract
@@ -57,7 +57,7 @@
 #' IntronExonExampleTerms<-MergeSearchTerms(IntronExon.terms,cds.terms)
 #'
 #' #Run AnnotationBust
-#' IntronExon.example<-AnnotationBust(Accessions=c("KX687911.1", "KX687910.1"), 
+#' IntronExon.example<-AnnotationBust(Accessions=c("KX687911.1", "KX687910.1"),
 #' Terms=IntronExonExampleTerms, Prefix="DemoIntronExon")
 #' }
 #' @export
@@ -85,7 +85,7 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
   if(is.null(Prefix)){
     File.Prefix<-NULL
   }else{File.Prefix<-paste0(Prefix,"_")}
-  
+
   for (subsequence.type.index in 1:length(uni.type)){#for each sequence type, get the stuff subset. Don't do d-loop as it has a seperate pathway to being captured
     if (uni.type[subsequence.type.index]=="CDS"){
       CDS.Search<-subset(Terms, Terms$Type=="CDS")
@@ -425,7 +425,25 @@ AnnotationBust<-function(Accessions, Terms, Duplicates= NULL,DuplicateInstances=
   Final.Accession.Table<-Accession.Table
   Sort.Final.Accession.Table<-Final.Accession.Table[order(Final.Accession.Table$Species),]
   rownames(Sort.Final.Accession.Table)<-1:nrow(Sort.Final.Accession.Table)
-  
+
 }
   Sort.Final.Accession.Table
+}
+
+
+
+
+seqinr_getSequence_loop <- function(x) {
+  seq_return <- NA
+  reps <- 0
+  while(is.na(seq_return[1])) {
+    reps <- reps + 1
+    try(seq_return <- seqinr::getSequence(x))
+    if(is.na(seq_return[1])) {
+      warning(paste0("Connection to the database failed; trying again in ", 10*reps, " seconds"), immediate.=TRUE)
+      Sys.sleep(10*reps)
+
+    }
+  }
+  return(seq_return)
 }
