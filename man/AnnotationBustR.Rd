@@ -3,7 +3,6 @@
 \docType{package}
 \name{AnnotationBustR}
 \alias{AnnotationBustR}
-\alias{AnnotationBustR-package}
 \title{An R package to extract sub-sequences from GenBank annotations under different synonyms}
 \description{
 An R package to extract sub-sequences from GenBank annotations under different synonyms.

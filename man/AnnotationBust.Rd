@@ -4,9 +4,17 @@
 \alias{AnnotationBust}
 \title{Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a FASTA for each accession number supplied.}
 \usage{
-AnnotationBust(Accessions, Terms, Duplicates = NULL,
-  DuplicateInstances = NULL, TranslateSeqs = FALSE, TranslateCode = 1,
-  DuplicateSpecies = FALSE, Prefix = NULL, TidyAccessions = TRUE)
+AnnotationBust(
+  Accessions,
+  Terms,
+  Duplicates = NULL,
+  DuplicateInstances = NULL,
+  TranslateSeqs = FALSE,
+  TranslateCode = 1,
+  DuplicateSpecies = FALSE,
+  Prefix = NULL,
+  TidyAccessions = TRUE
+)
 }
 \arguments{
 \item{Accessions}{A vector of INSDC GenBank accession numbers. Note that refseq numbers are not supported at the moment (i.e. prefixes like XM_ and NC_) will not work.}
