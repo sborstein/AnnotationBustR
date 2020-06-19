@@ -1,7 +1,7 @@
 ---
 title: "AnnotationBustR Tutorial"
 author: "Samuel R. Borstein"
-date: "19 August, 2019"
+date: "19 June, 2020"
 output:
   html_document:
     keep_md: true
@@ -86,11 +86,12 @@ One important note for using `reutils` for finding sequences is that if you are 
 
 ```
 #Perform search given critera
-demo.search <- esearch(term = "Pristimantis[orgn] and 12S[title]", db = 'nuccore', usehistory = TRUE) 
+demo.search.long <- esearch(term = "Pristimantis[orgn] and 12S[title]", db = 'nuccore', usehistory = TRUE) 
 #As more than 500 records, write the records to file in the current working directory
-accessions1<-efetch(demo.search, rettype = "acc",retmode  = "text", outfile = "12S.txt")
+accessions.long<-efetch(demo.search.long, rettype = "acc",retmode  = "text", outfile = "12S.txt")
 #Read in file with records, you can now use these in AnnotationBustR
-accessions<-read.table("12S.txt",header = FALSE,stringsAsFactors = FALSE) 
+accessions.long.table <- read.table("12S.txt",header = FALSE,stringsAsFactors = FALSE) 
+accessions.long.accessions <- accessions.long.table$V1
 ```
 
 ## 3.1:(Optional Step) Finding the Longest Available
@@ -233,4 +234,4 @@ ACNUC.GB.INFO#return info on date
 It is also important to note that refseq numbers are not supported at the moment (i.e. prefixes like XM_ and NC_). This is due to a limitation in our dependency `seqinr`, which only provides access to refseq viruses at present. We have been in contact with the maintainers of `seqinr` and look forward to implementing refseq accessability into AnotationBusR in the future.
 
 ## 4: Final Comments
-Further information on the functions and their usage can be found in the helpfiles `help(package=AnnotationBustR)`. For any further issues and questions send an email with subject 'AnnotationBustR support' to sborstei@vols.utk.edu or post to the issues section on GitHub(https://github.com/sborstein/AnnotationBustR/issues).
+Further information on the functions and their usage can be found in the helpfiles `help(package=AnnotationBustR)`. For any further issues and questions send an email with subject 'AnnotationBustR support' to borstein@umich.edu or post to the issues section on GitHub(https://github.com/sborstein/AnnotationBustR/issues).

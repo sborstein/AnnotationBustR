@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -270,7 +269,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -332,6 +330,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -365,7 +364,7 @@ summary {
 
 <h1 class="title toc-ignore">AnnotationBustR Tutorial</h1>
 <h4 class="author">Samuel R. Borstein</h4>
-<h4 class="date">19 August, 2019</h4>
+<h4 class="date">19 June, 2020</h4>
 
 </div>
 
@@ -432,11 +431,12 @@ accessions&lt;-accessions[-grep(&quot;NC_&quot;,accessions)]</code></pre>
 <p>We can see that this returns six complete mitochondrial genome sequences on GenBank for <em>Barbonymus</em> species. We’ll be using these accessions later in this tutorial.</p>
 <p>One important note for using <code>reutils</code> for finding sequences is that if you are trying to retrieve over 500 accession numbers, you will get a warning that you need to write it to a file locally on the machine. In this case, you can use the folowing code below. As the file is local and not stored in R, you will need to read it back into R for use with AnnotationBustR. Luckily, this doesn’t write meta-data to the file, so we don’t have to run the line stripping the meta-data.</p>
 <pre><code>#Perform search given critera
-demo.search &lt;- esearch(term = &quot;Pristimantis[orgn] and 12S[title]&quot;, db = &#39;nuccore&#39;, usehistory = TRUE) 
+demo.search.long &lt;- esearch(term = &quot;Pristimantis[orgn] and 12S[title]&quot;, db = &#39;nuccore&#39;, usehistory = TRUE) 
 #As more than 500 records, write the records to file in the current working directory
-accessions1&lt;-efetch(demo.search, rettype = &quot;acc&quot;,retmode  = &quot;text&quot;, outfile = &quot;12S.txt&quot;)
+accessions.long&lt;-efetch(demo.search.long, rettype = &quot;acc&quot;,retmode  = &quot;text&quot;, outfile = &quot;12S.txt&quot;)
 #Read in file with records, you can now use these in AnnotationBustR
-accessions&lt;-read.table(&quot;12S.txt&quot;,header = FALSE,stringsAsFactors = FALSE) </code></pre>
+accessions.long.table &lt;- read.table(&quot;12S.txt&quot;,header = FALSE,stringsAsFactors = FALSE) 
+accessions.long.accessions &lt;- accessions.long.table$V1</code></pre>
 <div id="optional-step-finding-the-longest-available" class="section level2">
 <h2>3.1:(Optional Step) Finding the Longest Available</h2>
 <p>AnnotationBustR’s <code>FindLongestSeq</code> function finds the longest available sequence for each species in a given set of GenBank accession numbers. All the user needs is to obtain a list of GenBank accession numbers they would like to input. The only function argument for <code>FindLongestSeq</code> is <code>Accessions</code>, which takes a vector of accession numbers as input. We can run the function below on the six Barbonymus accessions we found above by:</p>
@@ -542,7 +542,7 @@ ACNUC.GB.INFO#return info on date</code></pre>
 </div>
 <div id="final-comments" class="section level2">
 <h2>4: Final Comments</h2>
-<p>Further information on the functions and their usage can be found in the helpfiles <code>help(package=AnnotationBustR)</code>. For any further issues and questions send an email with subject ‘AnnotationBustR support’ to <a href="mailto:sborstei@vols.utk.edu" class="email">sborstei@vols.utk.edu</a> or post to the issues section on GitHub(<a href="https://github.com/sborstein/AnnotationBustR/issues" class="uri">https://github.com/sborstein/AnnotationBustR/issues</a>).</p>
+<p>Further information on the functions and their usage can be found in the helpfiles <code>help(package=AnnotationBustR)</code>. For any further issues and questions send an email with subject ‘AnnotationBustR support’ to <a href="mailto:borstein@umich.edu" class="email">borstein@umich.edu</a> or post to the issues section on GitHub(<a href="https://github.com/sborstein/AnnotationBustR/issues" class="uri">https://github.com/sborstein/AnnotationBustR/issues</a>).</p>
 </div>
 </div>
 
