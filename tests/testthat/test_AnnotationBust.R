@@ -28,6 +28,11 @@ AnnotationBustOut <- structure(list(Species = "Pallidochromis_tokolosh", tRNA_Ph
 "tRNA_Pro", "D_loop", "tRNA_Ser1", "tRNA_Ser2", "tRNA_Leu1",
 "tRNA_Leu2"), class = "data.frame", row.names = c(NA, -1L))
 setwd (tempdir())
-test.out<-AnnotationBust(Accessions = "JN628859.1", Terms = mtDNAterms, Duplicates = c("tRNA_Leu","tRNA_Ser"), DuplicateInstances = c(2,2), TranslateSeqs = TRUE, TranslateCode = 2)
-expect_identical(AnnotationBustOut,test.out)
-})
+test.out<-try(AnnotationBust(Accessions = "JN628859.1", Terms = mtDNAterms, Duplicates = c("tRNA_Leu","tRNA_Ser"), DuplicateInstances = c(2,2), TranslateSeqs = TRUE, TranslateCode = 2))
+if ("try-error"%in%class(test.out)) {
+    skip("could not connect to remote database")
+}else{
+    expect_identical(AnnotationBustOut,test.out)
+    }
+}
+)

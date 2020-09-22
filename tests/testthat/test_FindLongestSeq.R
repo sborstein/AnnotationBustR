@@ -1,7 +1,9 @@
 #Find Longest Seq Test for a large number of accessions to test limit.
 #Expect that the longest seq for A. christyi is accesseion
 # number KT691775.1 is the longest of 1366 bp. These are non-homologous
-#UCE loci, but a lot of them, so try it anyways
+#UCE loci, but a lot of them, so try it anyways. Note, tests have had
+#issues on CRAN, so if a stable connection cannot be reached with the
+#database, the test will skip.
 
 test_that("More than max query works to find longest seq",{
 Achrist<-structure(list(V1 = structure(1:1041, .Label = c("KT634321", 
@@ -214,7 +216,15 @@ Achrist<-structure(list(V1 = structure(1:1041, .Label = c("KT634321",
                                                    "KT691928", "KT691982", "KT692038", "KT692094", "KT692150", 
                                                    "KT692259", "KT692315", "KT692370", "KT692425", "KT692481"
   ), class = "factor")), .Names = "V1", class = "data.frame", row.names = c(NA, -1041L))
-long.manual<-ape::read.GenBank(as.vector(Achrist$V1))
-long.manual.res<-which(summary(long.manual)[,1]==max(as.numeric(summary(long.manual)[,1])))
-expect_identical(FindLongestSeq(Achrist$V1)$Accession, names(long.manual.res))
+long.manual<-try(ape::read.GenBank(as.vector(Achrist$V1),chunk.size = 400, quiet = FALSE))
+if ("try-error"%in%class(long.manual)) {
+  skip("could not connect to remote database")
+}else{
+  long.manual.res<-which(summary(long.manual)[,1]==max(as.numeric(summary(long.manual)[,1])))
+  long.test.res <- try(FindLongestSeq(Achrist$V1)$Accession)
+}
+if ("try-error"%in%class(long.test.res)) {
+    skip("could not connect to remote database")
+}
+  expect_identical(long.test.res, names(long.manual.res))
 })

@@ -1,5 +1,5 @@
 Package: AnnotationBustR
-Version: 1.2.1
+Version: 1.3
 Date: 2019-08-21
 Title: Extract Subsequences from GenBank Annotations
 Author: Samuel R. Borstein <sam@borstein.com>, Brian O'Meara <bomeara@utk.edu>
@@ -9,14 +9,14 @@ Depends:
 Imports:
     ape (>= 4.1),
     seqinr (>= 3.3-6)
-Description: Extraction of subsequences into FASTA files from GenBank annotations where gene names may vary among accessions.
+Description: Extraction of subsequences into FASTA files from GenBank annotations where gene names may vary among accessions. Borstein & O'Meara (2018) <doi:10.7717/peerj.5179>.
 License: GPL (>= 2)
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests:
 	knitr,
     rmarkdown,
 	testthat
 VignetteBuilder: knitr
-URL: https://github.com/sborstein/AnnotationBustR, https://www.ncbi.nlm.nih.gov/nuccore, https://en.wikipedia.org/wiki/FASTA_format
+URL: https://github.com/sborstein/AnnotationBustR, https://www.ncbi.nlm.nih.gov/nuccore, https://peerj.com/articles/5179/
 BugReports: https://github.com/sborstein/AnnotationBustR/issues

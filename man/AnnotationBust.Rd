@@ -52,7 +52,7 @@ a similar naming convention to what we currently have in the pre-made data frame
 The second column, Type, contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, Intro, Exon, and D_Loop. The last column, Name, consists of a possible
 name for the locus of interest as it might appear in an annotation. For numerous synonyms for the same locus, one should have each synonym as its own row.An additional fourth column is needed for extracting introns/exons.
 This column, called IntronExonNumber should contain the number of the intron to extract. If extracting both introns/exons and non-intron/exon sequences the fourth column should be NA for non-intron/exon sequence types. See the examples below and the vignette for detailed examples on extracting intron and exons.
-It is possible that some subsequences are not fully annotated on ACNUC and, therefore, are not extractable. These will return in the accession table as "type not fully Ann". It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For". 
+It is possible that some subsequences are not fully annotated on ACNUC and, therefore, are not extractable. These will return in the accession table as "type not fully Ann". It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For".
 If the function returns "Acc. Not Found", the accession number supplied could not be found on NCBI. If "Not On ACNUC GenBank" is returned, the accession is not available through AcNUC.
 This may be due to ACNUC not being fully up to date. To see the last time ACNUC was updated, run seqinr::choosebank("genbank", infobank=T).
 
@@ -64,7 +64,7 @@ For a more detailed walkthrough on using AnnotationBust you can access the vigne
 ncbi.accessions<-c("FJ706295","FJ706343","FJ706292")
 data(rDNAterms)#load rDNA search terms from AnnotationBustR
 #Run AnnotationBustR and write files to working directory
-my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
+my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE,
 Prefix="Example1")
 my.sequences#Return the accession table for each species.
 
@@ -78,7 +78,7 @@ colnames(cds.terms)[4]<-"IntronExonNumber"
 #Prepare a search term table for the intron and exons to remove
 #We can start with the cpDNAterms for trnK
 IntronExon.terms<-subset(cpDNAterms,cpDNAterms$Locus=="trnK")
-#As we want to go for two exons, we will want the synonyms repeated as we are doing and intron 
+#As we want to go for two exons, we will want the synonyms repeated as we are doing and intron
 #and an exon
 IntronExon.terms<-rbind(IntronExon.terms,IntronExon.terms)#duplicate the terms
 #rep the sequence type we want to extract
@@ -91,7 +91,7 @@ colnames(IntronExon.terms)[4]<-"IntronExonNumber"
 IntronExonExampleTerms<-MergeSearchTerms(IntronExon.terms,cds.terms)
 
 #Run AnnotationBust
-IntronExon.example<-AnnotationBust(Accessions=c("KX687911.1", "KX687910.1"), 
+IntronExon.example<-AnnotationBust(Accessions=c("KX687911.1", "KX687910.1"),
 Terms=IntronExonExampleTerms, Prefix="DemoIntronExon")
 }
 }
