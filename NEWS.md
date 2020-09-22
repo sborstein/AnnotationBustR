@@ -2,11 +2,9 @@ AnnotationBustR 1.1
 ============
 
 ## NEW FEATURES
-
-* mtDNAtermsPlants search terms for plant mitochondrial DNA.
-* Better support for intron/exon sequence extraction.
-* More in depth vignette covering how to find and obtain sequences as well as how to extract introns/exons.
+* Added proper citation info for the AnnotationBustR paper
 
 ## UPDATED FEATURES
 
-* Substantial changes to both mtDNAterms and cpDNAterms adding 50+ terms to each.
+* Updated vignette
+* Updated unit tests to behave better if a database connection cannot be made
