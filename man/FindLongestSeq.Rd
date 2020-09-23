@@ -21,6 +21,8 @@ For a set of GenBank accession numbers, this will return the longest sequence fo
 \examples{
 #a vector of 4 genbank accessions, there are two for each species.
 genbank.accessions<-c("KP978059.1","KP978060.1","JX516105.1","JX516111.1")
+\dontrun{
 #returns the longest sequence respectively for the two species.
 long.seq.result<-FindLongestSeq(genbank.accessions)
+}
 }
