@@ -8,9 +8,10 @@ Authors@R:
            role = c("aut", "cre"),
            email = "sam@borstein.com",
            comment = c(ORCID = "0000-0002-7258-141X")),
-    person(given = "Jeroen",
-           family = "Ooms",
-           role = "ctb",
+    person(given = "Brian",
+           family = "O'Meara",
+           role = "aut",
+		   email = "bomeara@utk.ed",
            comment = c(ORCID = "0000-0002-0337-5997")))
 Maintainer: Samuel R. Borstein <sam@borstein.com>
 Depends:
@@ -21,7 +22,7 @@ Imports:
 Description: Extraction of subsequences into FASTA files from GenBank annotations where gene names may vary among accessions. Borstein & O'Meara (2018) <doi:10.7717/peerj.5179>.
 License: GPL (>= 2)
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Suggests:
 	knitr,
     rmarkdown,
