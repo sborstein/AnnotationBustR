@@ -2,6 +2,7 @@
 % Please edit documentation in R/pkgname.R
 \docType{package}
 \name{AnnotationBustR}
+\alias{AnnotationBustR-package}
 \alias{AnnotationBustR}
 \title{An R package to extract sub-sequences from GenBank annotations under different synonyms}
 \description{

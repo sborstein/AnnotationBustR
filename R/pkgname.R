@@ -9,9 +9,9 @@
 #' 
 #' Title: An R package to extract sub-sequences from GenBank annotations under different synonyms
 #' 
-#' Version: 1.1
+#' Version: 2.0
 #' 
-#' Date: 2017-8-15
+#' Date: 2026-5-13
 #' 
 #' License: GPL (>= 2)
 #' 
@@ -21,7 +21,7 @@
 #' how to use them can be accessed with vignette("AnnotationBustR-vignette").
 #' 
 #' @author Samuel Borstein, Brian O'Meara.
-#' Maintainer: Samuel Borstein <sborstei@vols.utk.edu>
+#' Maintainer: Samuel Borstein <sam@borstein.com>
 #' 
 #' @seealso \code{\link{AnnotationBust}},\code{\link{cpDNAterms}},\code{\link{FindLongestSeq}},\code{\link{MergeSearchTerms}},\code{\link{mtDNAterms}},\code{\link{rDNAterms}}
 #' 

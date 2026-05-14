@@ -81,7 +81,7 @@ accessions<-accessions[-grep("NC_",accessions)]
 ```
 We can see that this returns six complete mitochondrial genome sequences on GenBank for *Barbonymus* species. We'll be using these accessions later in this tutorial.
 
-One important note for using `reutils` for finding sequences is that if you are trying to retrieve over 500 accession numbers, you will get a warning that you need to write it to a file locally on the machine. In this case, you can use the folowing code below. As the file is local and not stored in R, you will need to read it back into R for use with AnnotationBustR. Luckily, this doesn't write meta-data to the file, so we don't have to run the line stripping the meta-data.
+One important note for using `reutils` for finding sequences is that if you are trying to retrieve over 500 accession numbers, you will get a warning that you need to write it to a file locally on the machine. In this case, you can use the following code below. As the file is local and not stored in R, you will need to read it back into R for use with AnnotationBustR. Luckily, this doesn't write meta-data to the file, so we don't have to run the line stripping the meta-data.
 
 ```
 #Perform search given critera

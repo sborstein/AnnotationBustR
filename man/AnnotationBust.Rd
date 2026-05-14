@@ -19,21 +19,19 @@ AnnotationBust(
 \arguments{
 \item{Accessions}{A vector of INSDC GenBank accession numbers. Note that refseq numbers are not supported at the moment (i.e. prefixes like XM_ and NC_) will not work.}
 
-\item{Terms}{A data frame of search terms. Search terms for animal mitogenomes, nuclear rRNA, chloroplast genomes, and plant mitogenomes are pre-made and can be loaded using the data()function. Additional terms can be addded using the MergeSearchTerms function.}
+\item{Terms}{A data frame of search terms. Search terms for animal mitogenomes, nuclear rRNA, chloroplast genomes, and plant mitogenomes are pre-made and can be loaded using the data()function. Additional terms can be added using the MergeSearchTerms function.}
 
 \item{Duplicates}{A vector of loci names that have more than one copy. Default is NULL}
 
-\item{DuplicateInstances}{A numeric vector the length of Duplicates of the number of duplicates for each duplicated gene you wish to extract.Default is NULL}
+\item{DuplicateInstances}{A numeric vector the length of Duplicates of the number of duplicates for each duplicated subsequence you wish to extract.Default is NULL}
 
-\item{TranslateSeqs}{Logical as to whether or not the sequence should be translated to the corresponding peptide sequence. Default is FALSE. Note that this only makes sense to list as TRUE for protein coding sequences.}
-
-\item{TranslateCode}{Numerical representing the GenBank translation code for which sequences should be translated under. Default is 1. For all options see ?seqinr::getTrans. Some possible useful ones are: 2. Vertebrate Mitochondrial, 5. Invertebrate Mitochondrial, and 11. bacterial+plantplastid}
+\item{TranslateSeqs}{Should the sequence should be translated to the corresponding peptide sequence. Options include, TRUE, FALSE, or Both. Both returns both the DNA sequence and the corresponding amino acids. Default is FALSE. Note that this only makes sense to list as TRUE or Both for protein coding sequences.}
 
 \item{DuplicateSpecies}{Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta file}
 
 \item{Prefix}{Character If a prefix is specified, all output FASTA files written will begin with the prefix. Default is NULL.}
 
-\item{TidyAccessions}{Logical as to whether the accession table should have a single row per species. If numerous accessions for a species occur, they will be seperated by a comma in the accession table. Default=TRUE.}
+\item{TidyAccessions}{Logical as to whether the accession table should have a single row per species. If numerous accessions for a species occur, they will be separated by a comma in the accession table. Default=TRUE.}
 }
 \value{
 Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was found in.

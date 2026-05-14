@@ -1,7 +1,7 @@
 ---
 title: "AnnotationBustR Tutorial"
 author: "Samuel R. Borstein"
-date: "23 September, 2020"
+date: "24 September, 2024"
 output:
   html_document:
     keep_md: true
@@ -66,8 +66,11 @@ library(reutils)
 Lets pretend we wanted to search for the gene cytochrome B. We could perform a search using the following.
 ```
 #search for cytochrome b Barbonymus sequences
-demo.search <- esearch(term = "Barbonymus[orgn] and CYTB[title]", db = 'nuccore', usehistory = TRUE)#search
-accessions<-efetch(demo.search, rettype = "acc",retmode = "text")#fetch accessions
+demo.search <- entrez_search(db="nucleotide", term = "Barbonymus[Organism] AND cytb[Gene]", use_history=TRUE)#search
+
+#fetch accessions
+accessions <- entrez_fetch(db = "nucleotide", web_history = web_env_search$web_history,
+                             rettype = "acc", retmax = 2000, retmode = "text")
 accessions <- strsplit(content(accessions), "\n")[[1]]#split out accessions from other meta-data
 ```
 We can see that this returned 51 sequences. Many of these are accessions for a single cytochrome b sequence. However, if we wanted to find complete mitochondrial genomes to extract sequences from, we could refine our search to find complete mitochondrial genomes.
