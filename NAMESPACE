@@ -3,3 +3,5 @@
 export(AnnotationBust)
 export(FindLongestSeq)
 export(MergeSearchTerms)
+import(BSgenome)
+importFrom(magrittr,"%>%")
