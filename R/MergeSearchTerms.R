@@ -22,17 +22,34 @@
 #' #Run the merge search term function with sorting based on gene name.
 #' new.terms <- MergeSearchTerms(add.name, mtDNAterms, SortGenes=TRUE)
 #' 
-#' #Merge search terms and create an additional column for introns and/or exons to
+#' #Merge search terms and create an additional column for introns and/or exons to extract
 #' #In this example, add the trnK intron to the terms
-#' #create empty IntornExonNumber column for non-intron/exons
-#' cp.terms <- cbind(cpDNAterms,rep(NA,length(cpDNAterms$Name)))
-#' colnames(cp.terms)[4] <- "IntronExonNumber"#Name the column IntronExonNumber
-#' trnK.intron.terms <- subset(cpDNAterms,cpDNAterms$Feature=="trnK")#subset trnK
-#' #Create a vector of 1's the same length as the number of rows for trnK
-#' trnK.terms <- cbind(trnK.intron.terms,rep(1,length(trnK.intron.terms$Name)))
-#' colnames(trnK.terms)[4] <- "IntronExonNumber"#Name the column IntronExonNumber
-#' #Use MergeSearchTerms to merge the modified cpDNAterms and new intron terms
-#' all.terms <- MergeSearchTerms(cp.terms,trnK.terms)
+#' 
+#' ###Example With matK CDS and addint introns/exons for trnK###
+#' #Subset out matK from cpDNAterms
+#' cds.terms <- subset(cpDNAterms,cpDNAterms$Feature=="matK")
+#' #Create a vecotr of NA so we can merge with the search terms for introns and exons
+#' cds.terms <- cbind(cds.terms,(rep(NA,length(cds.terms$Feature))))
+#' colnames(cds.terms)[4] <- "IntronExonNumber"
+#' 
+#' #Prepare a search term table for the intron and exons to remove
+#' #We can start with the cpDNAterms for trnK
+#' IntronExon.terms<-subset(cpDNAterms,cpDNAterms$Feature=="trnK")
+#' 
+#' #As we want to go for two exons, we will want the synonyms repeated as we are doing and intron
+#' #and an exon
+#' IntronExon.terms<-rbind(IntronExon.terms,IntronExon.terms)#duplicate the terms
+#' 
+#' #rep the sequence type we want to extract
+#' IntronExon.terms$Type <- rep(c("intron","intron","exon","exon"))
+#' IntronExon.terms$Feature <- rep(c("trnK_Intron","trnK_Exon2"),each=2)
+#' IntronExon.terms <- cbind(IntronExon.terms,rep(c(1,1,2,2)))#Add intron/exon number info
+#' 
+#' #change column name for number info for IntronExon name
+#' colnames(IntronExon.terms)[4] <- "IntronExonNumber"
+#' 
+#' #We can then merge everything together with MergeSearchTerms terms
+#' IntronExonExampleTerms <- MergeSearchTerms(IntronExon.terms,cds.terms)
 #' @export
 
 MergeSearchTerms<-function(..., SortGenes=FALSE){
@@ -43,7 +60,7 @@ MergeSearchTerms<-function(..., SortGenes=FALSE){
   }
   for (i in sequence(length(dots))) {
     working <- TRUE
-    if(class(dots[[i]])!="data.frame") {
+    if(!inherits(dots[[i]], "data.frame")) {
       stop(paste("The input object is the wrong format", sep=""))
       #working <- FALSE
     }

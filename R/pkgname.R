@@ -11,7 +11,7 @@
 #' 
 #' Version: 2.0
 #' 
-#' Date: 2026-5-13
+#' Date: 2026-6-16
 #' 
 #' License: GPL (>= 2)
 #' 
@@ -25,7 +25,6 @@
 #' 
 #' @seealso \code{\link{AnnotationBust}},\code{\link{cpDNAterms}},\code{\link{FindLongestSeq}},\code{\link{MergeSearchTerms}},\code{\link{mtDNAterms}},\code{\link{rDNAterms}}
 #' 
-#' @docType package
 #' @name AnnotationBustR
 #"_PACKAGE"
 #> [1] "_PACKAGE"
