@@ -9,5 +9,5 @@ bibentry(bibtype="Article",
 	volume="6",
 	pages="e5179",
 	doi="10.7717/peerj.5179",
-	textVersion = "Borstein, S.R., and B.C. O'Meara (2018). AnnotationBustR: an R package to extract subsequences from GenBank annotations." PeerJ 6:e5179"
+	textVersion = "Borstein, S.R., and B.C. O'Meara (2018). AnnotationBustR: an R package to extract subsequences from GenBank annotations. PeerJ 6:e5179"
 )
