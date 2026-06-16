@@ -5,11 +5,11 @@
 \alias{mtDNAterms}
 \title{Mitochondrial DNA Search Terms for Animals}
 \format{
-A data frame of of 253 rows and 3 columns
+A data frame of of 254 rows and 3 columns
 \itemize{
-  \item Locus: Locus name, FASTA files will be written with this name
-  \item Type: Type of subsequence, either CDS,tRNA,rRNA,misc_RNA, or D-loop
-  \item Name:Name of synonym for a locus to search for
+  \item Feature: Feature name, FASTA files will be written with this name.
+  \item Type: Type of feature, CDS,tRNA,rRNA,misc_feature, or D-loop.
+  \item Name: Name of synonym for a feature to search for.
 }
 }
 \usage{

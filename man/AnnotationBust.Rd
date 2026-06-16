@@ -9,29 +9,31 @@ AnnotationBust(
   Terms,
   Duplicates = NULL,
   DuplicateInstances = NULL,
-  TranslateSeqs = FALSE,
-  TranslateCode = 1,
+  TranslateSeqs = "None",
   DuplicateSpecies = FALSE,
   Prefix = NULL,
-  TidyAccessions = TRUE
+  TidyAccessions = TRUE,
+  Verbose = TRUE
 )
 }
 \arguments{
-\item{Accessions}{A vector of INSDC GenBank accession numbers. Note that refseq numbers are not supported at the moment (i.e. prefixes like XM_ and NC_) will not work.}
+\item{Accessions}{A vector of GenBank accession numbers.}
 
-\item{Terms}{A data frame of search terms. Search terms for animal mitogenomes, nuclear rRNA, chloroplast genomes, and plant mitogenomes are pre-made and can be loaded using the data()function. Additional terms can be added using the MergeSearchTerms function.}
+\item{Terms}{A data frame of search terms. Search terms for animal mitogenomes, nuclear rRNA, chloroplast genomes, and plant mitogenomes are pre-made and can be loaded using the data() function. Additional terms can be added using the MergeSearchTerms function or a user supplied data frame may be provided.}
 
-\item{Duplicates}{A vector of loci names that have more than one copy. Default is NULL}
+\item{Duplicates}{A vector of the features  which occur more than once in the sequence and for which the extraction of multiple copies is desired. Default is NULL. In the case more than one copy exists when set to NULL, only the first instance will be extracted.}
 
-\item{DuplicateInstances}{A numeric vector the length of Duplicates of the number of duplicates for each duplicated subsequence you wish to extract.Default is NULL}
+\item{DuplicateInstances}{A numeric vector the length of Duplicates of the number of duplicates for each duplicated feature you wish to extract. Only needs to be used if Duplicates are provided.Default is NULL (i.e. no duplicates).}
 
-\item{TranslateSeqs}{Should the sequence should be translated to the corresponding peptide sequence. Options include, TRUE, FALSE, or Both. Both returns both the DNA sequence and the corresponding amino acids. Default is FALSE. Note that this only makes sense to list as TRUE or Both for protein coding sequences.}
+\item{TranslateSeqs}{Should coding sequences (cds) be translated to the corresponding peptide sequence? Options include, Only, None, or Both. Both returns both the DNA sequence and the corresponding peptide sequence. Default is FALSE.}
 
-\item{DuplicateSpecies}{Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta file}
+\item{DuplicateSpecies}{Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta header when writing sequences to file.}
 
-\item{Prefix}{Character If a prefix is specified, all output FASTA files written will begin with the prefix. Default is NULL.}
+\item{Prefix}{Character. If a prefix is specified, all output FASTA files written will begin with the prefix followed by an underscore. Default is NULL (i.e. no prefix).}
 
-\item{TidyAccessions}{Logical as to whether the accession table should have a single row per species. If numerous accessions for a species occur, they will be separated by a comma in the accession table. Default=TRUE.}
+\item{TidyAccessions}{Logical. Should the accession table  have a single row per species? If numerous accessions for a species occur, they will be separated by a comma in the accession table. Default=TRUE.}
+
+\item{Verbose}{Logical. Should progress be printed to the screen. The current accession and species name will be printed to the screen.}
 }
 \value{
 Writes a fasta file(s) to the current working directory selected for each unique subsequence of interest in Terms containing all the accession numbers the subsequence was found in.
@@ -42,57 +44,58 @@ An accesion table of class data.frame.
 Breaks up genbank sequences into their annotated components based on a set of search terms and writes each subsequence of interest to a FASTA for each accession number supplied.
 }
 \details{
-The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences.
-This function requires a steady internet connection. It writes files in the FASTA format to the working directory and returns an accession table. Files append, so use different prefixes between runs, otherwise they will be added to the current files in the working directory if the names are the same. AnnoitationBustR comes with pre-made
-search terms for metazoan mitogenomes, plant mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms), data(mtDNAtermsPlants),data(cpDNAterms), and data(rDNAterms) respectively.
-Search terms can be completely made by the user as long as they follow a similar format with three columns. The first, Locus, should contain the name of the locus that will also be used to name the files. We recommend following
-a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or ".", and names starting with numbers should be avoided as it can cause errors with R.
-The second column, Type, contains the type of subsequence it is, with options being CDS, rRNA, tRNA, misc_RNA, Intro, Exon, and D_Loop. The last column, Name, consists of a possible
-name for the locus of interest as it might appear in an annotation. For numerous synonyms for the same locus, one should have each synonym as its own row.An additional fourth column is needed for extracting introns/exons.
-This column, called IntronExonNumber should contain the number of the intron to extract. If extracting both introns/exons and non-intron/exon sequences the fourth column should be NA for non-intron/exon sequence types. See the examples below and the vignette for detailed examples on extracting intron and exons.
-It is possible that some subsequences are not fully annotated on ACNUC and, therefore, are not extractable. These will return in the accession table as "type not fully Ann". It is also possible that the sequence has no annotations at all, for which it will return "No Ann. For".
-If the function returns "Acc. Not Found", the accession number supplied could not be found on NCBI. If "Not On ACNUC GenBank" is returned, the accession is not available through AcNUC.
-This may be due to ACNUC not being fully up to date. To see the last time ACNUC was updated, run seqinr::choosebank("genbank", infobank=T).
+The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences. This function connects directly to the NCBI database and requires a steady internet connection. The function writes files in the FASTA format to the current working directory and returns an accession table. Files append, so use different prefixes between runs, otherwise they will be added to current files in the working directory with the same name. 
 
-For a more detailed walkthrough on using AnnotationBust you can access the vignette with vignette("AnnotationBustR).
+AnnotationBustR comes with pre-made search terms for metazoan mitogenomes, plant mitogenomes, chloroplast genomes, and rDNA that can be loaded using data(mtDNAterms), data(mtDNAtermsPlants), data(cpDNAterms), and data(rDNAterms) respectively. Search terms can be completely made by the user if they follow a similar format with three columns. The first, Feature, should contain the name of the features as the user wishes it be displayed in their files as it is used to name the files and create the accession table. We recommend following a similar naming convention to what we currently have in the pre-made data frames to ensure that files are named properly, characters like "-" or ".", and names starting with numbers should be avoided as it can cause errors with R. The second column, Type, contains the type of subsequence it is (eg. CDS, exon, intron, rRNA, tRNA, misc_RNA, misc_feature, D_Loop). The last column, Name, consists of a possible synonym for the feature of interest as it might appear in an annotation. For numerous synonyms for the same locus, one should have each synonym as its own row. An additional fourth column is needed for extracting introns/exons. This column, called IntronExonNumber should contain the number of the desired intron or exon to extract. If extracting both introns/exons and non-intron/exon sequences the fourth column should be NA for non-intron/exon sequence types. See the examples below and the vignette for detailed examples on extracting intron and exons. 
+
+In the event that an accession is not found on NCBI, the message “Accession # not found on NBI”.
+
+For a more detailed walk-through on using AnnotationBust you can access the vignette with vignette("AnnotationBustR).
 }
 \examples{
-\dontrun{
-#Create vector of three NCBI accessions of rDNA toget subsequences of and load rDNA terms.
-ncbi.accessions<-c("FJ706295","FJ706343","FJ706292")
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
+\donttest{
+ncbi.accessions <- c("FJ706295","FJ706343","FJ706292")
 data(rDNAterms)#load rDNA search terms from AnnotationBustR
-#Run AnnotationBustR and write files to working directory
-my.sequences<-AnnotationBust(ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE,
+my.sequences <- AnnotationBust(Accessions = ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
 Prefix="Example1")
-my.sequences#Return the accession table for each species.
+my.sequences
 
-###Example With matK CDS and trnK Introns/Exons##
+###Example With matK CDS and addint introns/exons for trnK###
 #Subset out matK from cpDNAterms
-cds.terms<-subset(cpDNAterms,cpDNAterms$Locus=="matK")
+cds.terms <- subset(cpDNAterms,cpDNAterms$Feature=="matK")
 #Create a vecotr of NA so we can merge with the search terms for introns and exons
-cds.terms<-cbind(cds.terms,(rep(NA,length(cds.terms$Locus))))
-colnames(cds.terms)[4]<-"IntronExonNumber"
+cds.terms <- cbind(cds.terms,(rep(NA,length(cds.terms$Feature))))
+colnames(cds.terms)[4] <- "IntronExonNumber"
 
 #Prepare a search term table for the intron and exons to remove
 #We can start with the cpDNAterms for trnK
-IntronExon.terms<-subset(cpDNAterms,cpDNAterms$Locus=="trnK")
+IntronExon.terms<-subset(cpDNAterms,cpDNAterms$Feature=="trnK")
+
 #As we want to go for two exons, we will want the synonyms repeated as we are doing and intron
 #and an exon
 IntronExon.terms<-rbind(IntronExon.terms,IntronExon.terms)#duplicate the terms
+
 #rep the sequence type we want to extract
-IntronExon.terms$Type<-rep(c("Intron","Intron","Exon","Exon"))
-IntronExon.terms$Locus<-rep(c("trnK_Intron","trnK_Exon2"),each=2)
-IntronExon.terms<-cbind(IntronExon.terms,rep(c(1,1,2,2)))#Add intron/exon number info
+IntronExon.terms$Type <- rep(c("intron","intron","exon","exon"))
+IntronExon.terms$Feature <- rep(c("trnK_Intron","trnK_Exon2"),each=2)
+IntronExon.terms <- cbind(IntronExon.terms,rep(c(1,1,2,2)))#Add intron/exon number info
+
 #change column name for number info for IntronExon name
-colnames(IntronExon.terms)[4]<-"IntronExonNumber"
+colnames(IntronExon.terms)[4] <- "IntronExonNumber"
+
 #We can then merge everything together with MergeSearchTerms terms
-IntronExonExampleTerms<-MergeSearchTerms(IntronExon.terms,cds.terms)
+IntronExonExampleTerms <- MergeSearchTerms(IntronExon.terms,cds.terms)
 
 #Run AnnotationBust
-IntronExon.example<-AnnotationBust(Accessions=c("KX687911.1", "KX687910.1"),
+IntronExon.example <- AnnotationBust(Accessions=c("KX687911.1", "KX687910.1"),
 Terms=IntronExonExampleTerms, Prefix="DemoIntronExon")
 }
+\dontshow{\}) # examplesIf}
 }
 \references{
-Borstein, Samuel R., and Brian C. O'Meara. "AnnotationBustR: An R package to extract subsequences from GenBank annotations." PeerJ Preprints 5 (2017): e2920v1.
+Borstein SR, and O’Meara BC. 2018. AnnotationBustR: an R package to extract subsequences from GenBank annotations. PeerJ 6:e5179. 10.7717/peerj.5179.
+}
+\author{
+Samuel R. Borstein, Brian C. O'Meara
 }
