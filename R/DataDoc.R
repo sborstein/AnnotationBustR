@@ -4,11 +4,11 @@
 #'  interest. Columns are as follows and users should follow the column format if they wish to
 #'  add search terms using the MergeSearchTerms function:
 #'
-#' @format A data frame of of 253 rows and 3 columns
+#' @format A data frame of of 254 rows and 3 columns
 #' \itemize{
-#'   \item Locus: Locus name, FASTA files will be written with this name
-#'   \item Type: Type of subsequence, either CDS,tRNA,rRNA,misc_RNA, or D-loop
-#'   \item Name:Name of synonym for a locus to search for
+#'   \item Feature: Feature name, FASTA files will be written with this name.
+#'   \item Type: Type of feature, CDS,tRNA,rRNA,misc_feature, or D-loop.
+#'   \item Name: Name of synonym for a feature to search for.
 #' }
 #' 
 #' @seealso \code{\link{MergeSearchTerms}}
@@ -22,9 +22,9 @@
 #'
 #' @format A data frame of of 248 rows and 3 columns
 #' \itemize{
-#'   \item Locus: Locus name, FASTA files will be written with this name
-#'   \item Type: Type of subsequence, either CDS,tRNA,rRNA,misc_RNA, or D-loop
-#'   \item Name:Name of synonym for a locus to search for
+#'   \item Feature: Feature name, FASTA files will be written with this name.
+#'   \item Type: Type of feature, either CDS,tRNA,rRNA.
+#'   \item Name: Name of synonym for a feature to search for.
 #' }
 #' 
 #' @seealso \code{\link{MergeSearchTerms}}
@@ -38,9 +38,9 @@
 #'
 #' @format A data frame of of 364 rows and 3 columns
 #' \itemize{
-#'   \item Locus: Locus name, FASTA files will be written with this name
-#'   \item Type: Type of subsequence, either CDS,tRNA,rRNA, or misc_RNA
-#'   \item Name:Name of synonym for a locus to search for
+#'   \item Feature: Feature name, FASTA files will be written with this name.
+#'   \item Type: Type of feature, either CDS,tRNA,rRNA.
+#'   \item Name: Name of synonym for a feature to search for.
 #' }
 #' 
 #' @seealso \code{\link{MergeSearchTerms}}
@@ -54,9 +54,9 @@
 #'
 #' @format A data frame of of 7 rows and 3 columns
 #' \itemize{
-#'   \item Locus: Locus name, FASTA files will be written with this name
-#'   \item Type: Type of subsequence, either rRNA or misc_RNA
-#'   \item Name:Name of synonym for a locus to search for
+#'   \item Feature: Feature name, FASTA files will be written with this name.
+#'   \item Type: Type of feature, either rRNA or misc_RNA.
+#'   \item Name: Name of synonym for a feature to search for.
 #' }
 #' 
 #' @seealso \code{\link{MergeSearchTerms}}
