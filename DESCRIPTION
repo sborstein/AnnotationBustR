@@ -1,6 +1,6 @@
 Package: AnnotationBustR
 Version: 2.0
-Date: 2026-06-15
+Date: 2026-07-02
 Title: Extract Subsequences from GenBank Annotations
 Authors@R: 
   c(person(given = "Samuel R.",
@@ -19,11 +19,11 @@ Depends:
 biocViews:
 Imports:
     ape (>= 5.8-1),
-	Biostrings (>= 2.80.0),
-	BSgenome (>= 1.80.0),
+	Biostrings (>= 2.78.0),
+	BSgenome (>= 1.78.0),
 	dplyr (>= 1.2.1),
-	GenomicFeatures (>= 1.64.0),
-	GenomicRanges (>= 1.64.0),
+	GenomicFeatures (>= 1.62.0),
+	GenomicRanges (>= 1.62.0),
 	magrittr (>= 2.0.5),
 	rentrez (>= 1.2.4),
 	stringr (>= 1.6.0)
