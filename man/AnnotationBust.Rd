@@ -13,6 +13,7 @@ AnnotationBust(
   DuplicateSpecies = FALSE,
   Prefix = NULL,
   TidyAccessions = TRUE,
+  Reference = TRUE,
   Verbose = TRUE
 )
 }
@@ -32,6 +33,8 @@ AnnotationBust(
 \item{Prefix}{Character. If a prefix is specified, all output FASTA files written will begin with the prefix followed by an underscore. Default is NULL (i.e. no prefix).}
 
 \item{TidyAccessions}{Logical. Should the accession table  have a single row per species? If numerous accessions for a species occur, they will be separated by a comma in the accession table. Default=TRUE.}
+
+\item{Reference}{Logical. Should reference information be captured and added as a column to the accession table? Default is TRUE.}
 
 \item{Verbose}{Logical. Should progress be printed to the screen. The current accession and species name will be printed to the screen.}
 }
@@ -58,7 +61,7 @@ For a more detailed walk-through on using AnnotationBust you can access the vign
 ncbi.accessions <- c("FJ706295","FJ706343","FJ706292")
 data(rDNAterms)#load rDNA search terms from AnnotationBustR
 my.sequences <- AnnotationBust(Accessions = ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
-Prefix="Example1")
+Prefix="Example1", Reference = TRUE)
 my.sequences
 
 ###Example With matK CDS and addint introns/exons for trnK###
