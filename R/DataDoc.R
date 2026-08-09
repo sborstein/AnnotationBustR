@@ -36,7 +36,7 @@
 #'  interest. Columns are as follows and users should follow the column format if they wish to
 #'  add search terms using the MergeSearchTerms function:
 #'
-#' @format A data frame of of 364 rows and 3 columns
+#' @format A data frame of of 391 rows and 3 columns
 #' \itemize{
 #'   \item Feature: Feature name, FASTA files will be written with this name.
 #'   \item Type: Type of feature, either CDS,tRNA,rRNA.
@@ -52,7 +52,7 @@
 #'  interest. Columns are as follows and users should follow the column format if they wish to
 #'  add search terms using the MergeSearchTerms function:
 #'
-#' @format A data frame of of 7 rows and 3 columns
+#' @format A data frame of of 14 rows and 3 columns
 #' \itemize{
 #'   \item Feature: Feature name, FASTA files will be written with this name.
 #'   \item Type: Type of feature, either rRNA or misc_RNA.

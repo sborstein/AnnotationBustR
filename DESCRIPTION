@@ -39,4 +39,4 @@ VignetteBuilder: knitr
 URL: https://github.com/sborstein/AnnotationBustR, https://www.ncbi.nlm.nih.gov/nuccore, https://peerj.com/articles/5179/
 BugReports: https://github.com/sborstein/AnnotationBustR/issues
 Encoding: UTF-8
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

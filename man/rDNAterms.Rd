@@ -5,7 +5,7 @@
 \alias{rDNAterms}
 \title{Ribosomal DNA (rDNA) Search Terms}
 \format{
-A data frame of of 7 rows and 3 columns
+A data frame of of 14 rows and 3 columns
 \itemize{
   \item Feature: Feature name, FASTA files will be written with this name.
   \item Type: Type of feature, either rRNA or misc_RNA.

@@ -5,7 +5,7 @@
 \alias{cpDNAterms}
 \title{Chloroplast DNA (cpDNA) Search Terms}
 \format{
-A data frame of of 364 rows and 3 columns
+A data frame of of 391 rows and 3 columns
 \itemize{
   \item Feature: Feature name, FASTA files will be written with this name.
   \item Type: Type of feature, either CDS,tRNA,rRNA.
