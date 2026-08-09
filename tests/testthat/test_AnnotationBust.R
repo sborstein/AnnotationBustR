@@ -19,14 +19,14 @@ AnnotationBustOut <- structure(list(Species = "Pallidochromis_tokolosh", tRNA_Ph
     ND4 = "JN628859.1", tRNA_His = "JN628859.1", ND5 = NA, ND6 = "JN628859.1",
     tRNA_Glu = "JN628859.1", CYTB = "JN628859.1", tRNA_Thr = "JN628859.1",
     tRNA_Pro = "JN628859.1", D_loop = "JN628859.1", tRNA_Ser1 = "JN628859.1",
-    tRNA_Ser2 = "JN628859.1", tRNA_Leu1 = "JN628859.1", tRNA_Leu2 = "JN628859.1"), .Names = c("Species",
+    tRNA_Ser2 = "JN628859.1", tRNA_Leu1 = "JN628859.1", tRNA_Leu2 = "JN628859.1",Reference = "Darrin Hulsey,C., Keck,B.P., Alamillo,H. and O'Meara,B.C. Mitochondrial genome primers for Lake Malawi cichlids. Mol Ecol Resour 13 (3), 347-353 (2013)."), .Names = c("Species",
 "tRNA_Phe", "rRNA_12S", "tRNA_Val", "rRNA_16S", "ND1", "tRNA_Ile",
 "tRNA_Gln", "tRNA_Met", "ND2", "tRNA_Trp", "tRNA_Ala", "tRNA_Asn",
 "tRNA_Cys", "tRNA_Tyr", "COI", "tRNA_Asp", "COII", "tRNA_Lys",
 "ATP8", "ATP6", "COIII", "tRNA_Gly", "ND3", "tRNA_Arg", "ND4L",
 "ND4", "tRNA_His", "ND5", "ND6", "tRNA_Glu", "CYTB", "tRNA_Thr",
 "tRNA_Pro", "D_loop", "tRNA_Ser_1", "tRNA_Ser_2", "tRNA_Leu_1",
-"tRNA_Leu_2"), class = "data.frame", row.names = c(NA, -1L))
+"tRNA_Leu_2", "Reference"), class = "data.frame", row.names = c(NA, -1L))
 setwd (tempdir())
 test.out<-try(AnnotationBust(Accessions = "JN628859.1", Terms = mtDNAterms, Duplicates = c("tRNA_Leu","tRNA_Ser"), DuplicateInstances = c(2,2), TranslateSeqs = "Only"))
 if ("try-error"%in%class(test.out)) {
