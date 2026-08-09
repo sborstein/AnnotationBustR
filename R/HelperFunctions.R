@@ -243,7 +243,7 @@ parse_genbank <- function(ReadGB, primary_accession) {
 #' @param full_sequence The full sequence object as a DNAStringSet.
 #' @param target_gr A GRanges object containing coordinate ranges for extraction.
 #' @examples
-#' raw_gb_text <- rentrez::entrez_fetch(db = "nuccore", id = accession, rettype = "gbwithparts", retmode = "text")#Use entrez to access accession
+#' raw_gb_text <- rentrez::entrez_fetch(db = "nuccore", id = "PV747861.1", rettype = "gbwithparts", retmode = "text")#Use entrez to access accession
 #' gb_lines <- strsplit(raw_gb_text, "\n|\r\n")[[1]]#string split lines
 #' parse_genbank(ReadGB = gb_lines)
 #' @noRd
@@ -266,4 +266,34 @@ extract_ranges_seq <- function(full_sequence, target_gr) {
   seqs <- GenomicFeatures::extractTranscriptSeqs(x = full_sequence, transcripts = gr_list)
   
   return(seqs)#return the sequence
+}
+
+######################################
+#####Parse References#################
+######################################
+#' Internal Reference Parser Function
+#' @param ReadGB Character vector of read in GenBank accession.
+#' @examples
+#' raw_gb_text <- rentrez::entrez_fetch(db = "nuccore", id = "PV747861.1", rettype = "gbwithparts", retmode = "text")#Use entrez to access accession
+#' gb_lines <- strsplit(raw_gb_text, "\n|\r\n")[[1]]#string split lines
+#' ParseReference(ReadGB = gb_lines)
+#' @noRd
+#' @author Samuel R. Borstein
+ParseReference <- function(ReadGB){
+  ref_indices <- grep("^\\s*REFERENCE", ReadGB)#get reference flags
+
+  #Limit to latest reference if multiple 
+  if (length(ref_indices) > 1) {#if more than 1 reference
+    ref_lines <- ReadGB[1:(ref_indices[2] - 1)]
+  }else{
+    ref_lines <- ReadGB
+  }
+  
+  #Get the reference matches
+  ref_matches <- grep("^\\s*(AUTHORS|TITLE|JOURNAL)", ref_lines, value = TRUE)
+  #Clean flags/white space
+  clean_ref <- trimws(gsub("^\\s*(AUTHORS|TITLE|JOURNAL)\\s+", " ", ref_matches))
+  #Prep full reference for storage via paste. We need to add some punctuation here.
+  full_ref <- paste(clean_ref[1], " ", clean_ref[2],". ", clean_ref[3], ".", sep = "")
+  return(full_ref)#return the reference
 }

@@ -7,6 +7,7 @@
 #' @param DuplicateSpecies Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta header when writing sequences to file.
 #' @param Prefix Character. If a prefix is specified, all output FASTA files written will begin with the prefix followed by an underscore. Default is NULL (i.e. no prefix).
 #' @param TidyAccessions Logical. Should the accession table  have a single row per species? If numerous accessions for a species occur, they will be separated by a comma in the accession table. Default=TRUE.
+#' @param Reference Logical. Should reference information be captured and added as a column to the accession table? Default is TRUE.
 #' @param Verbose Logical. Should progress be printed to the screen. The current accession and species name will be printed to the screen.
 #' @details 
 #' The AnnotationBust function takes a vector of accession numbers and a data frame of search terms and extracts subsequences from genomes or concatenated sequences. This function connects directly to the NCBI database and requires a steady internet connection. The function writes files in the FASTA format to the current working directory and returns an accession table. Files append, so use different prefixes between runs, otherwise they will be added to current files in the working directory with the same name. 
@@ -23,7 +24,7 @@
 #' ncbi.accessions <- c("FJ706295","FJ706343","FJ706292")
 #' data(rDNAterms)#load rDNA search terms from AnnotationBustR
 #' my.sequences <- AnnotationBust(Accessions = ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
-#' Prefix="Example1")
+#' Prefix="Example1", Reference = TRUE)
 #' my.sequences
 #' 
 #' ###Example With matK CDS and addint introns/exons for trnK###
@@ -62,7 +63,7 @@
 
 AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstances = NULL, 
                                TranslateSeqs = "None", DuplicateSpecies = FALSE,  
-                               Prefix = NULL, TidyAccessions = TRUE, Verbose = TRUE){
+                               Prefix = NULL, TidyAccessions = TRUE, Reference = TRUE, Verbose = TRUE){
   
   uni.feature <- unique(Terms$Feature)#Subset unique Loci
 
@@ -83,6 +84,9 @@ AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstan
   }else {file.names <- as.vector(uni.feature)}#if no duplicates, unique feature names are the file names
   Accession.Table <- data.frame(data.frame(matrix(NA, nrow = length(Accessions), ncol = 1+length(file.names))))#make empty accession table
   colnames(Accession.Table) <- c("Species",file.names)#attach loci names as column names
+  if(Reference == TRUE){#if references are requested
+    Accession.Table$Reference <- NA#add corresponding column in accession table
+  }
   if(is.null(Prefix)){#prepare prefix naming for files
     File.Prefix <- NULL#If no prefix, set to NULL
   }else{
@@ -105,6 +109,12 @@ AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstan
     org_line_index <- grep("^\\s*ORGANISM", gb_lines)#Find organism line
     org_line <- gb_lines[org_line_index]#Subset line grabbed above for organism
     organism_name <- gsub(" ","_",trimws(sub("^\\s*ORGANISM", "", org_line)))#Extract organism name and replace speces with under scores
+    
+    if(Reference == TRUE){#If references are requested
+      Ref2Store <- ParseReference(ReadGB = gb_lines)#Make the reference using the helper function
+      Accession.Table[accession.index,"Reference"] <- Ref2Store#store the reference
+    }
+    
     if(Verbose == TRUE){#if verbose, print progress
       message(paste("Working On Accession ", accession.index, " of ", length(Accessions),": ",  Accessions[accession.index],", ",organism_name, sep=""))
     }
@@ -195,6 +205,9 @@ AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstan
     UniqueSpecies<-unique(Accession.Table$Species)#Get unique species in table
     Final.Accession.Table<-data.frame(data.frame(matrix(NA, nrow = length(UniqueSpecies), ncol = 1+length(file.names))))#make empty accession table
     colnames(Final.Accession.Table)<-c("Species",file.names)#attach loci names as colnames
+    if(Reference == TRUE){#if references are requested
+      Final.Accession.Table$Reference <- NA#Make empty reference column to populate
+    }    
     for (species.index in 1:length(UniqueSpecies)){#for each species
       current.spec<-subset(Accession.Table,Accession.Table$Species==UniqueSpecies[species.index])#subset species
       Final.Accession.Table[species.index,1]<-UniqueSpecies[species.index]#Assign species name to final table
