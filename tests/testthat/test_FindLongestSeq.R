@@ -216,15 +216,9 @@ Achrist<-structure(list(V1 = structure(1:1041, .Label = c("KT634321",
                                                    "KT691928", "KT691982", "KT692038", "KT692094", "KT692150", 
                                                    "KT692259", "KT692315", "KT692370", "KT692425", "KT692481"
   ), class = "factor")), .Names = "V1", class = "data.frame", row.names = c(NA, -1041L))
-long.manual<-try(ape::read.GenBank(as.vector(Achrist$V1),chunk.size = 400, quiet = FALSE))
-if ("try-error"%in%class(long.manual)) {
-  skip("could not connect to remote database")
-}else{
-  long.manual.res<-which(summary(long.manual)[,1]==max(as.numeric(summary(long.manual)[,1])))
-  long.test.res <- try(FindLongestSeq(Achrist$V1)$Accession)
-}
+  long.test.res <- try(FindLongestSeq(Accessions = Achrist$V1)$Accession)
 if ("try-error"%in%class(long.test.res)) {
     skip("could not connect to remote database")
 }
-  expect_identical(long.test.res, names(long.manual.res))
+  expect_identical(long.test.res, "KT691775")
 })
