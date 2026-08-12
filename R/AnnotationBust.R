@@ -94,7 +94,7 @@ AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstan
     }
   #For each accession
   for(accession.index in 1:length(Accessions)){
-    Current.Accession <- Accessions[accession.index]
+    Current.Accession <- Accessions[accession.index]#get the accession for the current accession index
     raw_gb_text <- try(rentrez::entrez_fetch(db = "nuccore", id = Current.Accession, rettype = "gbwithparts", retmode = "text"))#Use entrez to access accession
     if(inherits(raw_gb_text, "try-error")){#Flag if try error
       message("Could not connect to NCBI")#message error and skip to next accession.
@@ -134,8 +134,8 @@ AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstan
           }
           if(synonyms[synonym.index,]$Type%in%c("exon","intron")){#If the feature is an intron OR an exon
             temp.term <- current_record[[found.type]][term.search,]#Make a temporary reduced dataset to search
-            IntronExonHits <- which(temp.term$number==synonyms$IntronExonNumber[synonym.index])
-            term.search <- term.search[IntronExonHits]
+            IntronExonHits <- which(temp.term$number==synonyms$IntronExonNumber[synonym.index])#Find the numbers
+            term.search <- term.search[IntronExonHits]#subset based on numbers
           }
           if(length(term.search)>0){#If successful search
             FeatureGrab <- current_record[[found.type]][term.search,]#grab the features
@@ -150,7 +150,7 @@ AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstan
                     TransString <- Biostrings::AAStringSet(Current.Trans)#create AA stringset object for translation
                     names(TransString) <- seq.name#name sequence for species
                     Biostrings::writeXStringSet(x = TransString, filepath = paste0(File.Prefix,uni.feature[term.index],"_Translation",".fasta"), format = "fasta",append = T)#Write Translation
-                    Accession.Table[accession.index,grep(paste0("\\b",uni.feature[term.index],"\\b"), colnames(Accession.Table))] <- Accessions[accession.index]
+                    Accession.Table[accession.index,grep(paste0("\\b",uni.feature[term.index],"\\b"), colnames(Accession.Table))] <- Accessions[accession.index]#Fill the Accession table
                   }
                 }
                 if(TranslateSeqs%in%c("Both","None")){#Write the Nucleotides if Both or No Translation
@@ -160,18 +160,18 @@ AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstan
                 break
               }else{#if not a CDS
                 Biostrings::writeXStringSet(x = Extracted.seq, filepath = paste0(File.Prefix,uni.feature[term.index],".fasta"), format = "fasta",append = T)#Write DNA sequence
-                Accession.Table[accession.index,grep(paste0("\\b",uni.feature[term.index],"\\b"), colnames(Accession.Table))] <- Accessions[accession.index]
+                Accession.Table[accession.index,grep(paste0("\\b",uni.feature[term.index],"\\b"), colnames(Accession.Table))] <- Accessions[accession.index]#fill the Accession table
                 break
               }
             }else{#if duplicates
               DupID <- which(uni.feature[term.index]==Duplicates)#In case order is off, make sure we get the right one.
               CurrentDupTargets <- DuplicateInstances[DupID]#Subset out the current number of instances desired
-              if(CurrentDupTargets>length(unique(FeatureGrab$feat_index))){
-                CurrentDupTargets <- length(FeatureGrab)
-                warning(paste0("Number of duplicates specified is greater than the number in annotations. Readjusting duplicates for ", uni.feature[term.index]," to ", CurrentDupTargets))
+              if(CurrentDupTargets>length(unique(FeatureGrab$feat_index))){#Check that the specified number is not greater than thos in the annotations
+                CurrentDupTargets <- length(FeatureGrab)#If greater than the number in the features, make it the number in the features
+                warning(paste0("Number of duplicates specified is greater than the number in annotations. Readjusting duplicates for ", uni.feature[term.index]," to ", CurrentDupTargets))#and warn user
               }
               for(DupIndex in 1:CurrentDupTargets){#for each duplicate
-                CurrentDup <- FeatureGrab[FeatureGrab$feat_index == FeatureIndexCheck[DupIndex], ]
+                CurrentDup <- FeatureGrab[FeatureGrab$feat_index == FeatureIndexCheck[DupIndex], ]#subset the current duplicate instance
                 Extracted.seq <- extract_ranges_seq(full_sequence = current_record$sequence, target_gr = CurrentDup[CurrentDup$feat_index==FeatureIndexCheck[DupIndex]])#Extract Seq based on feature ranges
                 names(Extracted.seq) <- seq.name#name sequence for species
                 if(synonyms$Type[synonym.index] == "cds"){#If a CDS, use control flow based on users desire for translation
@@ -181,16 +181,16 @@ AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstan
                       TransString <- Biostrings::AAStringSet(Current.Trans)#create AA stringset object for translation
                       names(TransString) <- seq.name#name sequence for species
                       Biostrings::writeXStringSet(x = TransString, filepath = paste0(File.Prefix,uni.feature[term.index],"_",DupIndex,"_Translation",".fasta"), format = "fasta",append = T)#Write Translation
-                      Accession.Table[accession.index,grep(paste0("\\b",uni.feature[term.index],"_",DupIndex,"\\b"), colnames(Accession.Table))] <- Accessions[accession.index]
+                      Accession.Table[accession.index,grep(paste0("\\b",uni.feature[term.index],"_",DupIndex,"\\b"), colnames(Accession.Table))] <- Accessions[accession.index]#Fill the Accession table
                     }
                   }
                   if(TranslateSeqs%in%c("Both","None")){#Write the Nucleotides if Both or No Translation
                     Biostrings::writeXStringSet(x = Extracted.seq, filepath = paste0(File.Prefix,uni.feature[term.index],"_",DupIndex,".fasta"), format = "fasta",append = T)#Write DNA sequence
-                    Accession.Table[accession.index,grep(paste0("\\b",uni.feature[term.index],"_",DupIndex,"\\b"), colnames(Accession.Table))] <- Accessions[accession.index]
+                    Accession.Table[accession.index,grep(paste0("\\b",uni.feature[term.index],"_",DupIndex,"\\b"), colnames(Accession.Table))] <- Accessions[accession.index]#Fill the Accession table
                   }
                 }else{#if not a CDS
                   Biostrings::writeXStringSet(x = Extracted.seq, filepath = paste0(File.Prefix,uni.feature[term.index],"_",DupIndex,".fasta"), format = "fasta",append = T)#Write DNA sequence
-                  Accession.Table[accession.index,grep(paste0("\\b",uni.feature[term.index],"_",DupIndex,"\\b"), colnames(Accession.Table))] <- Accessions[accession.index]
+                  Accession.Table[accession.index,grep(paste0("\\b",uni.feature[term.index],"_",DupIndex,"\\b"), colnames(Accession.Table))] <- Accessions[accession.index]#Fill the Accession table
                 }
               }#for loop duplicate ends
               break#break out of current term
@@ -226,7 +226,7 @@ AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstan
     rownames(Sort.Final.Accession.Table)<-1:nrow(Sort.Final.Accession.Table)#assign rownames
   } 
   return(Final.Accession.Table)#return accession table
-}#Function End
+}
 
 
                       

@@ -21,7 +21,7 @@ FindLongestSeq <- function(Accessions, BatchSize = 300){
   
   BatchResults <- list()#Make an empty list to stor the batches
   
-  for (BatchIndex in 1:length(BatchRequests)) {
+  for (BatchIndex in 1:length(BatchRequests)) {#For each batch of sequences
     #Obtain summaries for the current batch while checking for errors
     BatchSummary <- tryCatch({
       rentrez::entrez_summary(db = "nuccore", id = BatchRequests[[BatchIndex]])
@@ -48,9 +48,9 @@ FindLongestSeq <- function(Accessions, BatchSize = 300){
   long.seqs <- data.frame(matrix(nrow=length(uni.taxa), ncol=dim(FinalSequences)[2]))#empty data frame to store results
   colnames(long.seqs) <- colnames(FinalSequences)#make column names to match
   
-  for (taxa.index in 1:length(uni.taxa)){
-    current.tax <- subset(FinalSequences, FinalSequences$Species==uni.taxa[taxa.index])
-    longest.seq <- subset(current.tax,current.tax$Length==sort(as.numeric(current.tax$Length),decreasing = TRUE)[1])[1,]#id and grab longest seq
+  for (taxa.index in 1:length(uni.taxa)){#for each taxa
+    current.tax <- subset(FinalSequences, FinalSequences$Species==uni.taxa[taxa.index])#subset the sequences for that species
+    longest.seq <- subset(current.tax,current.tax$Length==sort(as.numeric(current.tax$Length),decreasing = TRUE)[1])[1,]#id and grab longest seq for that species
     long.seqs[taxa.index, ] <- longest.seq#append data frame with longest seq
   }
   return(long.seqs)#Return final dataframe with longest sequences
