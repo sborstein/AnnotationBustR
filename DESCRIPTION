@@ -18,7 +18,6 @@ Depends:
     R (>= 4.5)
 biocViews:
 Imports:
-    ape (>= 5.8-1),
 	Biostrings (>= 2.78.0),
 	BSgenome (>= 1.78.0),
 	dplyr (>= 1.2.1),
@@ -28,7 +27,7 @@ Imports:
 	rentrez (>= 1.2.4),
 	stringr (>= 1.6.0)
 Description: Extraction of subsequences into FASTA files from GenBank annotations where gene names may vary among accessions. Borstein & O'Meara (2018) <doi:10.7717/peerj.5179>.
-License: GPL (>= 2)
+License: GPL (>= 3)
 LazyData: true
 Suggests:
 	knitr,
