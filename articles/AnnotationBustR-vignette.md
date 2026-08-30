@@ -409,7 +409,7 @@ will be the actual accession.
 
 Further information on the functions and their usage can be found in the
 helpfiles
-[`help(package=AnnotationBustR)`](https://rdrr.io/pkg/AnnotationBustR/man).
+[`help(package=AnnotationBustR)`](http://sborstein.github.io/AnnotationBustR/reference).
 For any further issues and questions send an email with subject
 ‘AnnotationBustR support’ to <borstein@txstate.edu> or post to the
 issues section on
