@@ -1,6 +1,6 @@
 Package: AnnotationBustR
 Version: 2.0
-Date: 2026-07-02
+Date: 2026-08-30
 Title: Extract Subsequences from GenBank Annotations
 Authors@R: 
   c(person(given = "Samuel R.",
