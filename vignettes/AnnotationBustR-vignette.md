@@ -1,7 +1,7 @@
 ---
 title: "AnnotationBustR Tutorial"
 author: "Samuel R. Borstein"
-date: "02 July, 2026"
+date: "30 August, 2026"
 output:
   html_document:
     keep_md: true
@@ -15,7 +15,7 @@ vignette: >
 
 This is a tutorial for using version 2.0 and up of the R package `AnnotationBustR`. `AnnotationBustR` reads in sequences from GenBank and allows you to quickly extract specific parts and write them to FASTA files given a set of search terms. This is useful as it allows users to quickly extract parts of concatenated or genomic sequences based on GenBank features and write them to FASTA files, even when feature annotations for homologous loci may vary (i.e. gene synonyms like COI, COX1, COXI all being used for cytochrome oxidase subunit 1).
 
-In this tutorial we will discuss some new changes to `AnnotationBustR`, cover the basics of how to use `AnnotationBustR` to extract parts of a GenBank sequences.This is considerably faster than  extracting them manually and requires minimal effort by the user. While command line utilities like BLAST can also work, they require the building of databases to search against and can be computationally intensive and can have difficulties with highly complex sequences, like trans-spliced genes. They also require a far more complex query language to extract the subsequence and write it to a file. For example, it is possible to extract into FASTA files every subsequence from a mitochondrial genome (38 sequences, 13 CDS, 22 tRNA, 2rRNA, 1 D-loop) in  26-36 seconds, which is significantly faster than if you were to do it manually from the online GenBank features table. In this tutorial, we will discuss how to install `AnnotationBustR`, the basic `AnnotationBustR` pipeline, and how to use the functions that are included in `AnnotationBustR`.
+In this tutorial we will discuss some new changes to `AnnotationBustR`, cover the basics of how to use `AnnotationBustR` to extract parts of a GenBank sequences.This is considerably faster than  extracting them manually and requires minimal effort by the user. While command line utilities like BLAST can also work, they require the building of databases to search against and can be computationally intensive and can have difficulties with highly complex sequences, like trans-spliced genes. They also require a far more complex query language to extract the subsequence and write it to a file. For example, it is possible to extract into FASTA files every subsequence from a mitochondrial genome (38 sequences, 13 CDS, 22 tRNA, 2rRNA, 1 D-loop) in  15-30 seconds, which is significantly faster than if you were to do it manually from the online GenBank features table. In this tutorial, we will discuss how to install `AnnotationBustR`, the basic `AnnotationBustR` pipeline, and how to use the functions that are included in `AnnotationBustR`.
 
 # 2: What's new in AnnotationBustR 2.0+
 
@@ -41,6 +41,8 @@ ACNUC.GB.INFO#return info on date
 
 2. Users can now request coding sequences to be returned as DNA or the translated sequence or both.
 
+3. Accession tables written by AnnotationBustR now contain a citation for the generation of sequence data, allowing users to properly cite and give credit to the researchers who generated the sequence.
+
 
 # 3: Installation
 ## 3.1: Installation From CRAN
@@ -49,21 +51,17 @@ In order to install the stable CRAN version of the AnnotationBustR package:
 install.packages("AnnotationBustR")
 ```
 ## 3.2: Installation of Development Version From GitHub
-While we recommend use of the stable CRAN version of this package, you can use the R package `devtools` to install the development version of the package from GitHub if for any reason you wish to use it :
+While we recommend use of the stable CRAN version of this package, you can use the R package `pak` to install the development version of the package from GitHub if for any reason you wish to use it :
 ```
 #1. Install 'devtools' if you do not already have it installed:
 install.packages("devtools")
 
-#2. Load the 'devtools' package and temporarily install the development version of
+#2. Load the 'devtools' package and install the development version of
 #'AnnotationBustR' from GitHub:
 library(devtools)
-dev_mode(on=T)
-install_github("sborstein/AnnotationBustR")  # install the package from GitHub
+pak::pak("sborstein/AnnotationBustR")  # install the package from GitHub
 library(AnnotationBustR)# load the package
 
-#3. Leave developers mode after using the development version of 'AnnotationBustR' so it will not remain on 
-#your system permanently.
-dev_mode(on=F)
 ```
 # 4: Using AnnotationBustR
 To load AnnotationBustR and all of its functions/data:

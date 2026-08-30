@@ -3,3 +3,6 @@
 ^README\.md$
 ^ManuscriptExamples$
 ^\.github$
+^docs$
+^_pkgdown\.yml$
+^pkgdown$

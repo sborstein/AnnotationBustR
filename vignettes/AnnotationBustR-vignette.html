@@ -351,7 +351,7 @@ display: none;
 
 <h1 class="title toc-ignore">AnnotationBustR Tutorial</h1>
 <h4 class="author">Samuel R. Borstein</h4>
-<h4 class="date">02 July, 2026</h4>
+<h4 class="date">30 August, 2026</h4>
 
 </div>
 
@@ -378,7 +378,7 @@ with highly complex sequences, like trans-spliced genes. They also
 require a far more complex query language to extract the subsequence and
 write it to a file. For example, it is possible to extract into FASTA
 files every subsequence from a mitochondrial genome (38 sequences, 13
-CDS, 22 tRNA, 2rRNA, 1 D-loop) in 26-36 seconds, which is significantly
+CDS, 22 tRNA, 2rRNA, 1 D-loop) in 15-30 seconds, which is significantly
 faster than if you were to do it manually from the online GenBank
 features table. In this tutorial, we will discuss how to install
 <code>AnnotationBustR</code>, the basic <code>AnnotationBustR</code>
@@ -429,6 +429,10 @@ feature types.</p></li>
 requesting coding sequences be translated.</p></li>
 <li><p>Users can now request coding sequences to be returned as DNA or
 the translated sequence or both.</p></li>
+<li><p>Accession tables written by AnnotationBustR now contain a
+citation for the generation of sequence data, allowing users to properly
+cite and give credit to the researchers who generated the
+sequence.</p></li>
 </ol>
 </div>
 </div>
@@ -443,22 +447,18 @@ package:</p>
 <div id="installation-of-development-version-from-github" class="section level2">
 <h2>3.2: Installation of Development Version From GitHub</h2>
 <p>While we recommend use of the stable CRAN version of this package,
-you can use the R package <code>devtools</code> to install the
-development version of the package from GitHub if for any reason you
-wish to use it :</p>
+you can use the R package <code>pak</code> to install the development
+version of the package from GitHub if for any reason you wish to use it
+:</p>
 <pre><code>#1. Install &#39;devtools&#39; if you do not already have it installed:
 install.packages(&quot;devtools&quot;)
 
-#2. Load the &#39;devtools&#39; package and temporarily install the development version of
+#2. Load the &#39;devtools&#39; package and install the development version of
 #&#39;AnnotationBustR&#39; from GitHub:
 library(devtools)
-dev_mode(on=T)
-install_github(&quot;sborstein/AnnotationBustR&quot;)  # install the package from GitHub
+pak::pak(&quot;sborstein/AnnotationBustR&quot;)  # install the package from GitHub
 library(AnnotationBustR)# load the package
-
-#3. Leave developers mode after using the development version of &#39;AnnotationBustR&#39; so it will not remain on 
-#your system permanently.
-dev_mode(on=F)</code></pre>
+</code></pre>
 </div>
 </div>
 <div id="using-annotationbustr" class="section level1">
