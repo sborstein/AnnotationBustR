@@ -6,7 +6,7 @@
 #database, the test will skip.
 
 test_that("More than max query works to find longest seq",{
-Achrist<-structure(list(V1 = structure(1:1041, .Label = c("KT634321", 
+Achrist<-structure(list(V1 = structure(1:1041, levels = c("KT634321", 
                                                    "KT634377", "KT634433", "KT634488", "KT634544", "KT634600", 
                                                    "KT634655", "KT634711", "KT634759", "KT634814", "KT634869", 
                                                    "KT634925", "KT635003", "KT635059", "KT635168", "KT635222", 
@@ -215,7 +215,7 @@ Achrist<-structure(list(V1 = structure(1:1041, .Label = c("KT634321",
                                                    "KT691665", "KT691719", "KT691775", "KT691819", "KT691873", 
                                                    "KT691928", "KT691982", "KT692038", "KT692094", "KT692150", 
                                                    "KT692259", "KT692315", "KT692370", "KT692425", "KT692481"
-  ), class = "factor")), .Names = "V1", class = "data.frame", row.names = c(NA, -1041L))
+  ), class = "factor")), names = "V1", class = "data.frame", row.names = c(NA, -1041L))
   long.test.res <- try(FindLongestSeq(Accessions = Achrist$V1)$Accession)
 if ("try-error"%in%class(long.test.res)) {
     skip("could not connect to remote database")
