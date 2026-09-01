@@ -17,7 +17,7 @@ to extract subsequences from GenBank annotations. PeerJ 6:e5179
 
     @Article{,
       title = {AnnotationBustR: an R package to extract subsequences from GenBank annotations.},
-      author = {Samuel R. Borstein},
+      author = {Samuel R. Borstein and Brian C. O'Meara},
       journal = {PeerJ},
       year = {2018},
       volume = {6},
