@@ -37,13 +37,17 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1" id="annotationbustr-11">AnnotationBustR 1.1<a class="anchor" aria-label="anchor" href="#annotationbustr-11"></a></h2><p class="text-muted">CRAN release: 2017-09-01</p>
+<h2 class="pkg-version" data-toc-text="2.0" id="annotationbustr-20">AnnotationBustR 2.0<a class="anchor" aria-label="anchor" href="#annotationbustr-20"></a></h2>
 <div class="section level3">
-<h3 id="new-features-1-1">NEW FEATURES<a class="anchor" aria-label="anchor" href="#new-features-1-1"></a></h3>
-<ul><li>Added proper citation info for the AnnotationBustR paper</li>
+<h3 id="new-features-2-0">NEW FEATURES<a class="anchor" aria-label="anchor" href="#new-features-2-0"></a></h3>
+<ul><li>AnnotationBustR 2.0 now uses rentrez to provide access to sequences. This offers access to the latest versions of GenBank and connection stability.</li>
+<li>AnnotationBustR 2.0 now uses various BioConductor packages as dependencies for parsing annotations, providing speed increases and access to more feature types.</li>
+<li>Users no longer have to provide a translation code when requesting coding sequences be translated.</li>
+<li>Users can now request coding sequences to be returned as DNA or the translated sequence or both.</li>
+<li>Accession tables written by AnnotationBustR now contain a citation for the generation of sequence data, allowing users to properly cite and give credit to the researchers who generated the sequence.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="updated-features-1-1">UPDATED FEATURES<a class="anchor" aria-label="anchor" href="#updated-features-1-1"></a></h3>
+<h3 id="updated-features-2-0">UPDATED FEATURES<a class="anchor" aria-label="anchor" href="#updated-features-2-0"></a></h3>
 <ul><li>Updated vignette</li>
 <li>Updated unit tests to behave better if a database connection cannot be made</li>
 </ul></div>
