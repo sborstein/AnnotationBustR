@@ -10,7 +10,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/sborstein/AnnotationBustR/blob/2.0/inst/CITATION)
+[`inst/CITATION`](https://github.com/sborstein/AnnotationBustR/blob/master/inst/CITATION)
 
 Borstein, S.R., and B.C. O'Meara (2018). AnnotationBustR: an R package
 to extract subsequences from GenBank annotations. PeerJ 6:e5179
