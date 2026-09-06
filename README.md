@@ -1,7 +1,7 @@
-[![](https://cranlogs.r-pkg.org/badges/AnnotationBustR)](https://cran.rstudio.com/web/packages/AnnotationBustR/index.html) 
-[![](https://www.r-pkg.org/badges/version/AnnotationBustR)](https://cran.rstudio.com/web/packages/AnnotationBustR/index.html) 
+[![](https://cranlogs.r-pkg.org/badges/AnnotationBustR)](https://cran.rstudio.com/web/packages/AnnotationBustR) 
+[![CRAN](https://www.r-pkg.org/badges/version/AnnotationBustR)](https://cran.r-project.org/package=AnnotationBustR)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/AnnotationBustR?color)](https://cran.rstudio.com/web/packages/AnnotationBustR/index.html)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/AnnotationBustR?color)](https://cran.rstudio.com/web/packages/AnnotationBustR)
 
 
 
