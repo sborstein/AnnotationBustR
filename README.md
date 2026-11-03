@@ -2,6 +2,7 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Monthly Downloads](http://cranlogs.r-pkg.org/badges/last-month/AnnotationBustR?color=blue)](https://cran.r-project.org/package=AnnotationBustR)
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/AnnotationBustR?color=orange)](https://cran.r-project.org/package=AnnotationBustR)
+ [![Codecov test coverage](https://codecov.io/gh/sborstein/AnnotationBustR/graph/badge.svg)](https://app.codecov.io/gh/sborstein/AnnotationBustR)
 
 
 # AnnotationBustR
