@@ -2,6 +2,8 @@
 
 ## AnnotationBustR 2.0
 
+CRAN release: 2026-08-31
+
 ### NEW FEATURES
 
 - AnnotationBustR 2.0 now uses rentrez to provide access to sequences.
