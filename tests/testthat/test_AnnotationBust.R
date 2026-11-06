@@ -49,8 +49,8 @@ expect_equal("FJ706343", my.sequences$ITS1[2])#Check number of rows
 expect_message(httptest::without_internet(AnnotationBust(Accessions = ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
                                                        Prefix="Example1", Reference = TRUE, TidyAccessions = FALSE)), regexp = "Could not connect to NCBI")
 
-expect_message(httptest::without_internet(AnnotationBust(Accessions = "XXX99999", rDNAterms, DuplicateSpecies=TRUE, 
-                                                         Prefix="Example1", Reference = TRUE, TidyAccessions = FALSE)))
+expect_message(AnnotationBust(Accessions = "XXX99999", rDNAterms, DuplicateSpecies=TRUE, 
+                                                         Prefix="Example1", Reference = TRUE, TidyAccessions = FALSE))
 
 #####Check for Introns/Exons####
 #Subset out matK from cpDNAterms
