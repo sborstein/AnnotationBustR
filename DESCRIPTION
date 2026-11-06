@@ -30,6 +30,7 @@ Description: Extraction of subsequences into FASTA files from GenBank annotation
 License: GPL (>= 3)
 LazyData: true
 Suggests:
+	httptest,
 	knitr,
     rmarkdown,
 	seqinr,
@@ -38,4 +39,4 @@ VignetteBuilder: knitr
 URL: https://github.com/sborstein/AnnotationBustR, https://www.ncbi.nlm.nih.gov/nuccore, https://peerj.com/articles/5179/, http://sborstein.github.io/AnnotationBustR/
 BugReports: https://github.com/sborstein/AnnotationBustR/issues
 Encoding: UTF-8
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
