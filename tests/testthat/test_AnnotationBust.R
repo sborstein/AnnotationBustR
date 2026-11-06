@@ -28,11 +28,61 @@ AnnotationBustOut <- structure(list(Species = "Pallidochromis_tokolosh", tRNA_Ph
 "tRNA_Pro", "D_loop", "tRNA_Ser_1", "tRNA_Ser_2", "tRNA_Leu_1",
 "tRNA_Leu_2", "Reference"), class = "data.frame", row.names = c(NA, -1L))
 setwd (tempdir())
-test.out<-try(AnnotationBust(Accessions = "JN628859.1", Terms = mtDNAterms, Duplicates = c("tRNA_Leu","tRNA_Ser"), DuplicateInstances = c(2,2), TranslateSeqs = "Only"))
+test.out<-try(AnnotationBust(Accessions = "JN628859.1", Terms = mtDNAterms, Duplicates = c("tRNA_Leu","tRNA_Ser"), DuplicateInstances = c(2,2), TranslateSeqs = "Both"))
 if ("try-error"%in%class(test.out)) {
     skip("could not connect to remote database")
 }else{
     expect_identical(AnnotationBustOut[1,],test.out[1,])
-    }
 }
+#Test it dies if duplicates are off.
+expect_error(AnnotationBust(Accessions = "JN628859.1", Terms = mtDNAterms, Duplicates = c("tRNA_Leu","tRNA_Ser"), DuplicateInstances = c(2,2,2), TranslateSeqs = "Only"), "Length of Duplicates and DuplicateInstances is not equal. You must specify the number of duplicates for each feature with duplicates you would like to extract")
+
+#Test no duplicates Features and untidy accession table, and prefix
+ncbi.accessions <- c("FJ706295","FJ706343","FJ706292")
+data(rDNAterms)#load rDNA search terms from AnnotationBustR
+my.sequences <- AnnotationBust(Accessions = ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
+Prefix="Example1", Reference = TRUE, TidyAccessions = FALSE)
+expect_equal(nrow(my.sequences), 3)#Check number of rows
+expect_equal("FJ706343", my.sequences$ITS1[2])#Check number of rows
+
+#Test internet connectivity as well as bad accessions
+expect_message(httptest::without_internet(AnnotationBust(Accessions = ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
+                                                       Prefix="Example1", Reference = TRUE, TidyAccessions = FALSE)), regexp = "Could not connect to NCBI")
+
+expect_message(httptest::without_internet(AnnotationBust(Accessions = "XXX99999", rDNAterms, DuplicateSpecies=TRUE, 
+                                                         Prefix="Example1", Reference = TRUE, TidyAccessions = FALSE)))
+
+#####Check for Introns/Exons####
+#Subset out matK from cpDNAterms
+cds.terms <- subset(cpDNAterms,cpDNAterms$Feature=="matK")
+#Create a vecotr of NA so we can merge with the search terms for introns and exons
+cds.terms <- cbind(cds.terms,(rep(NA,length(cds.terms$Feature))))
+colnames(cds.terms)[4] <- "IntronExonNumber"
+
+IntronExon.terms<-subset(cpDNAterms,cpDNAterms$Feature=="trnK")
+ 
+##As we want to go for two exons, we will want the synonyms repeated as we are doing and intron and an exon
+IntronExon.terms<-rbind(IntronExon.terms,IntronExon.terms)#duplicate the terms
+#rep the sequence type we want to extract
+IntronExon.terms$Type <- rep(c("intron","intron","exon","exon"))
+IntronExon.terms$Feature <- rep(c("trnK_Intron","trnK_Exon2"),each=2)
+IntronExon.terms <- cbind(IntronExon.terms,rep(c(1,1,2,2)))#Add intron/exon number info
+ 
+#change column name for number info for IntronExon name
+colnames(IntronExon.terms)[4] <- "IntronExonNumber"
+ 
+#We can then merge everything together with MergeSearchTerms terms
+IntronExonExampleTerms <- MergeSearchTerms(IntronExon.terms,cds.terms)
+
+IntronExon.example <- AnnotationBust(Accessions=c("KX687910.1"),
+Terms=IntronExonExampleTerms, Prefix="DemoIntronExon")
+
+expect_all_equal(unlist(IntronExon.example[,2:4]),"KX687910.1")
+
+####CHECK FEWER DUPLICATES THAN SPECIFIED####
+expect_message(AnnotationBust(Accessions = "JN628859.1", Terms = mtDNAterms, Duplicates = c("tRNA_Leu","tRNA_Ser"), DuplicateInstances = c(2,3), TranslateSeqs = "Both"))
+
+
+}
+
 )
