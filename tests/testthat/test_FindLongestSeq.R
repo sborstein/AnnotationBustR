@@ -5,7 +5,8 @@
 #issues on CRAN, so if a stable connection cannot be reached with the
 #database, the test will skip.
 
-test_that("More than max query works to find longest seq",{
+test_that("find longest seq works",{
+#More than max query works
 Achrist<-structure(list(V1 = structure(1:1041, levels = c("KT634321", 
                                                    "KT634377", "KT634433", "KT634488", "KT634544", "KT634600", 
                                                    "KT634655", "KT634711", "KT634759", "KT634814", "KT634869", 
@@ -221,4 +222,11 @@ if ("try-error"%in%class(long.test.res)) {
     skip("could not connect to remote database")
 }
   expect_identical(long.test.res, "KT691775")
+  
+  #Test less than max works
+  Heterochromis <- c("MK074350", "MK074351", "HQ702348", "GU804849", "EU888027")
+  LongHeterochromis <- FindLongestSeq(Heterochromis)
+  expect_identical(LongHeterochromis$Accession, "MK074350")
+  
+  expect_error(httptest::without_internet(FindLongestSeq(Accessions = Achrist$V1)$Accession))
 })
