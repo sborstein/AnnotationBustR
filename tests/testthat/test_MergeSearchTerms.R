@@ -17,6 +17,20 @@ test_that("merging search terms works", {
   expect_identical(dim(sort.test.merge), dim(sorted_merged))#test to see if same dimensions
   expect_identical(sort.test.merge[1,], sorted_merged[1,])#test to see the first row is the same 
   expect_identical(sort.test.merge[dim(sort.test.merge)[[1]],], sorted_merged[dim(sorted_merged)[[1]],])#test to see the last row is the same
-  }
+  
+  #Check Fail Conditions
+  #Different dimension terms
+  expect_error(MergeSearchTerms(mtDNAterms, rDNAterms[,-3], SortGenes = FALSE))
+  #Wrong format
+  expect_error(MergeSearchTerms(mtDNAterms, as.matrix(rDNAterms), SortGenes = FALSE))
+  #Deviations from 3 or 4 columns
+  expect_error(MergeSearchTerms(mtDNAterms[,1:2], rDNAterms[,1:2], SortGenes = FALSE))
+  #Deviations in Column Names
+  mtDNAterms.colChange <- mtDNAterms#store as new object to change column names
+  rDNAterms.colChange <- rDNAterms#store as new object to change column  names
+  colnames(mtDNAterms.colChange) <-c("Locus","Type","Name")
+  colnames(rDNAterms.colChange) <-c("Locus","Type","Name")
+  expect_error(MergeSearchTerms(mtDNAterms.colChange, rDNAterms.colChange, SortGenes = FALSE))
+}
 )
 
