@@ -26,7 +26,7 @@ AnnotationBust(
 
 \item{DuplicateInstances}{A numeric vector the length of Duplicates of the number of duplicates for each duplicated feature you wish to extract. Only needs to be used if Duplicates are provided.Default is NULL (i.e. no duplicates).}
 
-\item{TranslateSeqs}{Should coding sequences (cds) be translated to the corresponding peptide sequence? Options include, Only, None, or Both. Both returns both the DNA sequence and the corresponding peptide sequence. Default is FALSE.}
+\item{TranslateSeqs}{Should coding sequences (CDS) be translated to the corresponding peptide sequence? Options include, Only, None, or Both. Both returns both the DNA sequence and the corresponding peptide sequence. Default is FALSE.}
 
 \item{DuplicateSpecies}{Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta header when writing sequences to file.}
 

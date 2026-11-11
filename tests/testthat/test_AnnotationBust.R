@@ -49,7 +49,7 @@ expect_equal("FJ706343", my.sequences$ITS1[2])#Check number of rows
 expect_message(httptest::without_internet(AnnotationBust(Accessions = ncbi.accessions, rDNAterms, DuplicateSpecies=TRUE, 
                                                        Prefix="Example1", Reference = TRUE, TidyAccessions = FALSE)), regexp = "Could not connect to NCBI")
 
-expect_message(AnnotationBust(Accessions = "XXX99999", rDNAterms, DuplicateSpecies=TRUE, 
+expect_message(AnnotationBust(Accessions = "ZZ999999", rDNAterms, DuplicateSpecies=TRUE, 
                                                          Prefix="Example1", Reference = TRUE, TidyAccessions = FALSE))
 
 #####Check for Introns/Exons####
@@ -83,7 +83,7 @@ expect_all_equal(unlist(IntronExon.example[,2:4]),"KX687910.1")
 expect_warning(AnnotationBust(Accessions = "JN628859.1", Terms = mtDNAterms, Duplicates = c("tRNA_Leu","tRNA_Ser"), DuplicateInstances = c(2,3), TranslateSeqs = "Both"))
 
 ####Test Duplicated CDS and translations####
-DupCDS_ex <- AnnotationBust("PX244600.1", Terms = cpDNAterms[cpDNAterms$Name=="ndhB",], TranslateSeqs = "Both", Duplicates = c("ndhB"), DuplicateInstances = c(2))
+DupCDS_ex <- AnnotationBust(Accessions = "PX244600.1", Terms = cpDNAterms[cpDNAterms$Name=="ndhB",], TranslateSeqs = "Both", Duplicates = c("ndhB"), DuplicateInstances = c(2))
 expect_all_equal(unlist(DupCDS_ex[,2:3]),"PX244600.1")
 
 

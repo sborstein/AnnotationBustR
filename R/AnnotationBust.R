@@ -3,7 +3,7 @@
 #' @param Terms A data frame of search terms. Search terms for animal mitogenomes, nuclear rRNA, chloroplast genomes, and plant mitogenomes are pre-made and can be loaded using the data() function. Additional terms can be added using the MergeSearchTerms function or a user supplied data frame may be provided.
 #' @param Duplicates A vector of the features  which occur more than once in the sequence and for which the extraction of multiple copies is desired. Default is NULL. In the case more than one copy exists when set to NULL, only the first instance will be extracted.
 #' @param DuplicateInstances A numeric vector the length of Duplicates of the number of duplicates for each duplicated feature you wish to extract. Only needs to be used if Duplicates are provided.Default is NULL (i.e. no duplicates).
-#' @param TranslateSeqs Should coding sequences (cds) be translated to the corresponding peptide sequence? Options include, Only, None, or Both. Both returns both the DNA sequence and the corresponding peptide sequence. Default is FALSE.
+#' @param TranslateSeqs Should coding sequences (CDS) be translated to the corresponding peptide sequence? Options include, Only, None, or Both. Both returns both the DNA sequence and the corresponding peptide sequence. Default is FALSE.
 #' @param DuplicateSpecies Logical. As to whether there are duplicate individuals per species. If TRUE, adds the accession number to the fasta header when writing sequences to file.
 #' @param Prefix Character. If a prefix is specified, all output FASTA files written will begin with the prefix followed by an underscore. Default is NULL (i.e. no prefix).
 #' @param TidyAccessions Logical. Should the accession table  have a single row per species? If numerous accessions for a species occur, they will be separated by a comma in the accession table. Default=TRUE.
@@ -174,7 +174,7 @@ AnnotationBust <- function(Accessions, Terms, Duplicates = NULL, DuplicateInstan
                 CurrentDup <- FeatureGrab[FeatureGrab$feat_index == FeatureIndexCheck[DupIndex], ]#subset the current duplicate instance
                 Extracted.seq <- extract_ranges_seq(full_sequence = current_record$sequence, target_gr = CurrentDup[CurrentDup$feat_index==FeatureIndexCheck[DupIndex]])#Extract Seq based on feature ranges
                 names(Extracted.seq) <- seq.name#name sequence for species
-                if(synonyms$Type[synonym.index] == "cds"){#If a CDS, use control flow based on users desire for translation
+                if(synonyms$Type[synonym.index] == "CDS"){#If a CDS, use control flow based on users desire for translation
                   if(TranslateSeqs%in%c("Only","Both")){#Translate if desired
                     Current.Trans <- unique(CurrentDup$translation)#Get the current translation
                     if(length(Current.Trans) == 1){#ensure only single translation across CDS
